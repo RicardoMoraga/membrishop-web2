@@ -1,0 +1,9 @@
+/* TEAM */
+Tienda: MembriShop
+Contacto: contacto@membrishop.cl
+Sitio: https://membrishop.cl
+País: Chile
+
+/* SITE */
+Stack: Next.js (App Router) + Tailwind CSS
+Idioma: es-CL

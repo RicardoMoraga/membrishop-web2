@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   MembriShop — sistema de diseño (Tailwind v4, config CSS-first)
+
+   Paleta "Membrillo": el fruto manda (dorados y ámbares), la hoja acompaña
+   (verdes) y el membrillo cocido pone la urgencia. Fondo crema cálido, tinta
+   café oscura — nada de grises fríos: el membrillo no tiene ni un gris.
+   ========================================================================== */
+@theme {
+  /* --- El fruto: amarillo → naranja. Muestreado del logotipo oficial. ---- */
+  --color-oro-50: #fff8e8;
+  --color-oro-100: #fdefcb;
+  --color-oro-200: #fadf9c;
+  --color-oro-300: #f3c323; /* amarillo membrillo — LOGO */
+  --color-oro-400: #f1921e; /* naranja del fruto — LOGO */
+  --color-oro-500: #f17c15; /* naranja de marca ("Shop") — LOGO */
+  --color-oro-600: #c85f0c; /* hover */
+  --color-oro-700: #a34c08; /* texto sobre crema: 5,7:1 */
+  --color-oro-800: #7a3a0d;
+  --color-oro-900: #5e2d0b;
+
+  /* --- La hoja y el contorno del fruto: verdes del logotipo. ------------ */
+  --color-verde-50: #f0f8ee;
+  --color-verde-100: #dcefd6;
+  --color-verde-200: #bce0b0;
+  --color-verde-300: #8ec87c;
+  --color-verde-400: #6bb04a;
+  --color-verde-500: #4e9923; /* verde hoja — LOGO */
+  --color-verde-600: #155a24; /* verde de marca ("Membri") — LOGO */
+  --color-verde-700: #0f4a1d; /* hover */
+  --color-verde-800: #0b3715;
+  --color-verde-900: #082a10;
+
+  /* --- Tallo del membrillo: el acento cálido y la urgencia. ------------- */
+  --color-cocido-50: #fdf6ef;
+  --color-cocido-100: #f8e9d8;
+  --color-cocido-200: #eed0ae;
+  --color-cocido-300: #d9ab74;
+  --color-cocido-400: #a8763a;
+  --color-cocido-500: #694418; /* café del tallo — LOGO */
+  --color-cocido-600: #573814;
+  --color-cocido-700: #452c10;
+
+  /* --- Neutros cálidos. Ningún gris frío en toda la paleta. ------------- */
+  --color-lienzo: #fffbf3; /* fondo base de página */
+  --color-crema: #f6efe2; /* crema de marca */
+  --color-crema-suave: #fdf4e7; /* secciones alternas */
+  --color-borde: #efe1ce;
+  --color-borde-2: #e1cdb3;
+  --color-ink: #2a2016; /* titulares y footer: 15,3:1 sobre lienzo */
+  --color-ink-suave: #6b5a49; /* cuerpo: 6,4:1 */
+  --color-ink-tenue: #97877a; /* meta, notas al pie */
+  --color-whatsapp: #25d366;
+
+  /* --- Tipografía ------------------------------------------------------- */
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --text-fluid-h1: clamp(2.05rem, 1.35rem + 3vw, 3.5rem);
+  --text-fluid-h2: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+  --text-fluid-h3: clamp(1.175rem, 1.05rem + 0.6vw, 1.5rem);
+  --text-fluid-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+
+  /* --- Radios y sombras (sombras teñidas de café, no de negro) ---------- */
+  --radius-marca: 0.875rem;
+  --radius-marca-lg: 1.25rem;
+  --shadow-suave: 0 1px 2px rgb(42 32 22 / 0.06), 0 4px 12px rgb(42 32 22 / 0.07);
+  --shadow-elevada: 0 2px 4px rgb(42 32 22 / 0.06), 0 12px 28px rgb(42 32 22 / 0.13);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-lienzo);
+    color: var(--color-ink-suave);
+    font-family: var(--font-sans);
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 700;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  /* Los anclajes no quedan debajo del header sticky. */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-oro-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ==========================================================================
+   Utilidades propias
+   ========================================================================== */
+@utility contenedor {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+  @media (width >= 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Skip link accesible: visible solo al tabular. */
+@utility salto-contenido {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 200;
+  transition: top 0.15s ease;
+  &:focus {
+    top: 1rem;
+  }
+}
+
+/**
+ * Resaltado tipo marcador para las palabras clave del H1.
+ * Es un degradado que solo pinta el tercio inferior de la línea, así que
+ * subraya sin tapar el texto ni depender de una imagen.
+ */
+@utility marcador {
+  color: var(--color-oro-700);
+  background: linear-gradient(180deg, transparent 62%, var(--color-oro-200) 62%);
+}
+
+/* Numeración de pasos con contador CSS: sin markup extra ni imágenes. */
+@utility pasos-lista {
+  counter-reset: paso;
+}
+
+@utility paso-num {
+  counter-increment: paso;
+  &::before {
+    content: counter(paso, decimal-leading-zero);
+  }
+}
