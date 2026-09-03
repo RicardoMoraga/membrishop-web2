@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { ImagenMarcador } from "@/components/marketing/ImagenMarcador";
+import { ComprarButton } from "@/components/marketing/ComprarButton";
 import { Badge } from "@/components/ui/Badge";
 import { IconoCheck, IconoFlecha, IconoWhatsapp } from "@/components/ui/icons";
 import type { Pilar } from "@/content/clusters";
 import { linkWhatsapp } from "@/lib/site";
+import { getProductoPorHandle } from "@/lib/shopify";
 
 const clp = new Intl.NumberFormat("es-CL", {
   style: "currency",
@@ -20,9 +22,17 @@ const clp = new Intl.NumberFormat("es-CL", {
  * JSON-LD equivale a spam de datos estructurados (acción manual de Google).
  * El espacio que ocuparían lo toma la nota verde, que sí dice algo cierto.
  */
-export function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; categoriaSlug: string }) {
+export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; categoriaSlug: string }) {
   const enOferta = pilar.precioDesde != null && pilar.precioAntes != null && pilar.precioAntes > pilar.precioDesde;
   const pocoStock = pilar.publicado && pilar.stock > 0 && pilar.stock < 10;
+
+  // Compra directa vía Shopify: solo se intenta si el pilar ya está
+  // publicado en la web (evita pedir por handles que ni siquiera son
+  // pilares reales). Si Shopify no tiene ese handle, no está publicado en
+  // el canal Headless, o no hay stock, `productoShopify` queda `null` y la
+  // tarjeta cae al comportamiento de siempre (WhatsApp / próximamente).
+  const productoShopify = pilar.publicado ? await getProductoPorHandle(pilar.slug) : null;
+  const comprableEnShopify = Boolean(productoShopify?.disponible);
 
   const cuerpo = (
     <>
@@ -95,21 +105,25 @@ export function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; categoriaS
     );
   }
 
-  /* --- Con stock pero sin ficha: se vende por WhatsApp ------------------- */
+  /* --- Con stock: compra directa si Shopify tiene el handle, si no WhatsApp */
   if (pilar.publicado) {
     return (
       <article className={marco}>
         {cuerpo}
-        <a
-          href={linkWhatsapp(pilar.nombre)}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-evento={`cta_card_${pilar.slug}`}
-          className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-ink transition-[filter] hover:brightness-95"
-        >
-          <IconoWhatsapp className="h-4 w-4" />
-          Consultar
-        </a>
+        {comprableEnShopify ? (
+          <ComprarButton handle={pilar.slug} className="mt-3 w-full" />
+        ) : (
+          <a
+            href={linkWhatsapp(pilar.nombre)}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-evento={`cta_card_${pilar.slug}`}
+            className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-ink transition-[filter] hover:brightness-95"
+          >
+            <IconoWhatsapp className="h-4 w-4" />
+            Consultar
+          </a>
+        )}
       </article>
     );
   }

@@ -34,6 +34,9 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  // Emite <meta name="color-scheme" content="light">, en conjunto con el
+  // `color-scheme: light` de globals.css (bug 9).
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

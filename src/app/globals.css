@@ -74,9 +74,18 @@
    ========================================================================== */
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* La paleta del rediseño es solo clara (sin tokens de tema oscuro):
+       sin esto, Chrome/Android puede re-oscurecer la página y los inputs
+       nativos quedan con estilo oscuro del sistema. Ver bug 9. */
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
+
+  /* `scroll-behavior: smooth` global se quitó (bug 8): Next.js resetea el
+     scroll a 0 al navegar entre rutas y heredaba esta regla, así que cada
+     cambio de página se veía como un deslizamiento animado en vez de un
+     salto instantáneo. El único anclaje real del sitio (CTA del hero hacia
+     #mascotas) sigue funcionando, solo que sin animación. */
 
   @media (prefers-reduced-motion: reduce) {
     html {
