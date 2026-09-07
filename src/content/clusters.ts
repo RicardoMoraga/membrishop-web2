@@ -115,7 +115,12 @@ export const categorias: Categoria[] = [
           { archivo: "collar-gps-contenido-caja.webp", alt: "Contenido de la caja del collar GPS: collar, cargador y manual", title: "Qué incluye el collar GPS" },
         ],
         publicado: true,
-        fichaPublicada: true,
+        // TODO: fichaPublicada debería ser `true` (es el producto "core" del
+        // nicho), pero la página /mascotas/collar-gps todavía no existe en
+        // el repo. Dejarlo en `true` sin la página genera un 404 real desde
+        // el footer, la grilla de productos y el sitemap.xml. Vuelve a
+        // `true` solo cuando exista `src/app/mascotas/collar-gps/page.tsx`.
+        fichaPublicada: false,
         descripcionLarga: [
           "Rastreo en tiempo real desde una app en tu celular, con historial de recorridos y zona segura configurable: si tu perro sale del perímetro, te avisa al instante.",
           "Batería de hasta 7 días de uso normal, resistente a salpicaduras (IPX6), pensada para paseos, patio y escapes inesperados.",
@@ -277,7 +282,9 @@ export const categorias: Categoria[] = [
           { archivo: "camara-contenido-caja.webp", alt: "Contenido de la caja: cámara, soporte y cable", title: "Qué incluye la cámara de seguridad" },
         ],
         publicado: true,
-        fichaPublicada: true,
+        // TODO: mismo caso que collar-gps — falta
+        // src/app/tecnologia/camara-seguridad/page.tsx antes de volver a `true`.
+        fichaPublicada: false,
         descripcionLarga: [
           "Visión nocturna hasta 10 metros, detección de movimiento con notificación instantánea al celular y audio bidireccional para hablar a distancia.",
           "Configuración por wifi en menos de 5 minutos, sin cables adicionales ni instalación profesional.",
@@ -425,7 +432,9 @@ export const categorias: Categoria[] = [
           { archivo: "organizador-contenido-caja.webp", alt: "Contenido de la caja: set de organizadores modulares", title: "Qué incluye el organizador" },
         ],
         publicado: true,
-        fichaPublicada: true,
+        // TODO: mismo caso — falta
+        // src/app/hogar-cocina/organizador-modular/page.tsx antes de volver a `true`.
+        fichaPublicada: false,
         descripcionLarga: [
           "Set de contenedores modulares apilables y transparentes que se ajustan al espacio real de tu despensa, con tapas herméticas para mantener la frescura.",
           "Etiquetas removibles incluidas para identificar cada contenido de un vistazo.",

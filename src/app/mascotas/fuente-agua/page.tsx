@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ImagenMarcador } from "@/components/marketing/ImagenMarcador";
+import { ComprarButton } from "@/components/marketing/ComprarButton";
 import { ShareButtons } from "@/components/marketing/ShareButtons";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { FaqSection } from "@/components/seo/FaqSection";
@@ -13,6 +14,7 @@ import { Section } from "@/components/ui/Section";
 import { getPilar, type Faq } from "@/content/clusters";
 import { breadcrumbSchema, faqSchema, productoSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
+import { getProductoPorHandle } from "@/lib/shopify";
 import { linkWhatsapp } from "@/lib/site";
 
 /* ============================================================================
@@ -83,9 +85,15 @@ const clp = new Intl.NumberFormat("es-CL", {
   maximumFractionDigits: 0,
 });
 
-export default function Page() {
+export default async function Page() {
   if (!datos) notFound();
   const { categoria, pilar } = datos;
+
+  // Disponibilidad real vía Shopify — el mismo chequeo que ya usa
+  // ProductCard. `pilar.stock` es solo contenido de placeholder, no la
+  // fuente de verdad de si hay algo comprable de verdad.
+  const productoShopify = pilar.publicado ? await getProductoPorHandle(pilar.slug) : null;
+  const comprableEnShopify = Boolean(productoShopify?.disponible);
 
   const migas = [
     { nombre: "Inicio", path: "/" },
@@ -129,14 +137,18 @@ export default function Page() {
                     {clp.format(pilar.precioDesde)}
                   </span>
                 )}
-                <CtaButton
-                  href={linkWhatsapp(`fuente de agua — ${clp.format(pilar.precioDesde ?? 0)}`)}
-                  externo
-                  conFlecha={false}
-                  evento="cta_producto_fuente_agua"
-                >
-                  Comprar por WhatsApp
-                </CtaButton>
+                {comprableEnShopify ? (
+                  <ComprarButton handle={pilar.slug} />
+                ) : (
+                  <CtaButton
+                    href={linkWhatsapp(`fuente de agua — ${clp.format(pilar.precioDesde ?? 0)}`)}
+                    externo
+                    conFlecha={false}
+                    evento="cta_producto_fuente_agua"
+                  >
+                    Comprar por WhatsApp
+                  </CtaButton>
+                )}
               </div>
               <p className="mt-3 text-sm text-ink-suave">
                 Precio con IVA · Despacho 24–72 h hábiles · 10 días de retracto
@@ -236,6 +248,7 @@ export default function Page() {
           precio: pilar.precioDesde ?? 0,
           imagen: pilar.imagen.archivo,
           sku: "MS-MAS-FUENTE-24",
+          disponible: comprableEnShopify,
         })}
       />
     </>

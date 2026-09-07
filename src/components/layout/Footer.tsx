@@ -128,6 +128,15 @@ export function Footer() {
             <Link href="/contacto" className="hover:text-white hover:underline">
               Contacto
             </Link>
+            <Link href="/envios-y-devoluciones" className="hover:text-white hover:underline">
+              Envíos y devoluciones
+            </Link>
+            <Link href="/terminos-y-condiciones" className="hover:text-white hover:underline">
+              Términos y condiciones
+            </Link>
+            <Link href="/politica-de-privacidad" className="hover:text-white hover:underline">
+              Política de privacidad
+            </Link>
             <a href={`mailto:${site.contacto.email}`} className="hover:text-white hover:underline">
               {site.contacto.email}
             </a>

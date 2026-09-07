@@ -160,6 +160,14 @@ export function productoSchema(params: {
   precio: number;
   imagen: string;
   sku?: string;
+  /**
+   * Disponibilidad REAL (Shopify), no la del placeholder `pilar.stock`.
+   * Declarar `InStock` sin verificar el stock real de Shopify es el motivo
+   * más común de una acción manual por "datos estructurados engañosos" en
+   * Search Console — y hoy el catálogo tiene 0 unidades reales en todos los
+   * productos. Por defecto se asume `false` (más seguro que asumir stock).
+   */
+  disponible?: boolean;
 }) {
   return {
     "@context": "https://schema.org",
@@ -175,7 +183,9 @@ export function productoSchema(params: {
       url: urlAbsoluta(`/${params.categoriaSlug}/${params.slug}`),
       priceCurrency: site.moneda,
       price: params.precio,
-      availability: "https://schema.org/InStock",
+      availability: params.disponible
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
       itemCondition: "https://schema.org/NewCondition",
       seller: { "@id": ID_ORGANIZACION },
       shippingDetails: {
@@ -193,7 +203,10 @@ export function productoSchema(params: {
         returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
         merchantReturnDays: 10,
         returnMethod: "https://schema.org/ReturnByMail",
-        returnFees: "https://schema.org/FreeReturn",
+        // El comprador cubre el envío de vuelta en un retracto (ver
+        // /envios-y-devoluciones); "FreeReturn" no es cierto y no debe
+        // declararse solo porque el valor por defecto de la librería lo sugiere.
+        returnFees: "https://schema.org/ReturnFeesCustomerResponsibility",
       },
     },
   };

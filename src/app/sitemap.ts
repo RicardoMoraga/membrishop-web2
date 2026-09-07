@@ -46,6 +46,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  // Páginas legales: bajo tráfico de búsqueda directo, pero indexables —
+  // Google las espera en cualquier tienda con checkout real.
+  const legales: MetadataRoute.Sitemap = [
+    "/terminos-y-condiciones",
+    "/politica-de-privacidad",
+    "/envios-y-devoluciones",
+  ].map((ruta) => ({
+    url: urlAbsoluta(ruta),
+    lastModified: ahora,
+    changeFrequency: "yearly",
+    priority: 0.3,
+  }));
+
   const paginasCategoria: MetadataRoute.Sitemap = categorias.map((categoria) => ({
     url: urlAbsoluta(`/${categoria.slug}`),
     lastModified: ahora,
@@ -70,5 +83,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       })),
   );
 
-  return [...home, ...paginasCategoria, ...paginasProducto, ...contacto];
+  return [...home, ...paginasCategoria, ...paginasProducto, ...contacto, ...legales];
 }
