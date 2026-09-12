@@ -1,103 +1,102 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ImagenMarcador } from "@/components/marketing/ImagenMarcador";
 import { ComprarButton } from "@/components/marketing/ComprarButton";
+import { ImagenMarcador } from "@/components/marketing/ImagenMarcador";
 import { Badge } from "@/components/ui/Badge";
-import { IconoCheck, IconoFlecha, IconoWhatsapp } from "@/components/ui/icons";
+import { IconoFlecha, IconoWhatsapp } from "@/components/ui/icons";
 import type { Pilar } from "@/content/clusters";
-import { linkWhatsapp } from "@/lib/site";
+import { precioCLP } from "@/lib/formato";
 import { getProductoPorHandle } from "@/lib/shopify";
-
-const clp = new Intl.NumberFormat("es-CL", {
-  style: "currency",
-  currency: "CLP",
-  maximumFractionDigits: 0,
-});
+import { linkWhatsapp } from "@/lib/site";
 
 /**
- * Tarjeta de producto.
+ * Tarjeta de producto: imagen, nombre, precio real, disponibilidad real, CTA.
  *
- * A diferencia del modelo en el que se inspira, aquí NO hay estrellas de
- * valoración, ni precio tachado, ni badge de descuento. MembriShop todavía no
- * registra ventas: inventar esas señales sería publicidad engañosa, y en el
- * JSON-LD equivale a spam de datos estructurados (acción manual de Google).
- * El espacio que ocuparían lo toma la nota verde, que sí dice algo cierto.
+ * Lo que NO lleva, y no por olvido: estrellas, reseñas, precio tachado,
+ * porcentaje de descuento y contadores de escasez. Sin ventas registradas esas
+ * señales serían inventadas; el precio anterior además es publicidad engañosa
+ * bajo la Ley 19.496 y, en el JSON-LD, spam de datos estructurados.
+ *
+ * Precio y disponibilidad salen de Shopify. `precioDesde` del contenido solo
+ * aparece si la integración está caída, y se rotula como referencial.
  */
 export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; categoriaSlug: string }) {
-  const enOferta = pilar.precioDesde != null && pilar.precioAntes != null && pilar.precioAntes > pilar.precioDesde;
-  const pocoStock = pilar.publicado && pilar.stock > 0 && pilar.stock < 10;
+  const shopify = pilar.publicado ? await getProductoPorHandle(pilar.slug) : null;
+  const comprable = shopify?.estado === "ok-disponible";
+  const agotado = shopify?.estado === "ok-agotado";
+  const producto = shopify?.producto ?? null;
+  const varianteId = producto?.variantes.find((v) => v.disponible)?.id;
 
-  // Compra directa vía Shopify: solo se intenta si el pilar ya está
-  // publicado en la web (evita pedir por handles que ni siquiera son
-  // pilares reales). Si Shopify no tiene ese handle, no está publicado en
-  // el canal Headless, o no hay stock, `productoShopify` queda `null` y la
-  // tarjeta cae al comportamiento de siempre (WhatsApp / próximamente).
-  const productoShopify = pilar.publicado ? await getProductoPorHandle(pilar.slug) : null;
-  const comprableEnShopify = Boolean(productoShopify?.disponible);
+  const precio = producto?.precio ?? null;
+  const precioReferencial = precio === null ? pilar.precioDesde : null;
+
+  const primeraImagen = producto?.medios.find((m) => m.tipo === "imagen");
+  const href = `/${categoriaSlug}/${pilar.slug}`;
+
+  const media = primeraImagen ? (
+    <div className="relative aspect-square w-full overflow-hidden rounded-marca border border-borde/70 bg-crema">
+      <Image
+        src={primeraImagen.url}
+        alt={primeraImagen.alt || pilar.imagen.alt}
+        fill
+        sizes="(max-width: 640px) 80vw, (max-width: 1024px) 45vw, 300px"
+        className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+      />
+    </div>
+  ) : (
+    <ImagenMarcador imagen={pilar.imagen} ratio="aspect-square" mostrarArchivo={false} />
+  );
 
   const cuerpo = (
     <>
       <div className="relative">
-        <ImagenMarcador imagen={pilar.imagen} ratio="aspect-square" mostrarArchivo={false} />
+        {media}
         <div className="absolute left-2.5 top-2.5 flex flex-col items-start gap-1.5">
-          {pilar.publicado ? (
-            <Badge tono="stock">Con stock</Badge>
-          ) : (
-            <Badge tono="pronto">Próximamente</Badge>
-          )}
-          {pilar.publicado && !pilar.fichaPublicada && <Badge tono="consultar">Por WhatsApp</Badge>}
-          {enOferta && <Badge tono="oferta">Precio rebajado</Badge>}
+          {comprable && <Badge tono="stock">Con stock</Badge>}
+          {agotado && <Badge tono="pronto">Sin stock</Badge>}
+          {!pilar.publicado && <Badge tono="pronto">Próximamente</Badge>}
         </div>
       </div>
 
-      <div className="mt-4 flex flex-1 flex-col">
-        <h3 className="font-display text-[17px] font-bold leading-snug text-ink">{pilar.nombre}</h3>
-        <p className="mt-1.5 text-[14px] leading-relaxed text-ink-suave">{pilar.gancho}</p>
-
-        <p className="mt-3 flex items-start gap-1.5 text-[13px] font-medium leading-snug text-verde-600">
-          <IconoCheck className="mt-px h-4 w-4 shrink-0" />
-          {pilar.problema}
+      <div className="mt-3.5 flex flex-1 flex-col">
+        <h3 className="font-display text-[16px] font-bold leading-snug text-ink">{pilar.nombre}</h3>
+        <p className="mt-1 line-clamp-2 text-[13.5px] leading-relaxed text-ink-suave">
+          {pilar.gancho}
         </p>
 
-        <div className="mt-4 flex items-baseline gap-2 border-t border-borde pt-3">
-          {pilar.precioDesde ? (
+        <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-t border-borde pt-3">
+          {precio !== null ? (
             <>
               <span className="font-display text-xl font-extrabold text-ink">
-                {clp.format(pilar.precioDesde)}
+                {precioCLP(precio)}
               </span>
-              {enOferta && (
-                <span className="text-[13px] font-medium text-ink-tenue line-through">
-                  {clp.format(pilar.precioAntes!)}
-                </span>
-              )}
               <span className="text-[12px] text-ink-tenue">IVA incluido</span>
+            </>
+          ) : precioReferencial !== null ? (
+            <>
+              <span className="font-display text-xl font-extrabold text-ink-suave">
+                {precioCLP(precioReferencial)}
+              </span>
+              <span className="text-[12px] text-ink-tenue">referencial</span>
             </>
           ) : (
             <span className="text-sm font-medium text-ink-tenue">Precio por confirmar</span>
           )}
         </div>
-
-        {pocoStock && (
-          <p className="mt-2 text-[12.5px] font-semibold text-oro-700">
-            Quedan {pilar.stock} unidades
-          </p>
-        )}
       </div>
     </>
   );
 
   const marco =
-    "flex h-full flex-col rounded-marca-lg border border-borde bg-white p-3.5 shadow-suave transition-all duration-200";
+    "group flex h-full flex-col rounded-marca-lg border border-borde bg-white p-3.5 shadow-suave transition-all duration-200";
 
-  /* --- Con ficha propia: la tarjeta entera es el enlace ------------------ */
   if (pilar.fichaPublicada) {
     return (
-      <article
-        className={`${marco} hover:-translate-y-1 hover:border-oro-200 hover:shadow-elevada`}
-      >
-        <Link href={`/${categoriaSlug}/${pilar.slug}`} className="flex h-full flex-col">
+      <article className={`${marco} hover:-translate-y-1 hover:border-oro-200 hover:shadow-elevada`}>
+        <Link href={href} className="flex h-full flex-col focus-visible:outline-none">
           {cuerpo}
           <span className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-oro-400 px-4 py-2.5 text-sm font-semibold text-ink transition-colors group-hover:bg-oro-300">
-            Ver ficha
+            Ver producto
             <IconoFlecha className="h-4 w-4" />
           </span>
         </Link>
@@ -105,36 +104,27 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
     );
   }
 
-  /* --- Con stock: compra directa si Shopify tiene el handle, si no WhatsApp */
-  if (pilar.publicado) {
-    return (
-      <article className={marco}>
-        {cuerpo}
-        {comprableEnShopify ? (
-          <ComprarButton handle={pilar.slug} className="mt-3 w-full" />
-        ) : (
-          <a
-            href={linkWhatsapp(pilar.nombre)}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-evento={`cta_card_${pilar.slug}`}
-            className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-ink transition-[filter] hover:brightness-95"
-          >
-            <IconoWhatsapp className="h-4 w-4" />
-            Consultar
-          </a>
-        )}
-      </article>
-    );
-  }
-
-  /* --- Aún no disponible: sin enlace y sin CTA -------------------------- */
   return (
-    <article className={`${marco} opacity-90`}>
+    <article className={marco}>
       {cuerpo}
-      <span className="mt-3 inline-flex items-center justify-center rounded-full border border-borde-2 px-4 py-2.5 text-sm font-semibold text-ink-tenue">
-        Aún no disponible
-      </span>
+      {comprable ? (
+        <ComprarButton
+          varianteId={varianteId}
+          handle={pilar.slug}
+          className="mt-3 w-full"
+        />
+      ) : (
+        <a
+          href={linkWhatsapp(pilar.nombre)}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-evento={`cta_card_${pilar.slug}`}
+          className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-ink transition-[filter] hover:brightness-95"
+        >
+          <IconoWhatsapp className="h-4 w-4" />
+          Consultar
+        </a>
+      )}
     </article>
   );
 }

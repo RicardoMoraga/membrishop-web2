@@ -128,6 +128,9 @@ function construirLlmsTxt(): string {
   bloques.push(
     [
       `- [Contacto](${urlAbsoluta("/contacto")})`,
+      `- [Envíos y devoluciones](${urlAbsoluta("/envios-y-devoluciones")}): plazos por zona, retracto de 10 días y garantía legal.`,
+      `- [Términos y condiciones](${urlAbsoluta("/terminos-y-condiciones")})`,
+      `- [Política de privacidad](${urlAbsoluta("/politica-de-privacidad")})`,
       `- [Versión extendida con el texto completo](${urlAbsoluta("/llms-full.txt")})`,
       `- [Sitemap XML](${urlAbsoluta("/sitemap.xml")})`,
       `- [robots.txt](${urlAbsoluta("/robots.txt")})`,

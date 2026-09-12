@@ -8,7 +8,6 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { FaqSection } from "@/components/seo/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TldrBlock } from "@/components/seo/TldrBlock";
-import { Carousel } from "@/components/ui/Carousel";
 import { CtaButton } from "@/components/ui/CtaButton";
 import { Section } from "@/components/ui/Section";
 import { SectionHead } from "@/components/ui/SectionHead";
@@ -101,11 +100,16 @@ export function CategoriaTemplate({ categoria }: { categoria: Categoria }) {
 
         {/* Lista 1 de la sección */}
         <div className="mt-10">
-          <Carousel ariaLabel={`Productos de ${categoria.nombre.toLowerCase()}`}>
+          {/* Grilla, no carrusel: con 5 productos el carrusel dejaba una tarjeta
+              cortada en escritorio, sin flechas ni indicador, y eso se lee como
+              un desborde de maquetación y no como una invitación a deslizar. */}
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categoria.pilares.map((pilar) => (
-              <ProductCard key={pilar.slug} pilar={pilar} categoriaSlug={categoria.slug} />
+              <li key={pilar.slug} className="h-full">
+                <ProductCard pilar={pilar} categoriaSlug={categoria.slug} />
+              </li>
             ))}
-          </Carousel>
+          </ul>
         </div>
 
         {/* Tabla 2 de la sección (el máximo permitido es 3).

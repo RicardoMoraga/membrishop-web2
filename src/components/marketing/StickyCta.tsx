@@ -1,17 +1,31 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IconoWhatsapp } from "@/components/ui/icons";
+import { categorias } from "@/content/clusters";
 import { linkWhatsapp, site } from "@/lib/site";
 
 /**
- * Botón flotante de contacto. Solo móvil (`md:hidden`).
+ * Botón flotante de contacto. Solo móvil.
  *
- * Aparece tras 420 px de scroll: mostrarlo de inmediato tapa el hero y baja la
- * tasa de clic. Reserva espacio con `env(safe-area-inset-bottom)` para no
- * chocar con la barra de gestos de iOS.
+ * NO se muestra en las fichas de producto: ahí manda `StickyBuyBar`, que
+ * integra precio, compra y WhatsApp en una sola barra. Dos elementos fijos en
+ * la misma esquina se tapan entre sí y el pulgar falla; y si el visitante está
+ * mirando un producto, la acción principal es comprarlo, no escribir.
+ *
+ * Aparece tras 420 px de scroll. Aquí el umbral fijo sí sirve: en páginas de
+ * navegación no hay un CTA concreto que observar, a diferencia de la ficha.
  */
+const SLUGS_CATEGORIA = new Set(categorias.map((c) => c.slug));
+
+function esFichaDeProducto(pathname: string): boolean {
+  const partes = pathname.split("/").filter(Boolean);
+  return partes.length === 2 && SLUGS_CATEGORIA.has(partes[0]);
+}
+
 export function StickyCta() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -20,6 +34,8 @@ export function StickyCta() {
     window.addEventListener("scroll", alScrollear, { passive: true });
     return () => window.removeEventListener("scroll", alScrollear);
   }, []);
+
+  if (esFichaDeProducto(pathname)) return null;
 
   return (
     <div

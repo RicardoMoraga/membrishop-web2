@@ -28,21 +28,20 @@ export type Pilar = {
   problema: string;
   /** "core" = semi-fijo (1-2 meses). "trending" = rota semanal/quincenal. */
   tipo: "core" | "trending";
+  /**
+   * Precio de referencia para el render de respaldo. La fuente de verdad del
+   * precio es Shopify: esto solo se muestra si la integración está caída, y
+   * en ese caso la interfaz lo rotula como referencial.
+   */
   precioDesde: number | null;
-  /** Precio anterior tachado, si hay descuento activo. */
-  precioAntes: number | null;
   imagen: Imagen;
   /** Galería completa: [0] fondo blanco, [1] lifestyle, [2] detalle, [3] contenido del paquete. */
   galeria: Imagen[];
-  /** Unidades en stock. <10 dispara el badge de urgencia. */
-  stock: number;
   publicado: boolean;
   fichaPublicada: boolean;
   descripcionLarga: string[];
   especificaciones: Especificacion[];
   faqs: Faq[];
-  /** ID de variante de Shopify para armar el link de carrito (/cart/{id}:1). Placeholder hasta conectar la tienda real. */
-  shopifyVariantId: string | null;
 };
 
 export type Categoria = {
@@ -101,8 +100,6 @@ export const categorias: Categoria[] = [
         problema: "Perros que se arrancan en fuegos artificiales o paseos sueltos.",
         tipo: "core",
         precioDesde: 39990,
-        precioAntes: null,
-        stock: 14,
         imagen: {
           archivo: "collar-gps-perros-rastreo-tiempo-real.webp",
           alt: "Collar GPS para perros con rastreo en tiempo real desde el celular",
@@ -137,7 +134,6 @@ export const categorias: Categoria[] = [
           { pregunta: "¿El collar GPS necesita chip o plan de datos?", respuesta: "Funciona con una SIM nano de cualquier operador chileno. No incluye plan; un prepago básico de datos es suficiente para el rastreo." },
           { pregunta: "¿Sirve para gatos?", respuesta: "Está diseñado para perros desde 8 kg. Para gatos recomendamos consultarnos por WhatsApp antes de comprar." },
         ],
-        shopifyVariantId: null,
       },
       {
         slug: "fuente-agua",
@@ -146,8 +142,6 @@ export const categorias: Categoria[] = [
         problema: "Gatos que beben poco y terminan con problemas urinarios.",
         tipo: "trending",
         precioDesde: 24990,
-        precioAntes: 29990,
-        stock: 8,
         imagen: {
           archivo: "fuente-agua-gatos-filtro-carbon.webp",
           alt: "Fuente de agua para gatos con filtro de carbón activo y flujo continuo",
@@ -176,7 +170,6 @@ export const categorias: Categoria[] = [
           { pregunta: "¿Cada cuánto se cambia el filtro?", respuesta: "Cada 3 a 4 semanas con uso normal. Vendemos el repuesto por separado." },
           { pregunta: "¿Hace ruido?", respuesta: "El motor es ultrasilencioso, pensado para no espantar a gatos sensibles al sonido." },
         ],
-        shopifyVariantId: null,
       },
       {
         slug: "cepillo-autolimpiante",
@@ -185,8 +178,6 @@ export const categorias: Categoria[] = [
         problema: "Pelo por toda la casa y cepillos imposibles de limpiar.",
         tipo: "trending",
         precioDesde: 12990,
-        precioAntes: null,
-        stock: 22,
         imagen: {
           archivo: "cepillo-autolimpiante-perros-gatos.webp",
           alt: "Cepillo autolimpiante para perros y gatos con botón de expulsión de pelo",
@@ -213,7 +204,6 @@ export const categorias: Categoria[] = [
         faqs: [
           { pregunta: "¿Sirve para gatos de pelo largo?", respuesta: "Sí, las cerdas están pensadas para llegar al pelaje interno sin dañar la piel, tanto en pelo corto como largo." },
         ],
-        shopifyVariantId: null,
       },
     ],
     criterios: [
@@ -268,8 +258,6 @@ export const categorias: Categoria[] = [
         problema: "Querer vigilar la casa sin contratar un sistema completo.",
         tipo: "core",
         precioDesde: 34990,
-        precioAntes: null,
-        stock: 11,
         imagen: {
           archivo: "camara-seguridad-wifi-interior-hogar.webp",
           alt: "Cámara de seguridad wifi de interior con visión nocturna",
@@ -300,7 +288,6 @@ export const categorias: Categoria[] = [
           { pregunta: "¿Necesito internet para usarla?", respuesta: "Sí, requiere conexión wifi de 2.4 GHz en el hogar para funcionar y enviar notificaciones." },
           { pregunta: "¿Tiene costo mensual?", respuesta: "No es obligatorio. La grabación local en microSD es gratuita; la nube es un plan opcional del fabricante." },
         ],
-        shopifyVariantId: null,
       },
       {
         slug: "cargador-magnetico",
@@ -309,8 +296,6 @@ export const categorias: Categoria[] = [
         problema: "Cables que se pelan y celulares a 8 % en el peor momento.",
         tipo: "trending",
         precioDesde: 17990,
-        precioAntes: 21990,
-        stock: 19,
         imagen: {
           archivo: "cargador-magnetico-inalambrico-celular.webp",
           alt: "Cargador magnético inalámbrico compatible con celulares MagSafe",
@@ -336,7 +321,6 @@ export const categorias: Categoria[] = [
         faqs: [
           { pregunta: "¿Funciona con cualquier celular?", respuesta: "Funciona con cualquier celular compatible con carga inalámbrica Qi; con imán se alinea automáticamente en modelos MagSafe." },
         ],
-        shopifyVariantId: null,
       },
       {
         slug: "audifonos-inalambricos",
@@ -345,8 +329,6 @@ export const categorias: Categoria[] = [
         problema: "Audífonos baratos que duran dos horas y se despareja el canal.",
         tipo: "trending",
         precioDesde: 22990,
-        precioAntes: null,
-        stock: 6,
         imagen: {
           archivo: "audifonos-inalambricos-bluetooth-bateria.webp",
           alt: "Audífonos inalámbricos bluetooth con estuche de carga",
@@ -372,7 +354,6 @@ export const categorias: Categoria[] = [
         faqs: [
           { pregunta: "¿Sirven para hacer ejercicio?", respuesta: "Sí, tienen resistencia IPX4 que soporta sudor y lluvia ligera." },
         ],
-        shopifyVariantId: null,
       },
     ],
     criterios: [
@@ -418,8 +399,6 @@ export const categorias: Categoria[] = [
         problema: "Despensas donde todo se pierde y se compra duplicado.",
         tipo: "core",
         precioDesde: 29990,
-        precioAntes: null,
-        stock: 16,
         imagen: {
           archivo: "organizador-modular-despensa-cocina.webp",
           alt: "Organizador modular apilable para despensa de cocina",
@@ -447,7 +426,6 @@ export const categorias: Categoria[] = [
         faqs: [
           { pregunta: "¿Son aptos para lavavajillas?", respuesta: "Sí, todas las piezas son aptas para lavavajillas y libres de BPA." },
         ],
-        shopifyVariantId: null,
       },
       {
         slug: "picador-manual",
@@ -456,8 +434,6 @@ export const categorias: Categoria[] = [
         problema: "Picar cebolla y ajo todos los días quita 10 minutos por comida.",
         tipo: "trending",
         precioDesde: 14990,
-        precioAntes: 18990,
-        stock: 9,
         imagen: {
           archivo: "picador-manual-verduras-cocina.webp",
           alt: "Picador manual de verduras con cuerda para cebolla y ajo",
@@ -483,7 +459,6 @@ export const categorias: Categoria[] = [
         faqs: [
           { pregunta: "¿Sirve para frutos secos?", respuesta: "Sí, funciona bien con frutos secos, verduras firmes y hierbas." },
         ],
-        shopifyVariantId: null,
       },
       {
         slug: "escurridor-plegable",
@@ -492,8 +467,6 @@ export const categorias: Categoria[] = [
         problema: "Cocinas chicas donde el escurridor ocupa medio mesón.",
         tipo: "trending",
         precioDesde: 19990,
-        precioAntes: null,
-        stock: 13,
         imagen: {
           archivo: "escurridor-plegable-lavaplatos-cocina.webp",
           alt: "Escurridor plegable enrollable para instalar sobre el lavaplatos",
@@ -519,7 +492,6 @@ export const categorias: Categoria[] = [
         faqs: [
           { pregunta: "¿Se puede cortar a medida?", respuesta: "Las varillas son ajustables y se acomodan a lavaplatos de distinto ancho sin necesidad de cortarlas." },
         ],
-        shopifyVariantId: null,
       },
     ],
     criterios: [
