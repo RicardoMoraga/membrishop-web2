@@ -8,7 +8,7 @@ import { StickyBuyBar } from "@/components/producto/StickyBuyBar";
 import { TrustBadges } from "@/components/producto/TrustBadges";
 import { IconoWhatsapp } from "@/components/ui/icons";
 import { precioCLP } from "@/lib/formato";
-import type { EstadoIntegracion, ProductoShopify } from "@/lib/shopify";
+import { tiendaAbierta, type EstadoIntegracion, type ProductoShopify } from "@/lib/shopify";
 
 /**
  * Caja de compra: precio, disponibilidad, variante, cantidad y acción.
@@ -48,6 +48,10 @@ export function CajaCompra({
 
   const comprable = estado === "ok-disponible";
   const falloIntegracion = estado === "sin-configurar" || estado === "error-api";
+  // Hay stock real y confirmado por Shopify, pero mientras la tienda tenga
+  // contraseña activa el checkout de Shopify no sirve: se compra por
+  // WhatsApp con el mismo precio y disponibilidad, sin botón que dead-endee.
+  const compraShopifyHabilitada = comprable && tiendaAbierta;
 
   useEffect(() => {
     const el = anclaCta.current;
@@ -122,7 +126,7 @@ export function CajaCompra({
       )}
 
       {/* ---- Cantidad + acción principal ---- */}
-      {comprable ? (
+      {compraShopifyHabilitada ? (
         <div ref={anclaCta} className="grid gap-3">
           <div className="flex items-center gap-3">
             <span className="text-sm font-semibold text-ink">Cantidad</span>
@@ -171,6 +175,27 @@ export function CajaCompra({
           >
             <IconoWhatsapp className="h-4 w-4" />
             Consultar por WhatsApp
+          </a>
+        </div>
+      ) : comprable ? (
+        // Tienda cerrada (contraseña activa en Shopify): hay stock y precio
+        // reales, pero el checkout de Shopify redirige a /password. WhatsApp
+        // pasa a ser el CTA principal — mismo trato, otro canal de cobro.
+        <div ref={anclaCta} className="grid gap-3 rounded-marca bg-crema-suave p-4 ring-1 ring-inset ring-borde">
+          <p className="text-sm font-semibold text-ink">Disponible — se compra por WhatsApp</p>
+          <p className="text-[13px] leading-snug text-ink-suave">
+            Estamos habilitando el pago en línea. Mientras tanto coordinamos tu compra directo por
+            WhatsApp: mismo precio, misma boleta electrónica.
+          </p>
+          <a
+            href={hrefWhatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-evento={`whatsapp_tienda_cerrada_${handle}`}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-oro-400 px-5 py-3.5 text-base font-semibold text-ink shadow-suave transition-[filter] hover:brightness-95"
+          >
+            <IconoWhatsapp className="h-5 w-5" />
+            Comprar por WhatsApp
           </a>
         </div>
       ) : estado === "ok-agotado" ? (
@@ -228,22 +253,37 @@ export function CajaCompra({
                 </p>
               )}
             </div>
-            <ComprarButton
-              varianteId={varianteId ?? undefined}
-              handle={handle}
-              cantidad={cantidad}
-              className="flex-1 py-3"
-            />
-            <a
-              href={hrefWhatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Consultar por WhatsApp"
-              data-evento={`whatsapp_sticky_${handle}`}
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-whatsapp text-ink"
-            >
-              <IconoWhatsapp className="h-5 w-5" />
-            </a>
+            {compraShopifyHabilitada ? (
+              <>
+                <ComprarButton
+                  varianteId={varianteId ?? undefined}
+                  handle={handle}
+                  cantidad={cantidad}
+                  className="flex-1 py-3"
+                />
+                <a
+                  href={hrefWhatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Consultar por WhatsApp"
+                  data-evento={`whatsapp_sticky_${handle}`}
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-whatsapp text-ink"
+                >
+                  <IconoWhatsapp className="h-5 w-5" />
+                </a>
+              </>
+            ) : (
+              <a
+                href={hrefWhatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-evento={`whatsapp_sticky_tienda_cerrada_${handle}`}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-oro-400 py-3 text-sm font-semibold text-ink shadow-suave transition-[filter] hover:brightness-95"
+              >
+                <IconoWhatsapp className="h-4 w-4" />
+                Comprar por WhatsApp
+              </a>
+            )}
           </div>
         </StickyBuyBar>
       )}

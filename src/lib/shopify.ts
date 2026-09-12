@@ -18,6 +18,19 @@ const API_VERSION = "2025-01";
 
 const shopifyConfigurado = Boolean(STORE_DOMAIN && STOREFRONT_TOKEN);
 
+/**
+ * Estado comercial de la tienda: abierta u online-store-cerrada-con-contraseña.
+ *
+ * Mientras Shopify mantenga la contraseña de "Opening soon" activa, cualquier
+ * `checkoutUrl` que devuelva `cartCreate` redirige a `/password` en vez de al
+ * checkout real — confirmado en producción. El frontend no tiene forma segura
+ * de detectar esa contraseña sin credenciales de Admin API (que no debe tener),
+ * así que es una bandera manual: se cambia a "true" el mismo día que se quita
+ * la contraseña en Shopify, y todo el sitio vuelve a mostrar "Comprar ahora"
+ * sin tocar código.
+ */
+export const tiendaAbierta = process.env.NEXT_PUBLIC_SHOPIFY_STORE_ABIERTA === "true";
+
 export type EstadoIntegracion =
   | "ok-disponible"
   | "ok-agotado"

@@ -1,12 +1,13 @@
 "use server";
 
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { and, eq, gte, sql } from "drizzle-orm";
 import { headers } from "next/headers";
 
 import { baseConfigurada, getDb } from "@/db/client";
 import { contacts, subscribers } from "@/db/schema";
 import type { EstadoFormulario } from "@/lib/formularios";
+import { site, urlAbsoluta } from "@/lib/site";
 import { erroresPorCampo, esquemaContacto, esquemaNewsletter } from "@/lib/validaciones";
 
 /**
@@ -86,6 +87,48 @@ function errorInesperado(contexto: string, error: unknown): EstadoFormulario {
   };
 }
 
+/**
+ * Correo de confirmación (double opt-in) vía la API HTTP de Resend.
+ *
+ * Sin dependencia nueva: es un POST con `fetch`, igual que `lib/shopify.ts`
+ * habla con Shopify. Si `RESEND_API_KEY` no está configurada, no falla nada:
+ * el suscriptor queda guardado como "pendiente" y simplemente no recibe el
+ * correo todavía — falta conectar el proveedor, no un bug.
+ */
+async function enviarCorreoConfirmacion(email: string, token: string): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn(
+      "[lead] RESEND_API_KEY no configurada: el suscriptor queda pendiente sin correo de confirmación.",
+    );
+    return;
+  }
+
+  const from = process.env.RESEND_FROM_EMAIL ?? `${site.nombre} <avisos@membrishop.cl>`;
+  const linkConfirmacion = urlAbsoluta(`/api/confirmar-suscripcion?token=${token}`);
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: email,
+        subject: `Confirma tu suscripción a ${site.nombre}`,
+        html: `<p>Un paso más: confirma que quieres recibir avisos de ${site.nombre}.</p><p><a href="${linkConfirmacion}">Confirmar suscripción</a></p><p>Si no la pediste tú, ignora este correo.</p>`,
+      }),
+    });
+    if (!res.ok) {
+      console.error(`[lead] Resend respondió ${res.status} al enviar confirmación a ${email}`);
+    }
+  } catch (error) {
+    console.error("[lead] error de red enviando correo de confirmación", error);
+  }
+}
+
 /* ==========================================================================
    1) Suscripción a newsletter
    ========================================================================== */
@@ -121,6 +164,7 @@ export async function suscribir(
   if (!baseConfigurada()) return sinBaseDeDatos();
 
   const datos = parseo.data;
+  const emailConfirmacionConfigurada = Boolean(process.env.RESEND_API_KEY);
 
   try {
     const db = getDb();
@@ -135,17 +179,33 @@ export async function suscribir(
 
     if (existente) {
       if (existente.estado === "baja") {
-        // Se había dado de baja y vuelve: se reactiva en vez de crear un duplicado.
+        // Se había dado de baja y vuelve: se reactiva en vez de crear un
+        // duplicado, y se le pide confirmar de nuevo (token nuevo).
+        const token = randomUUID();
         await db
           .update(subscribers)
-          .set({ estado: "pendiente", bajaEn: null, actualizadoEn: new Date() })
+          .set({
+            estado: "pendiente",
+            bajaEn: null,
+            confirmacionToken: token,
+            confirmadoEn: null,
+            actualizadoEn: new Date(),
+          })
           .where(eq(subscribers.id, existente.id));
 
-        return { estado: "ok", mensaje: "¡Te volvimos a sumar! Revisa tu correo." };
+        await enviarCorreoConfirmacion(datos.email, token);
+        return {
+          estado: "ok",
+          mensaje: emailConfirmacionConfigurada
+            ? "¡Te volvimos a sumar! Revisa tu correo para confirmar."
+            : "¡Te volvimos a sumar! Te avisaremos cuando haya novedades.",
+        };
       }
 
       return { estado: "ok", mensaje: "Ese correo ya estaba en la lista. Todo en orden." };
     }
+
+    const token = randomUUID();
 
     await db.insert(subscribers).values({
       email: datos.email,
@@ -156,11 +216,16 @@ export async function suscribir(
       utmCampaign: datos.utmCampaign ?? null,
       ipHash,
       estado: "pendiente",
+      confirmacionToken: token,
     });
+
+    await enviarCorreoConfirmacion(datos.email, token);
 
     return {
       estado: "ok",
-      mensaje: "¡Listo! Te avisamos cuando entre stock nuevo. Sin spam, lo prometemos.",
+      mensaje: emailConfirmacionConfigurada
+        ? "¡Casi listo! Confirma tu correo para empezar a recibir avisos."
+        : "¡Listo! Te avisamos cuando entre stock nuevo. Sin spam, lo prometemos.",
     };
   } catch (error) {
     return errorInesperado("suscribir", error);

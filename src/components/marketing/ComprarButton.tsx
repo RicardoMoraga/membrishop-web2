@@ -24,13 +24,14 @@ const MENSAJE: Record<MotivoFallo, string> = {
   "no-encontrado": "Producto no disponible",
   "sin-configurar": "No se pudo iniciar la compra",
   "error-api": "No se pudo iniciar la compra",
+  "tienda-cerrada": "Compra por WhatsApp por ahora",
 };
 
 export function ComprarButton({ varianteId, handle, cantidad, className = "" }: Props) {
   const [pendiente, iniciarTransicion] = useTransition();
   const [fallo, setFallo] = useState<MotivoFallo | null>(null);
 
-  const clases = `group inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-200 bg-oro-400 text-ink shadow-suave hover:bg-oro-300 hover:shadow-elevada active:translate-y-px disabled:cursor-wait disabled:opacity-70 ${className}`;
+  const clases = `group inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-200 bg-oro-400 text-ink shadow-suave hover:bg-oro-300 hover:shadow-elevada focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oro-500 focus-visible:ring-offset-2 active:translate-y-px disabled:cursor-wait disabled:opacity-70 ${className}`;
 
   return (
     <button

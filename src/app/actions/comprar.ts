@@ -3,10 +3,16 @@
 import {
   crearCheckoutUrl,
   getProductoPorHandle,
+  tiendaAbierta,
   type EstadoIntegracion,
 } from "@/lib/shopify";
 
-export type MotivoFallo = "sin-stock" | "no-encontrado" | "sin-configurar" | "error-api";
+export type MotivoFallo =
+  | "sin-stock"
+  | "no-encontrado"
+  | "sin-configurar"
+  | "error-api"
+  | "tienda-cerrada";
 
 export type EstadoComprar =
   | { ok: true; checkoutUrl: string }
@@ -35,6 +41,12 @@ function motivoDesdeEstado(estado: EstadoIntegracion): MotivoFallo {
 }
 
 export async function comprar(entrada: EntradaComprar): Promise<EstadoComprar> {
+  // Defensa en profundidad: la UI no debe renderizar el botón que llega acá
+  // mientras la tienda esté cerrada, pero si algo lo invoca de todos modos
+  // (devtools, un componente que se nos escapó) no se crea un carrito que
+  // termina en /password.
+  if (!tiendaAbierta) return { ok: false, motivo: "tienda-cerrada" };
+
   const cantidad = Math.max(1, Math.min(entrada.cantidad ?? 1, 20));
 
   let varianteId: string;

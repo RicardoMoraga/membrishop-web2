@@ -87,14 +87,22 @@ export const site = {
     },
   ],
 
-  mediosPago: ["MercadoPago", "Webpay", "Tarjeta de crédito", "Tarjeta de débito", "Transferencia"],
+  /**
+   * Solo medios de pago verificados como configurados en la tienda Shopify
+   * conectada (fyvfjt-vm.myshopify.com): Mercado Pago con tarjetas de crédito
+   * y débito. Webpay y transferencia NO están confirmados ahí — anunciarlos
+   * sin tenerlos activos es una promesa que el checkout no cumple. Si más
+   * adelante se activan en Shopify, se agregan aquí y se propagan solos a
+   * footer, llms.txt y JSON-LD.
+   */
+  mediosPago: ["MercadoPago", "Tarjeta de crédito", "Tarjeta de débito"],
   couriers: ["Chilexpress", "Starken", "Blue Express", "Correos de Chile"],
 
   /** Promesas comerciales. Cámbialas solo si puedes cumplirlas. */
   promesas: {
     despacho: "Despacho en 24–72 h hábiles a todo Chile",
     stock: "Stock en Chile: sin esperas de 30 días",
-    pago: "Pago con MercadoPago, tarjetas y transferencia",
+    pago: "Pago seguro con MercadoPago, tarjeta de crédito o débito",
     retracto: "10 días para arrepentirte, según la Ley del Consumidor",
   },
 } as const;

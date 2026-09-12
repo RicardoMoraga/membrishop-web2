@@ -75,7 +75,7 @@ export const categorias: Categoria[] = [
     emoji: "🐾",
     metaTitle: "Productos para Mascotas con Stock en Chile | MembriShop",
     metaDescription:
-      "Pet tech con stock nacional: collar GPS, fuente de agua y cepillo autolimpiante. Despacho 24–72 h y pago con MercadoPago y Webpay.",
+      "Pet tech con stock nacional: collar GPS, fuente de agua y cepillo autolimpiante. Despacho 24–72 h y pago con MercadoPago.",
     h1: "Pet tech que resuelve problemas reales de perros y gatos",
     intent:
       "Si buscas productos para mascotas en Chile sin esperar 30 días de envío, esta es la categoría: pet tech con stock nacional, despacho en 24 a 72 horas hábiles y boleta. Catálogo curado y rotativo — cuando algo se agota, cambia por otro producto igual de útil.",
@@ -83,7 +83,7 @@ export const categorias: Categoria[] = [
       "Stock físico en Chile: el despacho sale en 24–72 h hábiles, no en semanas.",
       "Nuestro nicho estrella: la mitad de nuestra curaduría se enfoca acá.",
       "Catálogo rotativo: un producto core + dos en tendencia cada quincena.",
-      "Pago con Webpay, MercadoPago o transferencia, con boleta electrónica.",
+      "Pago con MercadoPago (tarjeta de crédito o débito), con boleta electrónica.",
     ],
     ctaTexto: "Ver productos con stock",
     keywordPrincipal: "productos para mascotas Chile",
@@ -374,7 +374,7 @@ export const categorias: Categoria[] = [
     emoji: "🏠",
     metaTitle: "Hogar y Cocina: Utensilios Prácticos en Chile | MembriShop",
     metaDescription:
-      "Utensilios y organización para casa y cocina con stock en Chile. Despacho 24–72 h hábiles y pago con Webpay y MercadoPago.",
+      "Utensilios y organización para casa y cocina con stock en Chile. Despacho 24–72 h hábiles y pago con MercadoPago.",
     h1: "Soluciones simples para ordenar y cocinar mejor en casa",
     intent:
       "Si buscas utensilios de cocina y organización para la casa en Chile, acá encuentras una selección corta enfocada en una sola pregunta: ¿este producto te ahorra tiempo cada semana o va a terminar guardado en un cajón? Publicamos solo lo que pasa esa prueba.",

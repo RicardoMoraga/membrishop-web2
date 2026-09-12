@@ -75,7 +75,7 @@ export const home = {
     {
       titulo: "Pagas seguro",
       detalle:
-        "MercadoPago, tarjeta de crédito o débito y transferencia. Recibes boleta electrónica en el correo.",
+        "MercadoPago, con tarjeta de crédito o débito. Recibes boleta electrónica en el correo.",
     },
     {
       titulo: "Recibes y sigues el envío",
@@ -98,7 +98,7 @@ export const home = {
     {
       pregunta: "¿Qué medios de pago aceptan?",
       respuesta:
-        "MercadoPago, tarjetas de crédito y débito, y transferencia bancaria. Todos los pagos se procesan en pesos chilenos.",
+        "MercadoPago, con tarjeta de crédito o débito. Todos los pagos se procesan en pesos chilenos.",
     },
     {
       pregunta: "¿Puedo devolver un producto si no me sirve?",

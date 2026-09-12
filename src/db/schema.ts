@@ -63,6 +63,13 @@ export const subscribers = pgTable(
     /** Token para el enlace de baja en el pie de cada correo. */
     unsubscribeToken: uuid("unsubscribe_token").notNull().defaultRandom(),
 
+    /**
+     * Token de confirmación (double opt-in), distinto del de baja. Se genera
+     * en la aplicación (no con `defaultRandom()`) porque hace falta conocerlo
+     * de inmediato para armar el link del correo de confirmación.
+     */
+    confirmacionToken: uuid("confirmacion_token").notNull().defaultRandom(),
+
     confirmadoEn: timestamp("confirmado_en", { withTimezone: true }),
     bajaEn: timestamp("baja_en", { withTimezone: true }),
 
@@ -133,9 +140,34 @@ export const contacts = pgTable(
 );
 
 /* ==========================================================================
+   webhook_events — deduplicación de webhooks de Shopify
+   ========================================================================== */
+export const webhookEvents = pgTable(
+  "webhook_events",
+  {
+    /**
+     * `X-Shopify-Webhook-Id`, único por entrega. Shopify reintenta el mismo
+     * evento si no responde 200 a tiempo o marca error; sin este registro se
+     * revalidaría (e invalidaría caché) más de una vez por el mismo aviso.
+     * Es la propia PK: el índice único de la clave primaria hace el trabajo
+     * de deduplicación con un solo INSERT — si ya existe, la base rechaza la
+     * fila con un error de unicidad y la ruta lo interpreta como duplicado.
+     */
+    id: varchar("id", { length: 100 }).primaryKey(),
+
+    tema: varchar("tema", { length: 60 }).notNull(),
+    handle: varchar("handle", { length: 200 }),
+
+    recibidoEn: timestamp("recibido_en", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("webhook_events_recibido_idx").on(t.recibidoEn)],
+);
+
+/* ==========================================================================
    Tipos derivados. Se generan solos desde las tablas: no los escribas a mano.
    ========================================================================== */
 export type Subscriber = typeof subscribers.$inferSelect;
 export type NuevoSubscriber = typeof subscribers.$inferInsert;
 export type Contact = typeof contacts.$inferSelect;
 export type NuevoContact = typeof contacts.$inferInsert;
+export type WebhookEvent = typeof webhookEvents.$inferSelect;

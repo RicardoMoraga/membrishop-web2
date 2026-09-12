@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CategoryCard } from "@/components/marketing/CategoryCard";
 import { CtaFinal } from "@/components/marketing/CtaFinal";
+import { Hero } from "@/components/marketing/Hero";
 import { Pasos } from "@/components/marketing/Pasos";
 import { ProductCard } from "@/components/marketing/ProductCard";
 import { TablaDespacho } from "@/components/marketing/TablaDespacho";
@@ -10,12 +11,9 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaButton } from "@/components/ui/CtaButton";
 import { Section } from "@/components/ui/Section";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { TituloResaltado } from "@/components/ui/TituloResaltado";
-import { IconoCheck } from "@/components/ui/icons";
 import { categorias } from "@/content/clusters";
 import { home } from "@/content/home";
 import { faqSchema, storeSchema } from "@/lib/schema";
-import { linkWhatsapp } from "@/lib/site";
 
 /* ============================================================================
    Home.
@@ -51,57 +49,16 @@ const destacados = categorias.flatMap((categoria) =>
 export default function Page() {
   return (
     <>
-      {/* ============ Hero ============ */}
-      <section aria-labelledby="titulo-home" className="border-b border-crema bg-crema-suave">
-        <div className="contenedor py-12 md:py-16">
-          <div className="max-w-3xl">
-            <p className="font-display mb-3 text-xs font-bold uppercase tracking-[0.14em] text-oro-700">
-              {home.eyebrow}
-            </p>
-
-            <h1 id="titulo-home" className="text-fluid-h1 font-extrabold leading-[1.08]">
-              <TituloResaltado texto={home.h1} destacadas={home.destacadasH1} />
-            </h1>
-
-            {/* TL;DR justo tras el H1 — tres líneas, no un bloque */}
-            <ul className="mt-5 grid gap-1.5">
-              {home.tldr.slice(0, 3).map((punto) => (
-                <li key={punto} className="flex gap-2 text-[14px] leading-snug text-ink-suave">
-                  <IconoCheck className="mt-px h-4 w-4 shrink-0 text-verde-500" />
-                  <span>{punto}</span>
-                </li>
-              ))}
-            </ul>
-
-            <p className="mt-6 max-w-2xl text-fluid-lead leading-relaxed text-ink-suave">
-              {home.intro}
-            </p>
-
-            <div className="mt-7 flex flex-wrap gap-3">
-              <CtaButton href="#categorias" evento="hero_ver_productos">
-                {home.ctaPrincipal}
-              </CtaButton>
-              <CtaButton
-                href={linkWhatsapp("desde la home")}
-                externo
-                variante="secundario"
-                conFlecha={false}
-                evento="hero_whatsapp"
-              >
-                {home.ctaSecundario}
-              </CtaButton>
-            </div>
-
-            <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
-              {home.chips.map((chip) => (
-                <li key={chip} className="text-[13px] font-medium text-ink-tenue">
-                  {chip}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
+      <Hero
+        eyebrow={home.eyebrow}
+        h1={home.h1}
+        destacadasH1={home.destacadasH1}
+        tldr={home.tldr}
+        intro={home.intro}
+        ctaPrincipal={home.ctaPrincipal}
+        ctaSecundario={home.ctaSecundario}
+        chips={home.chips}
+      />
 
       <TrustBadges />
 

@@ -1,5 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
+import { baseConfigurada, getDb } from "@/db/client";
+import { webhookEvents } from "@/db/schema";
 import { ETIQUETA_CATALOGO, etiquetaProducto } from "@/lib/shopify";
 
 /**
@@ -15,6 +17,14 @@ import { ETIQUETA_CATALOGO, etiquetaProducto } from "@/lib/shopify";
  * decisión es invalidar la etiqueta global: es más amplio de lo necesario,
  * pero es correcto y no inventa un mapeo que no existe. El costo real es una
  * regeneración extra de páginas ya estáticas.
+ *
+ * Deduplicación: Shopify reintenta un webhook si no responde 200 a tiempo, y
+ * eso puede volver a disparar la misma revalidación varias veces. Se registra
+ * cada `X-Shopify-Webhook-Id` en `webhook_events` (su propia PK) antes de
+ * revalidar: si el INSERT choca con una fila existente, es un reintento del
+ * mismo aviso y se responde 200 sin volver a invalidar caché. Si la base no
+ * está configurada (`DATABASE_URL` ausente), la deduplicación se salta —no es
+ * motivo para rechazar el aviso— y se revalida igual, como antes.
  *
  * Seguridad: la ruta es pública por necesidad —Shopify tiene que alcanzarla—
  * así que la firma HMAC es lo único que separa un aviso legítimo de cualquiera
@@ -65,6 +75,7 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const tema = request.headers.get("x-shopify-topic") ?? "desconocido";
+  const webhookId = request.headers.get("x-shopify-webhook-id");
 
   let payload: { handle?: unknown };
   try {
@@ -75,6 +86,22 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const handle = typeof payload.handle === "string" && payload.handle ? payload.handle : null;
+
+  if (webhookId && baseConfigurada()) {
+    try {
+      await getDb().insert(webhookEvents).values({ id: webhookId, tema, handle });
+    } catch (error) {
+      // Violación de unicidad (23505) = mismo webhook reentregado: se responde
+      // 200 sin revalidar de nuevo. Cualquier otro error de base no debe
+      // bloquear la revalidación real, así que se registra y se sigue.
+      const codigo = (error as { code?: string } | null)?.code;
+      if (codigo === "23505") {
+        console.info(`[webhook] ${tema} — id ${webhookId} duplicado, se ignora`);
+        return Response.json({ ok: true, tema, duplicado: true });
+      }
+      console.error(`[webhook] no se pudo registrar el evento para deduplicar`, error);
+    }
+  }
 
   revalidateTag(ETIQUETA_CATALOGO, INMEDIATO);
   if (handle) revalidateTag(etiquetaProducto(handle), INMEDIATO);

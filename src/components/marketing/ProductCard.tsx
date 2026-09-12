@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/Badge";
 import { IconoFlecha, IconoWhatsapp } from "@/components/ui/icons";
 import type { Pilar } from "@/content/clusters";
 import { precioCLP } from "@/lib/formato";
-import { getProductoPorHandle } from "@/lib/shopify";
+import { getProductoPorHandle, tiendaAbierta } from "@/lib/shopify";
 import { linkWhatsapp } from "@/lib/site";
 
 /**
@@ -107,7 +107,7 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
   return (
     <article className={marco}>
       {cuerpo}
-      {comprable ? (
+      {comprable && tiendaAbierta ? (
         <ComprarButton
           varianteId={varianteId}
           handle={pilar.slug}
@@ -122,7 +122,7 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
           className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-ink transition-[filter] hover:brightness-95"
         >
           <IconoWhatsapp className="h-4 w-4" />
-          Consultar
+          {comprable ? "Comprar por WhatsApp" : "Consultar"}
         </a>
       )}
     </article>

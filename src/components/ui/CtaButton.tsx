@@ -50,7 +50,7 @@ export function CtaButton({
   externo = false,
   evento,
 }: Props) {
-  const clases = `group inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 ${estilos[variante]} ${tamanos[tamano]} ${className}`;
+  const clases = `group inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-oro-500 focus-visible:ring-offset-2 ${estilos[variante]} ${tamanos[tamano]} ${className}`;
 
   const contenido = (
     <>

@@ -35,7 +35,7 @@ export function organizacionSchema() {
     sameAs: Object.values(site.redes),
     areaServed: site.areaDespacho.map((nombre) => ({ "@type": "Country", name: nombre })),
     currenciesAccepted: site.moneda,
-    paymentAccepted: "MercadoPago, Tarjeta de crédito, Tarjeta de débito, Transferencia bancaria",
+    paymentAccepted: site.mediosPago.join(", "),
     contactPoint: [
       {
         "@type": "ContactPoint",
