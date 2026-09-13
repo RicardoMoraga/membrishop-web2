@@ -92,30 +92,32 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
             </div>
 
             <div className="lg:sticky lg:top-24">
-              <h1 id="titulo-producto" className="font-display text-fluid-h2 font-extrabold leading-tight">
-                {contenido.h1}
-              </h1>
-              <p className="mt-2 text-[15px] leading-relaxed text-ink-suave">{contenido.resumen}</p>
+              <div className="rounded-marca-lg border border-borde bg-white p-5 shadow-suave md:p-6">
+                <h1 id="titulo-producto" className="font-display text-fluid-h2 font-extrabold leading-tight">
+                  {contenido.h1}
+                </h1>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink-suave">{contenido.resumen}</p>
 
-              <ul className="mt-4 grid gap-1.5">
-                {contenido.tldr.slice(0, 3).map((punto) => (
-                  <li key={punto} className="flex gap-2 text-[13px] leading-snug text-ink-suave">
-                    <IconoCheck className="mt-px h-4 w-4 shrink-0 text-verde-500" />
-                    <span>{punto}</span>
-                  </li>
-                ))}
-              </ul>
+                <ul className="mt-4 grid gap-1.5">
+                  {contenido.tldr.slice(0, 3).map((punto) => (
+                    <li key={punto} className="flex gap-2 text-[13px] leading-snug text-ink-suave">
+                      <IconoCheck className="mt-px h-4 w-4 shrink-0 text-verde-500" />
+                      <span>{punto}</span>
+                    </li>
+                  ))}
+                </ul>
 
-              <div className="mt-6">
-                <CajaCompra
-                  estado={shopify.estado}
-                  producto={producto}
-                  handle={pilar.slug}
-                  nombre={pilar.nombre}
-                  precioFallback={pilar.precioDesde}
-                  hrefWhatsapp={hrefWhatsapp}
-                  trustBadges={<TrustBadges variante="lista" />}
-                />
+                <div className="mt-6 border-t border-borde pt-5">
+                  <CajaCompra
+                    estado={shopify.estado}
+                    producto={producto}
+                    handle={pilar.slug}
+                    nombre={pilar.nombre}
+                    precioFallback={pilar.precioDesde}
+                    hrefWhatsapp={hrefWhatsapp}
+                    trustBadges={<TrustBadges variante="lista" />}
+                  />
+                </div>
               </div>
             </div>
           </div>

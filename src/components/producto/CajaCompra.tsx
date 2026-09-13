@@ -83,11 +83,11 @@ export function CajaCompra({
       <div>
         <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
           {precio !== null ? (
-            <span className="font-display text-3xl font-extrabold text-ink">
+            <span className="font-display text-4xl font-extrabold text-ink">
               {precioCLP(precio)}
             </span>
           ) : precioFallback !== null ? (
-            <span className="font-display text-3xl font-extrabold text-ink-suave">
+            <span className="font-display text-4xl font-extrabold text-ink-suave">
               {precioCLP(precioFallback)}
             </span>
           ) : (
@@ -172,7 +172,7 @@ export function CajaCompra({
             varianteId={varianteId ?? undefined}
             handle={handle}
             cantidad={cantidad}
-            className="w-full py-3.5 text-base"
+            className="w-full py-4 text-base font-bold shadow-elevada"
           />
 
           <a

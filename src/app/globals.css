@@ -176,3 +176,39 @@
     content: counter(paso, decimal-leading-zero);
   }
 }
+
+/**
+ * Fondo decorativo del hero: dos manchas de color muy suaves (dorado y
+ * verde), solo degradados CSS — sin imágenes ni fotografía. Da profundidad
+ * al bloque de apertura sin competir con el texto ni pesar en la carga.
+ */
+@utility hero-decor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(60px);
+  }
+  &::before {
+    top: -12%;
+    right: -8%;
+    width: 26rem;
+    height: 26rem;
+    background: radial-gradient(circle, var(--color-oro-200) 0%, transparent 70%);
+    opacity: 0.55;
+  }
+  &::after {
+    bottom: -18%;
+    left: -10%;
+    width: 20rem;
+    height: 20rem;
+    background: radial-gradient(circle, var(--color-verde-200) 0%, transparent 70%);
+    opacity: 0.45;
+  }
+}

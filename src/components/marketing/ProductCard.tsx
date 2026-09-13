@@ -34,14 +34,15 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
   const href = `/${categoriaSlug}/${pilar.slug}`;
 
   const media = primeraImagen ? (
-    <div className="relative aspect-square w-full overflow-hidden rounded-marca border border-borde/70 bg-crema">
+    <div className="relative aspect-square w-full overflow-hidden rounded-marca bg-crema">
       <Image
         src={primeraImagen.url}
         alt={primeraImagen.alt || pilar.imagen.alt}
         fill
         sizes="(max-width: 640px) 80vw, (max-width: 1024px) 45vw, 300px"
-        className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+        className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
       />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/10 via-transparent to-transparent" />
     </div>
   ) : (
     <ImagenMarcador imagen={pilar.imagen} ratio="aspect-square" mostrarArchivo={false} />
@@ -58,13 +59,13 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
         </div>
       </div>
 
-      <div className="mt-3.5 flex flex-1 flex-col">
+      <div className="mt-4 flex flex-1 flex-col">
         <h3 className="font-display text-[16px] font-bold leading-snug text-ink">{pilar.nombre}</h3>
         <p className="mt-1 line-clamp-2 text-[13.5px] leading-relaxed text-ink-suave">
           {pilar.gancho}
         </p>
 
-        <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-t border-borde pt-3">
+        <div className="mt-3 flex flex-1 flex-wrap items-baseline gap-x-2 gap-y-1 border-t border-borde pt-3">
           {precio !== null ? (
             <>
               <span className="font-display text-xl font-extrabold text-ink">
@@ -92,12 +93,12 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
 
   if (pilar.fichaPublicada) {
     return (
-      <article className={`${marco} hover:-translate-y-1 hover:border-oro-200 hover:shadow-elevada`}>
+      <article className={`${marco} hover:-translate-y-1 hover:border-oro-300 hover:shadow-elevada`}>
         <Link href={href} className="flex h-full flex-col focus-visible:outline-none">
           {cuerpo}
-          <span className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-oro-400 px-4 py-2.5 text-sm font-semibold text-ink transition-colors group-hover:bg-oro-300">
+          <span className="mt-3.5 inline-flex items-center justify-center gap-2 rounded-full bg-oro-400 px-4 py-2.5 text-sm font-semibold text-ink shadow-suave transition-colors group-hover:bg-oro-300">
             Ver producto
-            <IconoFlecha className="h-4 w-4" />
+            <IconoFlecha className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </span>
         </Link>
       </article>

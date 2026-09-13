@@ -34,11 +34,14 @@ export function TrustBadges({ variante = "barra" }: { variante?: "barra" | "list
   }
 
   return (
-    <section aria-label="Garantías de compra" className="border-y border-borde bg-crema-suave">
-      <ul className="contenedor grid grid-cols-2 gap-x-6 gap-y-6 py-7 md:grid-cols-4 md:py-8">
+    <section
+      aria-label="Garantías de compra"
+      className="border-y border-borde bg-gradient-to-b from-crema-suave to-lienzo"
+    >
+      <ul className="contenedor grid grid-cols-2 gap-x-6 gap-y-7 py-8 md:grid-cols-4 md:py-9">
         {GARANTIAS.map(({ Icono, titulo, detalle }) => (
           <li key={titulo} className="flex gap-3">
-            <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-oro-100 text-oro-700">
+            <span className="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-oro-100 text-oro-700 ring-4 ring-oro-50">
               <Icono className="h-5 w-5" />
             </span>
             <span>
