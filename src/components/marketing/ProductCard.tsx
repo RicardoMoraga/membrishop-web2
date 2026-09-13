@@ -34,7 +34,7 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
   const href = `/${categoriaSlug}/${pilar.slug}`;
 
   const media = primeraImagen ? (
-    <div className="relative aspect-square w-full overflow-hidden rounded-marca bg-crema">
+    <div className="relative aspect-square w-full overflow-hidden bg-crema">
       <Image
         src={primeraImagen.url}
         alt={primeraImagen.alt || pilar.imagen.alt}
@@ -48,6 +48,10 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
     <ImagenMarcador imagen={pilar.imagen} ratio="aspect-square" mostrarArchivo={false} />
   );
 
+  // La imagen va a sangre hasta el borde de la tarjeta (el `article` recorta
+  // las esquinas con `overflow-hidden`); solo el texto y el CTA llevan
+  // padding. Es el patrón de card que se ve en ecommerce real, no la imagen
+  // "enmarcada" con margen que leía como plantilla genérica.
   const cuerpo = (
     <>
       <div className="relative">
@@ -59,7 +63,7 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
         </div>
       </div>
 
-      <div className="mt-4 flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col p-3.5">
         <h3 className="font-display text-[16px] font-bold leading-snug text-ink">{pilar.nombre}</h3>
         <p className="mt-1 line-clamp-2 text-[13.5px] leading-relaxed text-ink-suave">
           {pilar.gancho}
@@ -89,14 +93,14 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
   );
 
   const marco =
-    "group flex h-full flex-col rounded-marca-lg border border-borde bg-white p-3.5 shadow-suave transition-all duration-200";
+    "group flex h-full flex-col overflow-hidden rounded-marca-lg border border-borde bg-white shadow-suave transition-all duration-200";
 
   if (pilar.fichaPublicada) {
     return (
       <article className={`${marco} hover:-translate-y-1 hover:border-oro-300 hover:shadow-elevada`}>
         <Link href={href} className="flex h-full flex-col focus-visible:outline-none">
           {cuerpo}
-          <span className="mt-3.5 inline-flex items-center justify-center gap-2 rounded-full bg-oro-400 px-4 py-2.5 text-sm font-semibold text-ink shadow-suave transition-colors group-hover:bg-oro-300">
+          <span className="mx-3.5 mb-3.5 inline-flex items-center justify-center gap-2 rounded-full bg-oro-400 px-4 py-2.5 text-sm font-semibold text-ink shadow-suave transition-colors group-hover:bg-oro-300">
             Ver producto
             <IconoFlecha className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </span>
@@ -108,25 +112,23 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
   return (
     <article className={marco}>
       {cuerpo}
-      {comprable && tiendaAbierta ? (
-        <ComprarButton
-          varianteId={varianteId}
-          handle={pilar.slug}
-          className="mt-3 w-full"
-        />
-      ) : (
-        <a
-          href={linkWhatsapp(pilar.nombre)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={comprable ? `Comprar ${pilar.nombre} por WhatsApp` : `Consultar ${pilar.nombre} por WhatsApp`}
-          data-evento={`cta_card_${pilar.slug}`}
-          className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-ink transition-[filter] hover:brightness-95"
-        >
-          <IconoWhatsapp className="h-4 w-4" />
-          {comprable ? "Comprar por WhatsApp" : "Consultar"}
-        </a>
-      )}
+      <div className="mx-3.5 mb-3.5">
+        {comprable && tiendaAbierta ? (
+          <ComprarButton varianteId={varianteId} handle={pilar.slug} className="w-full" />
+        ) : (
+          <a
+            href={linkWhatsapp(pilar.nombre)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={comprable ? `Comprar ${pilar.nombre} por WhatsApp` : `Consultar ${pilar.nombre} por WhatsApp`}
+            data-evento={`cta_card_${pilar.slug}`}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-ink transition-[filter] hover:brightness-95"
+          >
+            <IconoWhatsapp className="h-4 w-4" />
+            {comprable ? "Comprar por WhatsApp" : "Consultar"}
+          </a>
+        )}
+      </div>
     </article>
   );
 }
