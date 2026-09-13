@@ -114,6 +114,7 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
                   nombre={pilar.nombre}
                   precioFallback={pilar.precioDesde}
                   hrefWhatsapp={hrefWhatsapp}
+                  trustBadges={<TrustBadges variante="lista" />}
                 />
               </div>
             </div>

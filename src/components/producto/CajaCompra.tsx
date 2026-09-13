@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { ComprarButton } from "@/components/marketing/ComprarButton";
 import { LeadForm } from "@/components/marketing/LeadForm";
 import { EstadoStock } from "@/components/producto/EstadoStock";
 import { StickyBuyBar } from "@/components/producto/StickyBuyBar";
-import { TrustBadges } from "@/components/producto/TrustBadges";
 import { IconoWhatsapp } from "@/components/ui/icons";
 import { precioCLP } from "@/lib/formato";
 import { tiendaAbierta, type EstadoIntegracion, type ProductoShopify } from "@/lib/shopify";
@@ -28,6 +28,14 @@ type Props = {
   nombre: string;
   precioFallback: number | null;
   hrefWhatsapp: string;
+  /**
+   * `<TrustBadges variante="lista" />` renderizado por el Server Component
+   * padre (`PdpTemplate`). Es 100% estático — no depende de `varianteId`,
+   * `cantidad` ni ningún estado de esta caja — así que se pasa ya resuelto en
+   * vez de importarlo aquí: saca sus íconos y su markup del bundle de cliente
+   * sin cambiar nada de lo que ve el usuario.
+   */
+  trustBadges: ReactNode;
 };
 
 export function CajaCompra({
@@ -37,6 +45,7 @@ export function CajaCompra({
   nombre,
   precioFallback,
   hrefWhatsapp,
+  trustBadges,
 }: Props) {
   const variantesDisponibles = producto?.variantes.filter((v) => v.disponible) ?? [];
   const [varianteId, setVarianteId] = useState<string | null>(
@@ -237,9 +246,7 @@ export function CajaCompra({
         </div>
       )}
 
-      <div className="border-t border-borde pt-4">
-        <TrustBadges variante="lista" />
-      </div>
+      <div className="border-t border-borde pt-4">{trustBadges}</div>
 
       {/* ---- Barra fija mobile ---- */}
       {comprable && (

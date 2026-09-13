@@ -118,6 +118,7 @@ export async function ProductCard({ pilar, categoriaSlug }: { pilar: Pilar; cate
           href={linkWhatsapp(pilar.nombre)}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={comprable ? `Comprar ${pilar.nombre} por WhatsApp` : `Consultar ${pilar.nombre} por WhatsApp`}
           data-evento={`cta_card_${pilar.slug}`}
           className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-ink transition-[filter] hover:brightness-95"
         >

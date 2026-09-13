@@ -50,7 +50,7 @@
   --color-borde-2: #e1cdb3;
   --color-ink: #2a2016; /* titulares y footer: 15,3:1 sobre lienzo */
   --color-ink-suave: #6b5a49; /* cuerpo: 6,4:1 */
-  --color-ink-tenue: #97877a; /* meta, notas al pie */
+  --color-ink-tenue: #7a6a5a; /* meta, notas al pie: 4,55:1 sobre crema, 5,2:1 sobre blanco (antes #97877a, ~3:1 — fallaba WCAG AA) */
   --color-whatsapp: #25d366;
 
   /* --- Tipografía ------------------------------------------------------- */
