@@ -1,5 +1,6 @@
 "use server";
 
+import { z } from "zod";
 import {
   crearCheckoutUrl,
   getProductoPorHandle,
@@ -27,6 +28,25 @@ export type EntradaComprar =
   | { varianteId: string; cantidad?: number }
   | { handle: string; cantidad?: number };
 
+const MAX_CANTIDAD = 20;
+
+// Sin tope en el esquema: una cantidad mayor se recorta a MAX_CANTIDAD en vez de rechazar la compra.
+const esquemaCantidad = z.number().int().min(1).optional();
+
+const esquemaComprar = z.union([
+  z.object({
+    varianteId: z.string().regex(/^gid:\/\/shopify\/ProductVariant\/\d+$/),
+    cantidad: esquemaCantidad,
+  }),
+  z.object({
+    handle: z
+      .string()
+      .max(200)
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    cantidad: esquemaCantidad,
+  }),
+]);
+
 function motivoDesdeEstado(estado: EstadoIntegracion): MotivoFallo {
   switch (estado) {
     case "ok-agotado":
@@ -47,14 +67,19 @@ export async function comprar(entrada: EntradaComprar): Promise<EstadoComprar> {
   // termina en /password.
   if (!tiendaAbierta) return { ok: false, motivo: "tienda-cerrada" };
 
-  const cantidad = Math.max(1, Math.min(entrada.cantidad ?? 1, 20));
+  const parseo = esquemaComprar.safeParse(entrada);
+  if (!parseo.success) {
+    return { ok: false, motivo: "no-encontrado" };
+  }
+
+  const cantidad = Math.min(parseo.data.cantidad ?? 1, MAX_CANTIDAD);
 
   let varianteId: string;
 
-  if ("varianteId" in entrada) {
-    varianteId = entrada.varianteId;
+  if ("varianteId" in parseo.data) {
+    varianteId = parseo.data.varianteId;
   } else {
-    const resultado = await getProductoPorHandle(entrada.handle);
+    const resultado = await getProductoPorHandle(parseo.data.handle);
     if (resultado.estado !== "ok-disponible" || !resultado.producto) {
       return { ok: false, motivo: motivoDesdeEstado(resultado.estado) };
     }

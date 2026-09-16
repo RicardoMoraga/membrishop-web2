@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 
 import { baseConfigurada, getDb } from "@/db/client";
 import { contacts, subscribers } from "@/db/schema";
+import { resumenError } from "@/lib/errores";
 import type { EstadoFormulario } from "@/lib/formularios";
 import { site, urlAbsoluta } from "@/lib/site";
 import { erroresPorCampo, esquemaContacto, esquemaNewsletter } from "@/lib/validaciones";
@@ -47,25 +48,33 @@ async function hashIp(): Promise<string | null> {
 
 /**
  * Rate limit contra la propia base: cuántos envíos hizo este hash de IP en los
- * últimos minutos. No es una defensa perfecta —una botnet la sortea— pero corta
- * en seco el caso real: un script tonto llenando el formulario.
- *
- * Si algún día necesitas algo más serio, mueve esto a Vercel KV o Upstash; la
- * firma de la función no cambia.
+ * últimos minutos desde la tabla especificada. No es una defensa perfecta —una
+ * botnet la sortea— pero corta en seco el caso real: un script tonto llenando el formulario.
  */
 const VENTANA_MINUTOS = 10;
 const MAX_POR_VENTANA = 5;
 
-async function superaLimite(ipHash: string | null): Promise<boolean> {
+async function superaLimite(
+  ipHash: string | null,
+  tabla: "contacts" | "subscribers",
+): Promise<boolean> {
   if (!ipHash) return false;
 
   const desde = new Date(Date.now() - VENTANA_MINUTOS * 60_000);
   const db = getDb();
 
-  const [fila] = await db
-    .select({ total: sql<number>`count(*)::int` })
-    .from(contacts)
-    .where(and(eq(contacts.ipHash, ipHash), gte(contacts.creadoEn, desde)));
+  let fila;
+  if (tabla === "contacts") {
+    [fila] = await db
+      .select({ total: sql<number>`count(*)::int` })
+      .from(contacts)
+      .where(and(eq(contacts.ipHash, ipHash), gte(contacts.creadoEn, desde)));
+  } else {
+    [fila] = await db
+      .select({ total: sql<number>`count(*)::int` })
+      .from(subscribers)
+      .where(and(eq(subscribers.ipHash, ipHash), gte(subscribers.creadoEn, desde)));
+  }
 
   return (fila?.total ?? 0) >= MAX_POR_VENTANA;
 }
@@ -79,8 +88,7 @@ function sinBaseDeDatos(): EstadoFormulario {
 }
 
 function errorInesperado(contexto: string, error: unknown): EstadoFormulario {
-  // El detalle va al log del servidor; al usuario se le da algo accionable.
-  console.error(`[lead:${contexto}]`, error);
+  console.error(`[lead:${contexto}] ${resumenError(error)}`);
   return {
     estado: "error",
     mensaje: "No pudimos guardar tus datos. Inténtalo de nuevo o escríbenos por WhatsApp.",
@@ -122,10 +130,10 @@ async function enviarCorreoConfirmacion(email: string, token: string): Promise<v
       }),
     });
     if (!res.ok) {
-      console.error(`[lead] Resend respondió ${res.status} al enviar confirmación a ${email}`);
+      console.error(`[lead] Resend respondió ${res.status} al enviar un correo de confirmación`);
     }
   } catch (error) {
-    console.error("[lead] error de red enviando correo de confirmación", error);
+    console.error(`[lead] error de red enviando correo de confirmación: ${resumenError(error)}`);
   }
 }
 
@@ -170,6 +178,22 @@ export async function suscribir(
     const db = getDb();
     const ipHash = await hashIp();
 
+    if (await superaLimite(ipHash, "subscribers")) {
+      return {
+        estado: "error",
+        mensaje:
+          "Recibimos varias solicitudes desde tu conexión hace poco. Espera unos minutos e inténtalo de nuevo.",
+      };
+    }
+
+    // Mensaje de éxito para nuevo suscriptor o cuando ya existe sin estar en baja.
+    const mensajeNuevoSuscriptor = (): EstadoFormulario => ({
+      estado: "ok",
+      mensaje: emailConfirmacionConfigurada
+        ? "¡Casi listo! Confirma tu correo para empezar a recibir avisos."
+        : "¡Listo! Te avisamos cuando entre stock nuevo. Sin spam, lo prometemos.",
+    });
+
     // El índice único es sobre lower(email): la búsqueda tiene que serlo también.
     const [existente] = await db
       .select({ id: subscribers.id, estado: subscribers.estado })
@@ -202,7 +226,7 @@ export async function suscribir(
         };
       }
 
-      return { estado: "ok", mensaje: "Ese correo ya estaba en la lista. Todo en orden." };
+      return mensajeNuevoSuscriptor();
     }
 
     const token = randomUUID();
@@ -221,12 +245,7 @@ export async function suscribir(
 
     await enviarCorreoConfirmacion(datos.email, token);
 
-    return {
-      estado: "ok",
-      mensaje: emailConfirmacionConfigurada
-        ? "¡Casi listo! Confirma tu correo para empezar a recibir avisos."
-        : "¡Listo! Te avisamos cuando entre stock nuevo. Sin spam, lo prometemos.",
-    };
+    return mensajeNuevoSuscriptor();
   } catch (error) {
     return errorInesperado("suscribir", error);
   }
@@ -269,7 +288,7 @@ export async function enviarContacto(
   try {
     const ipHash = await hashIp();
 
-    if (await superaLimite(ipHash)) {
+    if (await superaLimite(ipHash, "contacts")) {
       return {
         estado: "error",
         mensaje: `Recibimos varios mensajes tuyos hace poco. Espera unos minutos o escríbenos por WhatsApp.`,

@@ -222,7 +222,7 @@ export const categorias: Categoria[] = [
     },
     faqs: [
       { pregunta: "¿Cuánto demora el despacho de productos para mascotas en Chile?", respuesta: "Entre 24 y 72 horas hábiles. Todo el catálogo de mascotas sale desde bodega en Chile, así que no hay esperas de importación." },
-      { pregunta: "¿Puedo devolver un producto si no me sirve?", respuesta: "Sí. Tienes 30 días desde la recepción para devolverlo o cambiarlo, según nuestra política de devoluciones." },
+      { pregunta: "¿Puedo devolver un producto si no me sirve?", respuesta: "Sí. Tienes 10 días corridos desde la recepción para ejercer el derecho a retracto de la Ley del Consumidor, con el producto sin uso y en su embalaje original. Si el producto falla, cuenta además con la garantía legal de 6 meses." },
     ],
   },
 

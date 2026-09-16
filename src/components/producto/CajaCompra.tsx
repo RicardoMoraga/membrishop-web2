@@ -75,7 +75,8 @@ export function CajaCompra({
 
   const variante = producto?.variantes.find((v) => v.id === varianteId) ?? null;
   const precio = variante?.precio ?? producto?.precio ?? null;
-  const maximo = variante?.cantidadDisponible ?? 20;
+  // 20 es el tope que aplica la acción `comprar`.
+  const maximo = Math.min(variante?.cantidadDisponible ?? 20, 20);
 
   return (
     <div className="grid gap-5">

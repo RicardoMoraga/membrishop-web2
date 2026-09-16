@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { baseConfigurada, getDb } from "@/db/client";
 import { subscribers } from "@/db/schema";
+import { resumenError } from "@/lib/errores";
 import { site } from "@/lib/site";
 
 /**
@@ -80,7 +81,7 @@ export async function GET(request: Request): Promise<Response> {
       `Listo, quedaste anotado. Te avisamos apenas haya novedades de ${site.nombre}.`,
     );
   } catch (error) {
-    console.error("[confirmar-suscripcion]", error);
+    console.error(`[confirmar-suscripcion] ${resumenError(error)}`);
     return pagina(
       "No pudimos confirmar tu suscripción",
       "Ocurrió un problema al procesar tu confirmación. Inténtalo de nuevo más tarde o escríbenos por WhatsApp.",

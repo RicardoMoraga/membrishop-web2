@@ -16,6 +16,9 @@ const STORE_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
 const STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_TOKEN;
 const API_VERSION = "2025-01";
 
+// Timeout de 8 segundos para proteger contra degradación de Shopify.
+const TIMEOUT_MS = 8000;
+
 const shopifyConfigurado = Boolean(STORE_DOMAIN && STOREFRONT_TOKEN);
 
 /**
@@ -80,6 +83,7 @@ async function storefrontFetch<T>(
         "X-Shopify-Storefront-Access-Token": STOREFRONT_TOKEN as string,
       },
       body: JSON.stringify({ query, variables }),
+      signal: AbortSignal.timeout(TIMEOUT_MS),
       // Lecturas: ISR de una hora como red de seguridad, más etiqueta por
       // producto para que el webhook pueda invalidar al instante.
       // Mutaciones: nunca se cachean.
@@ -110,6 +114,12 @@ async function storefrontFetch<T>(
 
     return { estado: "ok", data: json.data };
   } catch (error) {
+    // Detectar timeout de AbortSignal.timeout()
+    if (error instanceof Error && error.name === "TimeoutError") {
+      const detalle = `timeout tras ${TIMEOUT_MS} ms`;
+      registrarFallo(operacion, detalle);
+      return { estado: "error-api", detalle };
+    }
     const detalle = error instanceof Error ? error.message : "excepción desconocida";
     registrarFallo(operacion, detalle);
     return { estado: "error-api", detalle };

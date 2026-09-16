@@ -26,8 +26,12 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
         ],
       },
+      // HSTS se omite hasta verificar que Cloudflare no lo envía ya: es un header que persiste en navegadores
+      // y es difícil revertir si hay un problema. CSP se omite hasta probar GA4 y Shopify en modo Report-Only.
     ];
   },
 };

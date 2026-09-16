@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { baseConfigurada, getDb } from "@/db/client";
 import { webhookEvents } from "@/db/schema";
+import { codigoPostgres, resumenError } from "@/lib/errores";
 import { ETIQUETA_CATALOGO, etiquetaProducto } from "@/lib/shopify";
 
 /**
@@ -94,12 +95,11 @@ export async function POST(request: Request): Promise<Response> {
       // Violación de unicidad (23505) = mismo webhook reentregado: se responde
       // 200 sin revalidar de nuevo. Cualquier otro error de base no debe
       // bloquear la revalidación real, así que se registra y se sigue.
-      const codigo = (error as { code?: string } | null)?.code;
-      if (codigo === "23505") {
+      if (codigoPostgres(error) === "23505") {
         console.info(`[webhook] ${tema} — id ${webhookId} duplicado, se ignora`);
         return Response.json({ ok: true, tema, duplicado: true });
       }
-      console.error(`[webhook] no se pudo registrar el evento para deduplicar`, error);
+      console.error(`[webhook] no se pudo registrar el evento para deduplicar: ${resumenError(error)}`);
     }
   }
 
