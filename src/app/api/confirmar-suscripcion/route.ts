@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { baseConfigurada, getDb } from "@/db/client";
 import { subscribers } from "@/db/schema";
+import { tokenVencido } from "@/lib/confirmacion";
 import { resumenError } from "@/lib/errores";
 import { site } from "@/lib/site";
 
@@ -8,11 +9,11 @@ import { site } from "@/lib/site";
  * Confirmación de suscripción (double opt-in).
  *
  * El correo que envía `enviarCorreoConfirmacion` (en `app/actions/lead.ts`)
- * apunta acá con `?token=`. Si el token existe y el suscriptor está
- * "pendiente", se marca "activo" y `confirmadoEn`. Cualquier otro caso
- * (token inválido, ya confirmado, dado de baja) muestra el mismo tipo de
- * página sin filtrar cuál fue el motivo exacto — no hay nada que ganar
- * exponiéndolo, y sí un vector barato de enumeración de correos.
+ * apunta acá con `?token=`. Si el token existe, el suscriptor está
+ * "pendiente", y el token no ha vencido (< 48 horas desde `actualizadoEn`),
+ * se marca "activo" y `confirmadoEn`. Cualquier otro caso (token inválido,
+ * ya confirmado, dado de baja, token vencido) muestra una página apropiada
+ * sin enumeración de correos.
  *
  * `dynamic = "force-dynamic"`: lee y escribe la base en cada visita, no se
  * puede prerenderizar ni cachear.
@@ -59,7 +60,11 @@ export async function GET(request: Request): Promise<Response> {
   try {
     const db = getDb();
     const [suscriptor] = await db
-      .select({ id: subscribers.id, estado: subscribers.estado })
+      .select({
+        id: subscribers.id,
+        estado: subscribers.estado,
+        actualizadoEn: subscribers.actualizadoEn,
+      })
       .from(subscribers)
       .where(eq(subscribers.confirmacionToken, token))
       .limit(1);
@@ -68,6 +73,13 @@ export async function GET(request: Request): Promise<Response> {
       return pagina(
         "Enlace inválido",
         "Este enlace de confirmación no es válido o ya fue usado. Si sigues interesado, suscríbete de nuevo desde la web.",
+      );
+    }
+
+    if (tokenVencido(suscriptor.actualizadoEn)) {
+      return pagina(
+        "Enlace vencido",
+        "Este enlace de confirmación venció (dura 48 horas). Vuelve a suscribirte desde la web y te enviaremos uno nuevo.",
       );
     }
 

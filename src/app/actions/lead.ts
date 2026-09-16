@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 
 import { baseConfigurada, getDb } from "@/db/client";
 import { contacts, subscribers } from "@/db/schema";
+import { tokenVencido } from "@/lib/confirmacion";
 import { resumenError } from "@/lib/errores";
 import type { EstadoFormulario } from "@/lib/formularios";
 import { site, urlAbsoluta } from "@/lib/site";
@@ -196,7 +197,11 @@ export async function suscribir(
 
     // El índice único es sobre lower(email): la búsqueda tiene que serlo también.
     const [existente] = await db
-      .select({ id: subscribers.id, estado: subscribers.estado })
+      .select({
+        id: subscribers.id,
+        estado: subscribers.estado,
+        actualizadoEn: subscribers.actualizadoEn,
+      })
       .from(subscribers)
       .where(sql`lower(${subscribers.email}) = ${datos.email}`)
       .limit(1);
@@ -224,6 +229,20 @@ export async function suscribir(
             ? "¡Te volvimos a sumar! Revisa tu correo para confirmar."
             : "¡Te volvimos a sumar! Te avisaremos cuando haya novedades.",
         };
+      }
+
+      if (existente.estado === "pendiente" && tokenVencido(existente.actualizadoEn)) {
+        // Token venció hace más de 48h: regenerar y reenviar correo de confirmación.
+        const token = randomUUID();
+        await db
+          .update(subscribers)
+          .set({
+            confirmacionToken: token,
+            actualizadoEn: new Date(),
+          })
+          .where(eq(subscribers.id, existente.id));
+
+        await enviarCorreoConfirmacion(datos.email, token);
       }
 
       return mensajeNuevoSuscriptor();
