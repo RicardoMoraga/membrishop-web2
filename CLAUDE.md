@@ -1,4 +1,4 @@
-# CLAUDE.md — membrishop-web2
+# CLAUDE.md — membrishop-web
 
 Instrucciones para Claude Code en este repositorio.
 
@@ -15,6 +15,9 @@ El comercio real (carrito, pago, órdenes, stock) vive en Shopify; este repo no 
 - **Despliegue**: Vercel desde la rama `main`. Cadena de dominio
   `NIC Chile → Cloudflare → Vercel`; tienda Shopify en `tienda.membrishop.cl`.
   Detalle en [`DESPLIEGUE.md`](./DESPLIEGUE.md).
+- **Base de datos**: Neon, proyecto `membrishop-web` (región `aws-sa-east-1`, Postgres 17).
+  Migraciones `0000` y `0001` aplicadas y registradas en `drizzle.__drizzle_migrations`
+  (2026-09-16). En Vercel la conexión va en `DATABASE_URL` (cadena *pooled*).
 - **Arquitectura de contenido y reglas SEO**: documentadas en [`README.md`](./README.md).
 - **Contrato del catálogo**: el `slug` de cada producto en `src/content/clusters.ts` debe ser
   idéntico a su `handle` en Shopify. El precio vigente sale de Shopify; `precioDesde` es solo

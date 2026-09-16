@@ -29,7 +29,7 @@
 
 [CmdletBinding()]
 param(
-  [string]$Repo = "$env:USERPROFILE\source\membrishop-web2",
+  [string]$Repo = "$env:USERPROFILE\source\membrishop-web",
   [string]$Rama = "main",
   [switch]$Simular,
   [switch]$SaltarBuild
@@ -92,9 +92,9 @@ Set-Location $Repo
 Bien "Carpeta: $Repo"
 
 $remoto = Leer-Git @('remote','get-url','origin')
-if ($remoto -notmatch 'membrishop-web2') {
+if ($remoto -notmatch 'membrishop-web') {
   Malo "El remoto no parece el correcto: $remoto"
-  Malo "Esperaba algo con 'membrishop-web2'. Abortando por seguridad."
+  Malo "Esperaba algo con 'membrishop-web'. Abortando por seguridad."
   exit 1
 }
 Bien "Remoto: $remoto"
@@ -374,7 +374,7 @@ Write-Host @"
   El push NO despliega por si solo: el proyecto esta PAUSADO. En orden:
 
   1) Reanudar el proyecto
-     Vercel -> membrishop-web2 -> Settings -> General -> Resume
+     Vercel -> membrishop-web -> Settings -> General -> Resume
 
   2) Variables de entorno (Settings -> Environment Variables, Production)
        NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN = fyvfjt-vm.myshopify.com

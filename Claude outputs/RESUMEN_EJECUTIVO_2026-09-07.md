@@ -15,7 +15,7 @@ Le pediste a Ricardo (tú) activar "Vercel Authentication" para que la tienda so
 
 Conclusión: el cambio no se guardó del lado de Vercel, aunque se ve activado en la interfaz.
 
-**Qué falta:** entrar de nuevo a `vercel.com/claude-70f0/membrishop-web2/settings/deployment-protection`, recargar la página primero (para ver el estado real, no el que quedó en el navegador), y si el toggle aparece apagado, activarlo y confirmar que aparece una notificación de guardado exitoso antes de salir. Si aparece encendido pero el sitio sigue público, puede ser un tema de soporte de Vercel (protección que no se propaga) y valdría la pena revisarlo con ellos directamente.
+**Qué falta:** entrar de nuevo a `vercel.com/claude-70f0/membrishop-web/settings/deployment-protection`, recargar la página primero (para ver el estado real, no el que quedó en el navegador), y si el toggle aparece apagado, activarlo y confirmar que aparece una notificación de guardado exitoso antes de salir. Si aparece encendido pero el sitio sigue público, puede ser un tema de soporte de Vercel (protección que no se propaga) y valdría la pena revisarlo con ellos directamente.
 
 ---
 
@@ -29,7 +29,7 @@ Conclusión: el cambio no se guardó del lado de Vercel, aunque se ve activado e
 | **Stock real** | ❌ Pendiente | Las 15 variantes tienen `inventoryQuantity: 0` y política `DENY` (no se puede vender sin stock). Sin stock, no hay primera venta posible, ni de prueba. |
 | Pasarela de pago (Mercado Pago) | 🟡 Sin reverificar hoy | Última verificación fue el 02-09: app "Mercado Pago Tarjetas CL" instalada y activa. No se volvió a chequear en esta sesión. |
 | Protección de acceso (Vercel Auth) | ❌ Pendiente — ver punto 2 | Sitio público pese a la intención de restringirlo. |
-| Dominio propio `membrishop.cl` | ❌ Pendiente | Sin registros DNS apuntando al sitio; sigue solo accesible por `membrishop-web2.vercel.app`. |
+| Dominio propio `membrishop.cl` | ❌ Pendiente | Sin registros DNS apuntando al sitio; sigue solo accesible por `membrishop-web.vercel.app`. |
 | Variables de entorno menores | 🟡 Pendiente | Faltan `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_WHATSAPP`, `DATABASE_URL`, `LEAD_SALT`, `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_GSC_VERIFICATION`. |
 | Token Dropi → Dropify | ❌ Pendiente | Requiere que lo generes tú en `app.dropi.cl` → Mis Integraciones. |
 | Catálogo definitivo | ❌ Sin decidir | Falta definir si Dropi reemplaza los 15 SKUs actuales o solo aporta costo/stock/fotos. |
