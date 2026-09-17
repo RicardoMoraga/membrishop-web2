@@ -20,7 +20,7 @@ export function Section({ children, id, fondo = "lienzo", className = "", ariaLa
     <section
       id={id}
       aria-labelledby={ariaLabelledby}
-      className={`${fondos[fondo]} py-14 md:py-20 ${className}`}
+      className={`${fondos[fondo]} py-7 md:py-10 ${className}`}
     >
       <div className="contenedor">{children}</div>
     </section>

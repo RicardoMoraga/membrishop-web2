@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-import { inter, poppins } from "@/app/fonts";
+import { inter } from "@/app/fonts";
 import { Analytics } from "@/components/layout/Analytics";
 import { AnnounceBar } from "@/components/layout/AnnounceBar";
 import { Footer } from "@/components/layout/Footer";
@@ -41,7 +41,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-CL" className={`${poppins.variable} ${inter.variable}`}>
+    <html lang="es-CL" className={inter.variable}>
       <body className="min-h-dvh antialiased">
         <a href="#contenido" className="salto-contenido rounded-marca bg-verde-600 px-4 py-2 text-sm font-semibold text-crema">
           Saltar al contenido

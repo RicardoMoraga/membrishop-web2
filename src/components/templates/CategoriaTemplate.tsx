@@ -37,13 +37,9 @@ export function CategoriaTemplate({ categoria }: { categoria: Categoria }) {
       {/* ===================== ENCABEZADO ================================= */}
       <section
         aria-labelledby="titulo-categoria"
-        className="border-b border-borde"
-        style={{
-          background:
-            "radial-gradient(900px 380px at 85% -12%, #fdefcb, transparent 60%), #fdf4e7",
-        }}
+        className="border-b border-borde bg-crema"
       >
-        <div className="contenedor py-10 md:py-14">
+        <div className="contenedor py-7 md:py-10">
           <Breadcrumbs items={migas} />
 
           <div className="mt-6 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-start lg:gap-12">
@@ -99,11 +95,11 @@ export function CategoriaTemplate({ categoria }: { categoria: Categoria }) {
         />
 
         {/* Lista 1 de la sección */}
-        <div className="mt-10">
+        <div className="mt-4">
           {/* Grilla, no carrusel: con 5 productos el carrusel dejaba una tarjeta
               cortada en escritorio, sin flechas ni indicador, y eso se lee como
               un desborde de maquetación y no como una invitación a deslizar. */}
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {categoria.pilares.map((pilar) => (
               <li key={pilar.slug} className="h-full">
                 <ProductCard pilar={pilar} categoriaSlug={categoria.slug} />

@@ -1,32 +1,23 @@
 type Paso = { titulo: string; detalle: string };
 
 /**
- * Pasos numerados.
- *
- * El número se renderiza en el JSX y no con un contador CSS. La versión
- * anterior lo generaba con `counter-increment` dentro de un `@utility`, pero
- * las variantes `before:*` de Tailwind inyectan `content: var(--tw-content)`
- * —que por defecto es una cadena vacía— y ganaban la cascada: el resultado
- * era un círculo naranja sin número, que se lee como un icono que no cargó.
- * El índice del `map` da el mismo orden garantizado sin depender de la
- * cascada de dos archivos distintos.
+ * Pasos numerados. El número se renderiza en el JSX (no con un contador CSS):
+ * las variantes `before:*` de Tailwind pisaban el `content` del contador y el
+ * círculo quedaba vacío.
  */
 export function Pasos({ pasos }: { pasos: readonly Paso[] }) {
   return (
-    <ol className="mt-12 grid gap-x-6 gap-y-10 md:grid-cols-3">
+    <ol className="mt-4 grid gap-4 md:grid-cols-3">
       {pasos.map((paso, i) => (
-        <li
-          key={paso.titulo}
-          className="relative rounded-marca-lg border border-borde bg-white p-6 pt-9 shadow-suave"
-        >
+        <li key={paso.titulo} className="rounded-marca-lg border border-borde bg-white p-4 md:p-5">
           <span
             aria-hidden="true"
-            className="font-display absolute -top-5 left-6 flex h-10 w-10 items-center justify-center rounded-full bg-oro-400 text-sm font-extrabold tabular-nums text-ink shadow-suave"
+            className="text-[12px] font-extrabold tabular-nums tracking-[0.04em] text-verde-600"
           >
             {String(i + 1).padStart(2, "0")}
           </span>
-          <h3 className="font-display text-lg font-bold text-ink">{paso.titulo}</h3>
-          <p className="mt-2 leading-relaxed text-ink-suave">{paso.detalle}</p>
+          <h3 className="mt-1 text-[16px] leading-snug">{paso.titulo}</h3>
+          <p className="mt-1.5 text-[14px] leading-relaxed text-ink-suave">{paso.detalle}</p>
         </li>
       ))}
     </ol>

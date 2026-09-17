@@ -219,24 +219,24 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
 
       {/* ============ Cierre ============ */}
       <Section ariaLabelledby="cierre-ficha">
-        <div className="rounded-marca-lg bg-verde-600 px-6 py-10 text-center text-crema md:px-12 md:py-14">
-          <h2 id="cierre-ficha" className="font-display text-fluid-h2 font-extrabold text-white">
+        <div className="rounded-marca-lg border border-borde bg-crema px-6 py-8 text-center md:px-10 md:py-10">
+          <h2 id="cierre-ficha" className="text-fluid-h2 leading-tight">
             {comprable ? `¿Te sirve ${pilar.nombre.toLowerCase()}?` : "¿Te quedan dudas?"}
           </h2>
-          <p className="mx-auto mt-3 max-w-xl leading-relaxed text-crema/90">
+          <p className="mx-auto mt-2 max-w-xl leading-relaxed text-ink-suave">
             {comprable
               ? "Stock en Chile, boleta electrónica y 10 días de retracto. Si prefieres preguntar antes de pagar, escríbenos."
               : "Escríbenos por WhatsApp y te confirmamos disponibilidad, plazo y precio antes de que compres."}
           </p>
-          <div className="mt-7 flex flex-wrap justify-center gap-3">
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
             <CtaButton href={hrefWhatsapp} externo variante="whatsapp" evento={`cierre_whatsapp_${pilar.slug}`}>
               Consultar por WhatsApp
             </CtaButton>
-            <CtaButton href={`/${categoria.slug}`} variante="sobre-oscuro">
+            <CtaButton href={`/${categoria.slug}`} variante="fantasma">
               Ver toda la categoría
             </CtaButton>
           </div>
-          <div className="mt-8 flex justify-center">
+          <div className="mt-5 flex justify-center">
             <ShareButtons path={`/${categoria.slug}/${pilar.slug}`} titulo={contenido.h1} />
           </div>
         </div>

@@ -13,9 +13,7 @@ const REDES = [
 
 function Pildora({ children }: { children: string }) {
   return (
-    <li className="rounded-md bg-white/10 px-2.5 py-1.5 text-[12px] font-medium text-crema/90">
-      {children}
-    </li>
+    <li className="text-[12.5px] font-medium text-crema/90">{children}</li>
   );
 }
 
@@ -32,8 +30,8 @@ export function Footer() {
 
   return (
     <footer className="bg-ink text-crema/85">
-      <div className="contenedor py-12 md:py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
+      <div className="contenedor py-8 md:py-10">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.3fr]">
           <div>
             <Logo tono="claro" className="h-[38px]" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-crema/70">
@@ -48,7 +46,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={nombre}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-crema transition-colors hover:bg-oro-400 hover:text-ink"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-marca bg-white/10 text-crema transition-colors hover:bg-white/20"
                   >
                     <Icono className="h-[18px] w-[18px]" />
                   </a>
@@ -97,12 +95,12 @@ export function Footer() {
 
         {/* Medios de pago y couriers: es la sección que más se mira antes de
             comprar por primera vez en una tienda desconocida. */}
-        <div className="mt-12 grid gap-8 border-t border-white/12 pt-8 sm:grid-cols-2">
+        <div className="mt-8 grid gap-4 border-t border-white/12 pt-5 sm:grid-cols-2">
           <div>
             <p className="font-display text-xs font-bold uppercase tracking-[0.12em] text-oro-300">
               Medios de pago
             </p>
-            <ul className="mt-3 flex flex-wrap gap-2">
+            <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
               {site.mediosPago.map((medio) => (
                 <Pildora key={medio}>{medio}</Pildora>
               ))}
@@ -112,7 +110,7 @@ export function Footer() {
             <p className="font-display text-xs font-bold uppercase tracking-[0.12em] text-oro-300">
               Despachamos con
             </p>
-            <ul className="mt-3 flex flex-wrap gap-2">
+            <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
               {site.couriers.map((courier) => (
                 <Pildora key={courier}>{courier}</Pildora>
               ))}
@@ -120,7 +118,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 border-t border-white/12 pt-6 text-sm text-crema/70 md:flex-row md:items-center md:justify-between">
+        <div className="mt-5 flex flex-col gap-3 border-t border-white/12 pt-5 text-[12.5px] text-crema/70 md:flex-row md:items-center md:justify-between">
           <p>
             © {anio} {site.nombre}. Hecho en Chile.
           </p>
@@ -137,7 +135,10 @@ export function Footer() {
             <Link href="/politica-de-privacidad" className="hover:text-white hover:underline">
               Política de privacidad
             </Link>
-            <a href={`mailto:${site.contacto.email}`} className="hover:text-white hover:underline">
+            <a
+              href={`mailto:${site.contacto.email}`}
+              className="text-[13.5px] font-bold text-white hover:underline"
+            >
               {site.contacto.email}
             </a>
           </div>

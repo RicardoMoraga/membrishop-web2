@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 type Tono = "stock" | "pronto" | "consultar" | "neutro";
 
 const tonos: Record<Tono, string> = {
-  stock: "bg-verde-500 text-white",
+  stock: "bg-verde-600 text-white",
   pronto: "bg-crema text-oro-700 ring-1 ring-inset ring-borde-2",
   consultar: "bg-oro-300 text-ink",
   neutro: "bg-ink-tenue text-white",
@@ -18,7 +18,7 @@ const tonos: Record<Tono, string> = {
 export function Badge({ tono = "neutro", children }: { tono?: Tono; children: ReactNode }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold leading-none tracking-wide shadow-sm ${tonos[tono]}`}
+      className={`inline-flex items-center rounded-[4px] px-2 py-1 text-[11px] font-bold leading-none tracking-wide ${tonos[tono]}`}
     >
       {children}
     </span>

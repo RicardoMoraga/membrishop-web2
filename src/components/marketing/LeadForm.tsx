@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useId, useState } from "react";
 
 import { enviarContacto, suscribir } from "@/app/actions/lead";
+import { estiloPrimario } from "@/components/ui/CtaButton";
 import { IconoCheck, IconoFlecha } from "@/components/ui/icons";
 import { estadoInicial, type EstadoFormulario } from "@/lib/formularios";
 
@@ -224,7 +225,7 @@ export function LeadForm({ variante, origen, className = "", tono = "claro" }: P
               type="submit"
               disabled={pendiente}
               data-evento="lead_newsletter"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-oro-400 px-6 py-3 text-base font-semibold text-ink transition-all hover:bg-oro-300 disabled:cursor-not-allowed disabled:opacity-70"
+              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-marca bg-oro-400 px-5 text-[14.5px] font-bold text-ink transition-colors hover:bg-oro-300 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {pendiente ? <Spinner /> : null}
               {pendiente ? "Enviando…" : "Suscribirme"}
@@ -286,7 +287,7 @@ export function LeadForm({ variante, origen, className = "", tono = "claro" }: P
             type="submit"
             disabled={pendiente}
             data-evento="lead_contacto"
-            className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-oro-400 px-6 py-3.5 text-base font-semibold text-ink shadow-suave transition-all hover:bg-oro-300 disabled:cursor-not-allowed disabled:opacity-70"
+            className={`mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-marca px-5 text-[14.5px] font-bold transition-colors ${estiloPrimario} disabled:cursor-not-allowed disabled:opacity-70`}
           >
             {pendiente ? <Spinner /> : null}
             {pendiente ? "Enviando…" : "Enviar mensaje"}

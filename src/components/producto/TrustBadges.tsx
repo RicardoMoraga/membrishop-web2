@@ -33,20 +33,22 @@ export function TrustBadges({ variante = "barra" }: { variante?: "barra" | "list
     );
   }
 
+  // Divisores de 1px: en móvil la grilla es 2×2 (borde derecho en la columna
+  // izquierda, borde inferior en la primera fila); desde lg es una sola fila.
   return (
-    <section
-      aria-label="Garantías de compra"
-      className="border-y border-borde bg-gradient-to-b from-crema-suave to-lienzo"
-    >
-      <ul className="contenedor grid grid-cols-2 gap-x-6 gap-y-7 py-8 md:grid-cols-4 md:py-9">
-        {GARANTIAS.map(({ Icono, titulo, detalle }) => (
-          <li key={titulo} className="flex gap-3">
-            <span className="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-oro-100 text-oro-700 ring-4 ring-oro-50">
-              <Icono className="h-5 w-5" />
-            </span>
+    <section aria-label="Garantías de compra" className="contenedor pt-4">
+      <ul className="grid grid-cols-2 overflow-hidden rounded-marca-lg border border-borde bg-white lg:grid-cols-4">
+        {GARANTIAS.map(({ Icono, titulo, detalle }, i) => (
+          <li
+            key={titulo}
+            className={`flex gap-2.5 border-borde px-3.5 py-3 ${i % 2 === 0 ? "border-r" : ""} ${
+              i < 2 ? "border-b lg:border-b-0" : ""
+            } ${i < GARANTIAS.length - 1 ? "lg:border-r" : ""}`}
+          >
+            <Icono className="mt-0.5 h-4 w-4 shrink-0 text-verde-600" />
             <span>
-              <span className="font-display block text-sm font-bold text-ink">{titulo}</span>
-              <span className="mt-0.5 block text-[13px] leading-snug text-ink-suave">{detalle}</span>
+              <span className="block text-[13px] font-bold leading-snug text-ink">{titulo}</span>
+              <span className="mt-0.5 block text-[11.5px] leading-snug text-ink-tenue">{detalle}</span>
             </span>
           </li>
         ))}

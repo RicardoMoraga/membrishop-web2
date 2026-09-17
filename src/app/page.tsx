@@ -1,35 +1,35 @@
 import type { Metadata } from "next";
-import { CategoryCard } from "@/components/marketing/CategoryCard";
 import { CtaFinal } from "@/components/marketing/CtaFinal";
 import { Hero } from "@/components/marketing/Hero";
 import { Pasos } from "@/components/marketing/Pasos";
 import { ProductCard } from "@/components/marketing/ProductCard";
+import { Resenas } from "@/components/marketing/Resenas";
 import { TablaDespacho } from "@/components/marketing/TablaDespacho";
 import { TrustBadges } from "@/components/producto/TrustBadges";
 import { FaqList } from "@/components/seo/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { CtaButton } from "@/components/ui/CtaButton";
+import { IconoCheck } from "@/components/ui/icons";
 import { Section } from "@/components/ui/Section";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { categorias } from "@/content/clusters";
 import { home } from "@/content/home";
+import { resenas } from "@/content/resenas";
 import { faqSchema, storeSchema } from "@/lib/schema";
 
 /* ============================================================================
-   Home.
+   Home — rediseño "retail".
 
-   Orden: anuncio y header (layout) → hero → categorías → destacados →
-   confianza → cómo comprar → descubrimiento → FAQ → cierre → footer.
+   Orden: anuncio y header (layout) → hero con categorías → garantías →
+   productos con filtros → texto SEO → reseñas (solo si existen) → cómo
+   comprar → plazos → FAQ → cierre → footer.
 
-   Qué se quitó respecto de la versión anterior, y por qué:
-   · La grilla de Instagram con seis marcadores vacíos. Una tienda sin fotos
-     publicando huecos comunica inactividad; era peor que no tener la sección.
-   · El bloque "Qué hace distinto a MembriShop": repetía en prosa lo que la
-     franja de confianza y "Cómo comprar" ya dicen en forma escaneable.
-   · El carrusel recortado en escritorio. Sin flechas ni indicador se leía
-     como un desborde de maquetación; ahora es una grilla que no corta nada.
-   · El TL;DR de cuatro viñetas largas sobre el pliegue. Queda en tres líneas
-     compactas: la regla SEO del proyecto se cumple y el CTA sube.
+   Qué dejó de renderizarse aquí (el contenido sigue en `content/home.ts`):
+   · Los chips y el panel lateral del hero: repetían la barra de garantías.
+   · El CTA de WhatsApp del hero: WhatsApp sigue en header, botón flotante y cierre.
+   · El texto del cierre: anunciaba un catálogo incompleto y remitía a un
+     formulario que ahora vive solo en el footer.
+   · La sección "Elige tu categoría": las categorías están en el hero.
    ========================================================================== */
 
 export const metadata: Metadata = {
@@ -43,8 +43,25 @@ const destacados = categorias.flatMap((categoria) =>
   categoria.pilares
     .filter((pilar) => pilar.publicado)
     .slice(0, 2)
-    .map((pilar) => ({ pilar, categoriaSlug: categoria.slug })),
+    .map((pilar) => ({ pilar, categoria })),
 );
+
+const FILTROS = [
+  { valor: "todos", nombre: "Todos" },
+  ...categorias.map((c) => ({ valor: c.slug, nombre: c.nombre })),
+];
+
+/**
+ * Filtro sin JavaScript: radios + `:has()`. Con el radio de una categoría
+ * marcado, se ocultan las tarjetas de las demás. Un navegador sin `:has()`
+ * simplemente muestra todo.
+ */
+const cssFiltro = categorias
+  .map(
+    (c) =>
+      `#productos:has(input[value="${c.slug}"]:checked) [data-categoria]:not([data-categoria="${c.slug}"]){display:none}`,
+  )
+  .join("");
 
 export default function Page() {
   return (
@@ -52,60 +69,82 @@ export default function Page() {
       <Hero
         eyebrow={home.eyebrow}
         h1={home.h1}
-        destacadasH1={home.destacadasH1}
-        tldr={home.tldr}
-        intro={home.intro}
+        subtitulo={home.tldr[0]}
         ctaPrincipal={home.ctaPrincipal}
-        ctaSecundario={home.ctaSecundario}
-        chips={home.chips}
+        hrefCtaPrincipal="#productos"
+        categorias={categorias}
       />
 
       <TrustBadges />
 
-      {/* ============ Categorías ============ */}
-      <Section id="categorias" ariaLabelledby="titulo-categorias">
+      {/* ============ Productos ============ */}
+      <section id="productos" aria-labelledby="titulo-destacados" className="contenedor pt-7 md:pt-10">
+        <style>{cssFiltro}</style>
         <SectionHead
-          eyebrow="Explora"
-          titulo="Elige tu categoría"
-          id="titulo-categorias"
-          sub="Catálogo corto y curado: cada producto entra porque resuelve un problema concreto."
-        />
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {categorias.map((categoria) => (
-            <li key={categoria.slug} className="h-full">
-              <CategoryCard categoria={categoria} />
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      {/* ============ Destacados ============ */}
-      <Section fondo="crema" ariaLabelledby="titulo-destacados">
-        <SectionHead
-          eyebrow="Catálogo"
           titulo="Productos destacados"
           id="titulo-destacados"
           sub="Precio y disponibilidad se leen en directo desde la tienda."
+          accion={
+            <fieldset className="min-w-0">
+              <legend className="sr-only">Filtrar productos por categoría</legend>
+              <div className="flex flex-wrap gap-2">
+                {FILTROS.map((filtro) => (
+                  <label key={filtro.valor} className="cursor-pointer">
+                    <input
+                      type="radio"
+                      name="filtro-categoria"
+                      value={filtro.valor}
+                      defaultChecked={filtro.valor === "todos"}
+                      className="peer sr-only"
+                    />
+                    <span className="inline-flex h-11 items-center rounded-full bg-crema px-4 text-[13px] font-semibold text-ink transition-colors hover:bg-borde peer-checked:bg-ink peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-oro-500 peer-focus-visible:ring-offset-2">
+                      {filtro.nombre}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          }
         />
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {destacados.map(({ pilar, categoriaSlug }) => (
-            <li key={pilar.slug} className="h-full">
-              <ProductCard pilar={pilar} categoriaSlug={categoriaSlug} />
+        <ul className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {destacados.map(({ pilar, categoria }) => (
+            <li key={pilar.slug} data-categoria={categoria.slug} className="h-full">
+              <ProductCard
+                pilar={pilar}
+                categoriaSlug={categoria.slug}
+                categoriaNombre={categoria.nombre}
+              />
             </li>
           ))}
         </ul>
-      </Section>
+      </section>
+
+      {/* ============ Texto de búsqueda (antes en el hero) ============ */}
+      <section aria-label="Sobre MembriShop" className="contenedor pt-7 md:pt-10">
+        <div className="rounded-marca-lg border border-borde bg-white p-5 md:p-6">
+          <p className="max-w-3xl text-[14.5px] leading-relaxed text-ink-suave">{home.intro}</p>
+          <ul className="mt-3 grid gap-1.5">
+            {home.tldr.slice(0, 3).map((punto) => (
+              <li key={punto} className="flex gap-2 text-[13.5px] leading-snug text-ink-suave">
+                <IconoCheck className="mt-px h-4 w-4 shrink-0 text-verde-600" />
+                <span>{punto}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <Resenas resenas={resenas} />
 
       {/* ============ Cómo comprar ============ */}
-      <Section ariaLabelledby="titulo-pasos">
-        <SectionHead eyebrow="Tres pasos" titulo="Cómo comprar en MembriShop" id="titulo-pasos" />
+      <Section ariaLabelledby="titulo-pasos" className="pb-0 md:pb-0">
+        <SectionHead titulo="Cómo comprar en MembriShop" id="titulo-pasos" />
         <Pasos pasos={home.pasos} />
       </Section>
 
-      {/* ============ Descubrimiento: plazos reales ============ */}
-      <Section fondo="crema" ariaLabelledby="titulo-despacho">
+      {/* ============ Plazos de despacho ============ */}
+      <Section ariaLabelledby="titulo-despacho" className="pb-0 md:pb-0">
         <SectionHead
-          eyebrow="Logística"
           titulo="Plazos de despacho por zona"
           id="titulo-despacho"
           sub="El plazo empieza a correr cuando se confirma el pago."
@@ -115,26 +154,19 @@ export default function Page() {
             </CtaButton>
           }
         />
-        <div className="mt-7">
-          <TablaDespacho />
-        </div>
+        <TablaDespacho />
       </Section>
 
-      {/* ============ FAQ breve ============ */}
-      <Section ariaLabelledby="titulo-faq">
-        <SectionHead eyebrow="Dudas" titulo="Preguntas frecuentes" id="titulo-faq" />
-        <div className="mt-7 max-w-3xl">
+      {/* ============ FAQ ============ */}
+      <Section ariaLabelledby="titulo-faq" className="pb-0 md:pb-0">
+        <SectionHead titulo="Preguntas frecuentes" id="titulo-faq" />
+        <div className="mt-4 max-w-3xl">
           <FaqList faqs={home.faqs.slice(0, 5)} />
         </div>
       </Section>
 
       {/* ============ Cierre ============ */}
-      <CtaFinal
-        titulo={home.cierre.titulo}
-        texto={home.cierre.texto}
-        path="/"
-        tituloCompartir={home.h1}
-      />
+      <CtaFinal titulo={home.cierre.titulo} path="/" tituloCompartir={home.h1} />
 
       <JsonLd data={storeSchema()} />
       <JsonLd data={faqSchema(home.faqs.slice(0, 5))} />

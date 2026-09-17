@@ -18,18 +18,8 @@ import localFont from "next/font/local";
  *   cp node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2 src/fonts/
  */
 
-export const poppins = localFont({
-  src: [
-    { path: "../fonts/poppins-latin-500-normal.woff2", weight: "500", style: "normal" },
-    { path: "../fonts/poppins-latin-600-normal.woff2", weight: "600", style: "normal" },
-    { path: "../fonts/poppins-latin-700-normal.woff2", weight: "700", style: "normal" },
-  ],
-  variable: "--font-poppins",
-  display: "swap",
-  fallback: ["ui-sans-serif", "system-ui", "Segoe UI", "Arial", "sans-serif"],
-  adjustFontFallback: "Arial",
-});
-
+// Poppins (src/fonts/poppins-*.woff2) dejó de cargarse en el rediseño: no tiene
+// peso 800. Los archivos se conservan por si se decide volver a usarla.
 export const inter = localFont({
   src: [{ path: "../fonts/inter-latin-wght-normal.woff2", weight: "100 900", style: "normal" }],
   variable: "--font-inter",
