@@ -29,7 +29,7 @@ type Props = {
   precioFallback: number | null;
   hrefWhatsapp: string;
   /**
-   * `<TrustBadges variante="lista" />` renderizado por el Server Component
+   * `<TrustBadges variante="micro" />` renderizado por el Server Component
    * padre (`PdpTemplate`). Es 100% estático — no depende de `varianteId`,
    * `cantidad` ni ningún estado de esta caja — así que se pasa ya resuelto en
    * vez de importarlo aquí: saca sus íconos y su markup del bundle de cliente
@@ -75,6 +75,8 @@ export function CajaCompra({
 
   const variante = producto?.variantes.find((v) => v.id === varianteId) ?? null;
   const precio = variante?.precio ?? producto?.precio ?? null;
+  // Solo el compareAtPrice real de Shopify, y solo si es mayor (ver shopify.ts).
+  const precioAnterior = variante ? variante.precioAnterior : (producto?.precioAnterior ?? null);
   // 20 es el tope que aplica la acción `comprar`.
   const maximo = Math.min(variante?.cantidadDisponible ?? 20, 20);
 
@@ -94,8 +96,19 @@ export function CajaCompra({
           ) : (
             <span className="text-lg font-semibold text-ink-suave">Precio por confirmar</span>
           )}
+          {precio !== null && precioAnterior !== null && (
+            <s className="text-lg font-semibold text-ink-tenue">
+              <span className="sr-only">Precio anterior: </span>
+              {precioCLP(precioAnterior)}
+            </s>
+          )}
           <span className="text-[13px] text-ink-tenue">IVA incluido</span>
         </div>
+        {precio !== null && precioAnterior !== null && (
+          <p className="mt-1 text-[13px] font-bold text-oro-700">
+            Ahorras {precioCLP(precioAnterior - precio)}
+          </p>
+        )}
         {precio === null && precioFallback !== null && (
           <p className="mt-1 text-[12.5px] text-ink-tenue">
             Precio referencial: no pudimos confirmarlo con la tienda en este momento.
@@ -176,6 +189,9 @@ export function CajaCompra({
             className="w-full py-4 text-base font-bold shadow-elevada"
           />
 
+          {/* Confianza pegada al botón: es donde aparece la duda. */}
+          {trustBadges}
+
           <a
             href={hrefWhatsapp}
             target="_blank"
@@ -207,6 +223,7 @@ export function CajaCompra({
             <IconoWhatsapp className="h-5 w-5" />
             Comprar por WhatsApp
           </a>
+          {trustBadges}
         </div>
       ) : estado === "ok-agotado" ? (
         <div className="grid gap-3 rounded-marca bg-crema-suave p-4 ring-1 ring-inset ring-borde">
@@ -247,7 +264,7 @@ export function CajaCompra({
         </div>
       )}
 
-      <div className="border-t border-borde pt-4">{trustBadges}</div>
+      {!comprable && <div className="border-t border-borde pt-4">{trustBadges}</div>}
 
       {/* ---- Barra fija mobile ---- */}
       {comprable && (
@@ -267,6 +284,7 @@ export function CajaCompra({
                   varianteId={varianteId ?? undefined}
                   handle={handle}
                   cantidad={cantidad}
+                  evento={`comprar_sticky_${handle}`}
                   className="flex-1 py-3"
                 />
                 <a

@@ -8,19 +8,18 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { FaqSection } from "@/components/seo/FaqSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TldrBlock } from "@/components/seo/TldrBlock";
-import { CtaButton } from "@/components/ui/CtaButton";
+import { IconoFlecha } from "@/components/ui/icons";
 import { Section } from "@/components/ui/Section";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { categoriasHermanas, type Categoria } from "@/content/clusters";
 import { breadcrumbSchema, faqSchema, itemListSchema } from "@/lib/schema";
-import { linkWhatsapp } from "@/lib/site";
 
 /**
  * Plantilla de página pilar (categoría). Las tres categorías la comparten:
  * cambiar esto cambia /mascotas, /tecnologia y /hogar-cocina a la vez.
  *
  * Orden semántico fijo:
- *   breadcrumb → H1 → TL;DR → primer párrafo (intent) → CTA → H2…
+ *   breadcrumb → H1 → productos → otras categorías → intent + TL;DR → H2…
  *
  * Cada sección usa como máximo 3 listas o tablas, según la regla del brief.
  */
@@ -30,76 +29,40 @@ export function CategoriaTemplate({ categoria }: { categoria: Categoria }) {
     { nombre: categoria.nombre, path: `/${categoria.slug}` },
   ];
   const hermanas = categoriasHermanas(categoria.slug);
-  const hayStock = categoria.pilares.some((p) => p.publicado);
+  const publicados = categoria.pilares.filter((p) => p.publicado).length;
+  const hayStock = publicados > 0;
 
   return (
     <>
-      {/* ===================== ENCABEZADO ================================= */}
-      <section
-        aria-labelledby="titulo-categoria"
-        className="border-b border-borde bg-crema"
-      >
-        <div className="contenedor py-7 md:py-10">
+      {/* ===================== ENCABEZADO + PRODUCTOS =====================
+          Al entrar a una categoría lo primero son las fotos de producto. El
+          encabezado queda en una línea (migas + H1); el TL;DR, el párrafo de
+          intención y el CTA bajan a "Sobre la categoría", bajo las hermanas. */}
+      <section id="productos" aria-labelledby="titulo-categoria" className="bg-lienzo pb-7 pt-4 md:pb-10 md:pt-5">
+        <div className="contenedor">
           <Breadcrumbs items={migas} />
 
-          <div className="mt-6 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-start lg:gap-12">
-            <div>
-              <p className="font-display mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-oro-700">
-                <CategoriaIcono slug={categoria.slug} className="h-5 w-5" />
-                {categoria.nombre}
-              </p>
-
-              {/* --- H1 único, distinto del meta title --------------------- */}
-              <h1 id="titulo-categoria" className="text-fluid-h1">
-                {categoria.h1}
-              </h1>
-
-              {/* --- TL;DR inmediatamente después del H1 ------------------- */}
-              <TldrBlock puntos={[...categoria.tldr]} titulo="Key takeaways" className="mt-7" />
-            </div>
-
-            <div className="lg:pt-14">
-              {/* --- Primer párrafo: resuelve el intent -------------------- */}
-              <p className="text-fluid-lead leading-relaxed text-ink-suave">{categoria.intent}</p>
-
-              {/* --- CTA justo después del primer párrafo ------------------ */}
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <CtaButton
-                  href={hayStock ? "#productos" : linkWhatsapp(`categoría ${categoria.nombre}`)}
-                  externo={!hayStock}
-                  evento={`cta_${categoria.slug}_principal`}
-                >
-                  {categoria.ctaTexto}
-                </CtaButton>
-              </div>
-            </div>
+          <div className="mt-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            {/* --- H1 único, distinto del meta title --------------------- */}
+            <h1 id="titulo-categoria" className="text-fluid-h2 leading-tight">
+              {categoria.h1}
+            </h1>
+            <p className="text-[13px] text-ink-tenue">
+              {hayStock
+                ? `${publicados} ${publicados === 1 ? "producto" : "productos"} · precio con IVA y boleta electrónica`
+                : "Categoría en apertura"}
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* ===================== PRODUCTOS ================================== */}
-      <Section id="productos" fondo="lienzo" ariaLabelledby="titulo-productos">
-        <SectionHead
-          eyebrow={hayStock ? "Catálogo" : "En apertura"}
-          id="titulo-productos"
-          titulo={
-            hayStock
+          <h2 className="sr-only">
+            {hayStock
               ? `Productos de ${categoria.nombre.toLowerCase()} disponibles`
-              : `Qué vamos a publicar en ${categoria.nombre.toLowerCase()}`
-          }
-          sub={
-            hayStock
-              ? "Todos con stock confirmado en Chile. El precio incluye IVA y recibes boleta electrónica."
-              : "Estas son las líneas confirmadas para esta categoría. Escríbenos si quieres que prioricemos alguna."
-          }
-        />
+              : `Qué vamos a publicar en ${categoria.nombre.toLowerCase()}`}
+          </h2>
 
-        {/* Lista 1 de la sección */}
-        <div className="mt-4">
           {/* Grilla, no carrusel: con 5 productos el carrusel dejaba una tarjeta
-              cortada en escritorio, sin flechas ni indicador, y eso se lee como
-              un desborde de maquetación y no como una invitación a deslizar. */}
-          <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              cortada en escritorio, sin flechas ni indicador. */}
+          <ul className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {categoria.pilares.map((pilar) => (
               <li key={pilar.slug} className="h-full">
                 <ProductCard pilar={pilar} categoriaSlug={categoria.slug} />
@@ -107,13 +70,58 @@ export function CategoriaTemplate({ categoria }: { categoria: Categoria }) {
             ))}
           </ul>
         </div>
+      </section>
+
+      {/* ===================== ENLACES LATERALES DEL CLUSTER ==============
+          Justo bajo la grilla: quien no encontró lo que buscaba salta a otra
+          categoría sin recorrer el texto. */}
+      <section aria-labelledby="titulo-hermanas" className="contenedor">
+        <h2 id="titulo-hermanas" className="text-[17px] font-extrabold leading-tight">
+          Otras categorías de MembriShop
+        </h2>
+        <ul className="mt-3 grid gap-4 md:grid-cols-2">
+          {hermanas.map((hermana) => (
+            <li key={hermana.slug}>
+              <Link
+                href={`/${hermana.slug}`}
+                className="group flex h-full items-start gap-3 rounded-marca-lg border border-borde bg-white p-4 transition-colors hover:border-borde-2"
+              >
+                <CategoriaIcono slug={hermana.slug} className="h-8 w-8 shrink-0 text-oro-600" />
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[15px] font-bold text-ink">{hermana.nombre}</span>
+                  <span className="mt-0.5 block text-[13px] leading-snug text-ink-suave">
+                    {hermana.metaDescription}
+                  </span>
+                  <span className="mt-1.5 inline-flex items-center gap-1 text-[13px] font-bold text-verde-600">
+                    Ver {hermana.nombre.toLowerCase()}
+                    <IconoFlecha className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* ===================== SOBRE LA CATEGORÍA (texto de búsqueda) ===== */}
+      <Section ariaLabelledby="titulo-sobre" className="pb-0 md:pb-0">
+        <div className="rounded-marca-lg border border-borde bg-white p-5 md:p-6">
+          <h2 id="titulo-sobre" className="text-[17px] font-extrabold leading-tight">
+            Sobre {categoria.nombre.toLowerCase()} en MembriShop
+          </h2>
+          {/* --- Primer párrafo: resuelve el intent -------------------- */}
+          <p className="mt-2 max-w-3xl text-[14.5px] leading-relaxed text-ink-suave">
+            {categoria.intent}
+          </p>
+          <TldrBlock puntos={[...categoria.tldr]} titulo="Key takeaways" className="mt-4" />
+        </div>
 
         {/* Tabla 2 de la sección (el máximo permitido es 3).
             Responde la pregunta real de una página de categoría —"¿cuál me
             sirve?"— y es el bloque que los motores de IA citan con más
             frecuencia, porque ya viene estructurado. */}
         {categoria.comparativa && (
-          <div className="mt-14">
+          <div className="mt-6">
             <h3 className="text-fluid-h3">{categoria.comparativa.titulo}</h3>
             <div className="mt-5 overflow-x-auto rounded-marca-lg border border-borde bg-white">
               <table className="w-full min-w-[44rem] border-collapse text-left text-[15px]">
@@ -188,41 +196,10 @@ export function CategoriaTemplate({ categoria }: { categoria: Categoria }) {
         <SectionHead
           eyebrow="Logística"
           id="titulo-despacho"
-          titulo="Plazos de despacho por zona"
-          sub="El plazo empieza a correr cuando se confirma el pago. Recibes el número de seguimiento por correo apenas el pedido sale de bodega."
+          titulo="Zona y plazo de despacho"
+          sub="Por ahora despachamos solo dentro de la Región Metropolitana. El plazo empieza a correr cuando se confirma el pago y recibes el número de seguimiento por correo."
         />
         <TablaDespacho />
-      </Section>
-
-      {/* ===================== ENLACES LATERALES DEL CLUSTER ============== */}
-      <Section fondo="crema" ariaLabelledby="titulo-hermanas">
-        <SectionHead
-          eyebrow="Sigue explorando"
-          id="titulo-hermanas"
-          titulo="Otras categorías de MembriShop"
-        />
-
-        {/* Lista 1 de la sección */}
-        <ul className="mt-8 grid gap-5 md:grid-cols-2">
-          {hermanas.map((hermana) => (
-            <li key={hermana.slug}>
-              <Link
-                href={`/${hermana.slug}`}
-                className="group flex h-full items-start gap-4 rounded-marca-lg border border-borde bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-oro-200 hover:shadow-elevada"
-              >
-                <CategoriaIcono slug={hermana.slug} className="h-9 w-9 shrink-0 text-oro-600" />
-                <span>
-                  <span className="font-display block text-lg font-bold text-ink transition-colors group-hover:text-oro-700">
-                    {hermana.nombre}
-                  </span>
-                  <span className="mt-1 block text-[15px] leading-relaxed text-ink-suave">
-                    {hermana.metaDescription}
-                  </span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
       </Section>
 
       {/* ===================== FAQ ======================================== */}

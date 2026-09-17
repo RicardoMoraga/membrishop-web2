@@ -75,12 +75,12 @@ export const categorias: Categoria[] = [
     emoji: "🐾",
     metaTitle: "Productos para Mascotas con Stock en Chile | MembriShop",
     metaDescription:
-      "Pet tech con stock nacional: collar GPS, fuente de agua y cepillo autolimpiante. Despacho 24–72 h y pago con MercadoPago.",
+      "Pet tech con stock nacional: collar GPS, fuente de agua y cepillo autolimpiante. Despacho 24–72 h en la RM y pago con MercadoPago.",
     h1: "Pet tech que resuelve problemas reales de perros y gatos",
     intent:
-      "Si buscas productos para mascotas en Chile sin esperar 30 días de envío, esta es la categoría: pet tech con stock nacional, despacho en 24 a 72 horas hábiles y boleta. Catálogo curado y rotativo — cuando algo se agota, cambia por otro producto igual de útil.",
+      "Si buscas productos para mascotas en Chile sin esperar 30 días de envío, esta es la categoría: pet tech con stock nacional, despacho en 24 a 72 horas hábiles en la Región Metropolitana y boleta. Catálogo curado y rotativo — cuando algo se agota, cambia por otro producto igual de útil.",
     tldr: [
-      "Stock físico en Chile: el despacho sale en 24–72 h hábiles, no en semanas.",
+      "Stock físico en Chile: despacho en 24–72 h hábiles en la Región Metropolitana, no en semanas.",
       "Nuestro nicho estrella: la mitad de nuestra curaduría se enfoca acá.",
       "Catálogo rotativo: un producto core + dos en tendencia cada quincena.",
       "Pago con MercadoPago (tarjeta de crédito o débito), con boleta electrónica.",
@@ -221,7 +221,7 @@ export const categorias: Categoria[] = [
       ],
     },
     faqs: [
-      { pregunta: "¿Cuánto demora el despacho de productos para mascotas en Chile?", respuesta: "Entre 24 y 72 horas hábiles. Todo el catálogo de mascotas sale desde bodega en Chile, así que no hay esperas de importación." },
+      { pregunta: "¿Cuánto demora el despacho de productos para mascotas en Chile?", respuesta: "Entre 24 y 72 horas hábiles, dentro de la Región Metropolitana: por ahora no despachamos a otras regiones. Todo el catálogo de mascotas sale desde bodega en Chile, así que no hay esperas de importación." },
       { pregunta: "¿Puedo devolver un producto si no me sirve?", respuesta: "Sí. Tienes 10 días corridos desde la recepción para ejercer el derecho a retracto de la Ley del Consumidor, con el producto sin uso y en su embalaje original. Si el producto falla, cuenta además con la garantía legal de 6 meses." },
     ],
   },
@@ -231,9 +231,9 @@ export const categorias: Categoria[] = [
     nombre: "Tecnología",
     navLabel: "Tecnología",
     emoji: "💻",
-    metaTitle: "Tecnología y Gadgets con Despacho Nacional | MembriShop",
+    metaTitle: "Tecnología y Gadgets con Despacho en Santiago | MembriShop",
     metaDescription:
-      "Gadgets tecnológicos con stock en Chile: cámara de seguridad, cargador magnético y audífonos inalámbricos. Despacho 24–72 h hábiles.",
+      "Gadgets tecnológicos con stock en Chile: cámara de seguridad, cargador magnético y audífonos inalámbricos. Despacho 24–72 h hábiles en la RM.",
     h1: "Gadgets que sí usas todos los días",
     intent:
       "Si buscas gadgets de tecnología en Chile y te cansaste de comprar cosas que llegan en un mes y fallan a los tres, esta categoría es una selección corta y verificada: seguridad del hogar, carga y audio, con stock nacional y garantía respondida acá.",
@@ -241,7 +241,7 @@ export const categorias: Categoria[] = [
       "Selección corta a propósito: seguridad, carga y audio, no un catálogo genérico.",
       "Garantía gestionada en Chile, sin trámites con vendedores extranjeros.",
       "Catálogo rotativo: un producto core + dos en tendencia cada quincena.",
-      "Despacho en 24–72 h hábiles con boleta electrónica.",
+      "Despacho en 24–72 h hábiles en la Región Metropolitana, con boleta electrónica.",
     ],
     ctaTexto: "Ver productos con stock",
     keywordPrincipal: "gadgets tecnología Chile",
@@ -374,7 +374,7 @@ export const categorias: Categoria[] = [
     emoji: "🏠",
     metaTitle: "Hogar y Cocina: Utensilios Prácticos en Chile | MembriShop",
     metaDescription:
-      "Utensilios y organización para casa y cocina con stock en Chile. Despacho 24–72 h hábiles y pago con MercadoPago.",
+      "Utensilios y organización para casa y cocina con stock en Chile. Despacho 24–72 h hábiles en la RM y pago con MercadoPago.",
     h1: "Soluciones simples para ordenar y cocinar mejor en casa",
     intent:
       "Si buscas utensilios de cocina y organización para la casa en Chile, acá encuentras una selección corta enfocada en una sola pregunta: ¿este producto te ahorra tiempo cada semana o va a terminar guardado en un cajón? Publicamos solo lo que pasa esa prueba.",
@@ -500,7 +500,7 @@ export const categorias: Categoria[] = [
       { titulo: "Ocupa poco", detalle: "Pensado para cocinas chilenas reales: departamentos chicos y mesones cortos." },
     ],
     faqs: [
-      { pregunta: "¿Hacen despacho de productos de cocina a regiones?", respuesta: "Sí, despachamos a todo Chile mediante courier, en 24–72 h hábiles en RM y 3–5 días en regiones." },
+      { pregunta: "¿Hacen despacho de productos de cocina a regiones?", respuesta: "Por ahora no: despachamos solo dentro de la Región Metropolitana, mediante courier, en 24–72 h hábiles." },
       { pregunta: "¿Los productos de cocina son aptos para lavavajillas?", respuesta: "Cada ficha lo indica explícitamente; priorizamos piezas desmontables y aptas para lavavajillas." },
     ],
   },

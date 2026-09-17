@@ -85,6 +85,15 @@ export function ProductGallery({ medios, nombre }: { medios: MedioGaleria[]; nom
 
   if (medios.length === 0) return null;
   const varios = medios.length > 1;
+  // Demostración visual: si Shopify tiene un video y no es el primer medio,
+  // un acceso directo evita que quede escondido al final del carrusel.
+  const indiceVideo = medios.findIndex((m) => m.tipo === "video");
+
+  const irAlVideo = () => {
+    setActivo(indiceVideo);
+    const el = pista.current;
+    if (el) el.scrollTo({ left: el.clientWidth * indiceVideo, behavior: "smooth" });
+  };
 
   const alScrollear = () => {
     const el = pista.current;
@@ -162,6 +171,20 @@ export function ProductGallery({ medios, nombre }: { medios: MedioGaleria[]; nom
           </div>
         </div>
       </div>
+
+      {indiceVideo > 0 && activo !== indiceVideo && (
+        <div className="mt-3 flex justify-center">
+          <button
+            type="button"
+            onClick={irAlVideo}
+            data-evento="ver_video_producto"
+            className="inline-flex h-11 items-center gap-2 rounded-marca border border-borde-2 bg-white px-4 text-[13.5px] font-bold text-ink transition-colors hover:border-ink"
+          >
+            <span aria-hidden="true">▶</span>
+            Ver el producto en uso
+          </button>
+        </div>
+      )}
     </div>
   );
 }

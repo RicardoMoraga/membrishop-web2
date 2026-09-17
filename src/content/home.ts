@@ -9,13 +9,13 @@ export const home = {
   /* --- SEO: meta title ≠ H1 --------------------------------------------- */
   metaTitle: "MembriShop | Mascotas, Tecnología y Hogar con Stock en Chile",
   metaDescription:
-    "Tienda online chilena con stock nacional: pet tech, tecnología y hogar-cocina. Despacho en 24–72 h hábiles, pago con MercadoPago y boleta electrónica.",
+    "Tienda online chilena con stock nacional: pet tech, tecnología y hogar-cocina. Despacho en 24–72 h hábiles en la Región Metropolitana, pago con MercadoPago y boleta electrónica.",
 
   h1: "Productos para tu mascota, tu tecnología y tu cocina, con stock real en Chile",
 
   /* --- TL;DR: va inmediatamente después del H1 --------------------------- */
   tldr: [
-    "Todo lo que publicamos tiene stock físico en Chile: el despacho sale en 24–72 h hábiles.",
+    "Todo lo que publicamos tiene stock físico en Chile: despachamos en la Región Metropolitana en 24–72 h hábiles.",
     "Tres categorías, catálogo corto y curado: mascotas, tecnología y hogar-cocina.",
     "No importamos desde AliExpress. Solo proveedores nacionales, con garantía y boleta.",
     "Dudas antes de comprar: te respondemos por WhatsApp en horario hábil.",
@@ -23,7 +23,7 @@ export const home = {
 
   /* --- Primer párrafo: resuelve el search intent, luego viene el CTA ----- */
   intro:
-    "Si buscas dónde comprar online en Chile sin esperar un mes a que llegue el pedido, MembriShop es una tienda chilena que trabaja solo con proveedores con stock nacional. Eso significa despacho en 24 a 72 horas hábiles, boleta electrónica, garantía que se responde acá y un catálogo corto en el que cada producto entró porque resuelve un problema concreto: mascotas, tecnología y hogar-cocina.",
+    "Si buscas dónde comprar online en Chile sin esperar un mes a que llegue el pedido, MembriShop es una tienda chilena que trabaja solo con proveedores con stock nacional. Eso significa despacho en 24 a 72 horas hábiles dentro de la Región Metropolitana, boleta electrónica, garantía que se responde acá y un catálogo corto en el que cada producto entró porque resuelve un problema concreto: mascotas, tecnología y hogar-cocina.",
 
   /** Rótulo en versalitas sobre el H1. */
   eyebrow: "Tienda chilena · 3 categorías",
@@ -39,7 +39,7 @@ export const home = {
   ctaSecundario: "Preguntar por WhatsApp",
 
   /** Micro-garantías bajo los botones del hero. Cortas: van en una línea. */
-  chips: ["Despacho a todo Chile", "Pago con MercadoPago", "10 días de retracto"],
+  chips: ["Despacho en la Región Metropolitana", "Pago con MercadoPago", "10 días de retracto"],
 
   /** Cierre de la página, sobre el degradado de dulce de membrillo. */
   cierre: {
@@ -80,7 +80,7 @@ export const home = {
     {
       titulo: "Recibes y sigues el envío",
       detalle:
-        "Despachamos en 24–72 h hábiles con courier y te enviamos el número de seguimiento apenas sale de bodega.",
+        "Despachamos en 24–72 h hábiles dentro de la Región Metropolitana con courier y te enviamos el número de seguimiento apenas sale de bodega.",
     },
   ],
 
@@ -91,9 +91,9 @@ export const home = {
         "Sí. MembriShop opera desde Chile, factura en pesos chilenos con boleta electrónica y trabaja únicamente con proveedores que mantienen stock dentro del país.",
     },
     {
-      pregunta: "¿Cuánto demora el despacho a mi ciudad?",
+      pregunta: "¿A qué zonas despachan y cuánto demora?",
       respuesta:
-        "El despacho estándar es de 24 a 72 horas hábiles en Región Metropolitana y de 3 a 5 días hábiles en regiones. El plazo empieza a correr cuando se confirma el pago, y recibes el número de seguimiento por correo.",
+        "Por ahora despachamos solo dentro de la Región Metropolitana, en 24 a 72 horas hábiles. Todavía no despachamos a otras regiones. El plazo empieza a correr cuando se confirma el pago, y recibes el número de seguimiento por correo.",
     },
     {
       pregunta: "¿Qué medios de pago aceptan?",
@@ -113,7 +113,7 @@ export const home = {
     {
       pregunta: "¿Tienen tienda física para retirar?",
       respuesta:
-        "No. MembriShop es una tienda 100 % online y todos los pedidos se despachan por courier a la dirección que indiques en la compra.",
+        "No. MembriShop es una tienda 100 % online y todos los pedidos se despachan por courier a la dirección que indiques en la compra, dentro de la Región Metropolitana.",
     },
   ] satisfies Faq[],
 } as const;

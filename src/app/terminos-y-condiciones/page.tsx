@@ -19,7 +19,7 @@ export const metadata: Metadata = buildMetadata({
 const TLDR = [
   `Vendemos solo online, con boleta electrónica y precios en ${site.moneda} con IVA incluido.`,
   `${site.promesas.retracto}, según la Ley N°19.496 del Consumidor.`,
-  "Los plazos de despacho son estimados y varían por zona (ver Envíos y Devoluciones).",
+  "Por ahora despachamos solo dentro de la Región Metropolitana; los plazos son estimados (ver Envíos y Devoluciones).",
   "Estos términos rigen toda compra hecha en membrishop.cl, sin excepción.",
 ];
 
@@ -96,7 +96,7 @@ export default function TerminosPage() {
           <div>
             <h2 className="text-fluid-h3 text-ink">4. Despacho</h2>
             <p className="mt-3">
-              Los plazos y zonas de despacho están detallados en nuestra{" "}
+              Por ahora despachamos solo dentro de la Región Metropolitana. Los plazos están detallados en nuestra{" "}
               <a
                 href="/envios-y-devoluciones"
                 className="text-verde-600 underline underline-offset-2"

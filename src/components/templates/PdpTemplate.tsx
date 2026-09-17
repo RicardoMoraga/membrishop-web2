@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Resenas } from "@/components/marketing/Resenas";
 import { ShareButtons } from "@/components/marketing/ShareButtons";
 import { CajaCompra } from "@/components/producto/CajaCompra";
 import { ProductGallery, type MedioGaleria } from "@/components/producto/ProductGallery";
@@ -13,6 +14,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { IconoCheck } from "@/components/ui/icons";
 import { getPilar, type Faq } from "@/content/clusters";
+import { resenas } from "@/content/resenas";
 import { breadcrumbSchema, faqSchema, productoSchema } from "@/lib/schema";
 import { getProductoPorHandle } from "@/lib/shopify";
 import { linkWhatsapp, site } from "@/lib/site";
@@ -39,9 +41,16 @@ export type ContenidoFicha = {
   resumen: string;
   /** Máximo 3 puntos. Va justo tras el H1 por la regla SEO del proyecto. */
   tldr: string[];
+  /**
+   * Opcional: el problema real que el producto resuelve. Con él, "Qué
+   * resuelve" se muestra como Problema → Solución (la solución es `intro`).
+   * No inventar problemas que el producto no resuelva.
+   */
+  problema?: string;
   /** Primer párrafo: resuelve el intent de búsqueda. */
   intro: string;
-  beneficios: { titulo: string; detalle: string }[];
+  /** `caracteristica` (opcional) es el dato técnico del que sale el beneficio. */
+  beneficios: { caracteristica?: string; titulo: string; detalle: string }[];
   incluye: string[];
   paraQuien: string[];
   noSirve: string;
@@ -76,6 +85,7 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
   ];
 
   const hrefWhatsapp = linkWhatsapp(pilar.nombre);
+  const resenasProducto = resenas.filter((r) => r.producto === pilar.slug);
 
   return (
     <>
@@ -106,8 +116,14 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
                     </li>
                   ))}
                 </ul>
+                <a
+                  href="#para-quien"
+                  className="mt-3 inline-flex text-[13px] font-semibold text-verde-600 underline underline-offset-2 hover:text-verde-700"
+                >
+                  ¿Es para ti? Revisa para quién es y cuándo no sirve
+                </a>
 
-                <div className="mt-6 border-t border-borde pt-5">
+                <div className="mt-5 border-t border-borde pt-5">
                   <CajaCompra
                     estado={shopify.estado}
                     producto={producto}
@@ -115,7 +131,7 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
                     nombre={pilar.nombre}
                     precioFallback={pilar.precioDesde}
                     hrefWhatsapp={hrefWhatsapp}
-                    trustBadges={<TrustBadges variante="lista" />}
+                    trustBadges={<TrustBadges variante="micro" />}
                   />
                 </div>
               </div>
@@ -129,20 +145,42 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
       {/* ============ Para qué sirve ============ */}
       <Section ariaLabelledby="beneficios">
         <SectionHead eyebrow="Para qué sirve" titulo="Qué resuelve este producto" id="beneficios" />
-        <p className="mt-5 max-w-3xl text-fluid-lead leading-relaxed text-ink-suave">
-          {contenido.intro}
-        </p>
+        {contenido.problema ? (
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <div className="rounded-marca-lg border border-borde bg-white p-5">
+              <p className="text-[11.5px] font-bold uppercase tracking-[0.06em] text-cocido-500">
+                El problema
+              </p>
+              <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-suave">{contenido.problema}</p>
+            </div>
+            <div className="rounded-marca-lg border border-verde-200 bg-verde-50 p-5">
+              <p className="text-[11.5px] font-bold uppercase tracking-[0.06em] text-verde-600">
+                La solución
+              </p>
+              <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-suave">{contenido.intro}</p>
+            </div>
+          </div>
+        ) : (
+          <p className="mt-5 max-w-3xl text-fluid-lead leading-relaxed text-ink-suave">
+            {contenido.intro}
+          </p>
+        )}
 
         <ul className="mt-8 grid gap-5 md:grid-cols-3">
           {contenido.beneficios.map((b) => (
             <li key={b.titulo} className="border-t-2 border-oro-300 pt-4">
+              {b.caracteristica && (
+                <p className="mb-1 text-[11.5px] font-bold uppercase tracking-[0.06em] text-oro-700">
+                  {b.caracteristica}
+                </p>
+              )}
               <h3 className="font-display text-base font-bold text-ink">{b.titulo}</h3>
               <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-suave">{b.detalle}</p>
             </li>
           ))}
         </ul>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <div id="para-quien" className="mt-10 grid gap-6 md:grid-cols-2">
           <div className="rounded-marca border border-verde-200 bg-verde-50 p-5">
             <h3 className="font-display text-base font-bold text-verde-600">Para quién es</h3>
             <ul className="mt-3 grid gap-2">
@@ -203,6 +241,12 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
           </div>
         </div>
       </Section>
+
+      <Resenas
+        resenas={resenasProducto}
+        titulo={`Opiniones sobre ${pilar.nombre.toLowerCase()}`}
+        id="resenas-producto"
+      />
 
       {/* ============ FAQ ============ */}
       <Section ariaLabelledby="faq-producto">

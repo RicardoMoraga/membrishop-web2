@@ -14,7 +14,7 @@ const CATEGORIA = "mascotas";
 const SLUG = "fuente-agua";
 
 const DESCRIPCION =
-  "Fuente de agua de 2,4 litros con filtro de carbón activo y flujo continuo, para gatos y perros de hasta 15 kg. Stock en Chile y despacho en 24–72 h hábiles.";
+  "Fuente de agua de 2,4 litros con filtro de carbón activo y flujo continuo, para gatos y perros de hasta 15 kg. Stock en Chile y despacho en 24–72 h hábiles en la RM.";
 
 export const metadata: Metadata = buildMetadata({
   // Meta title (54 caracteres) distinto del H1: bajo el corte de ~62 de Google.
@@ -36,20 +36,25 @@ const contenido: ContenidoFicha = {
     "Filtro de carbón activo con recambio en Chile, dura 3 a 4 semanas.",
     "Bomba silenciosa bajo 40 dB y desmontable para lavar.",
   ],
+  problema:
+    "Los gatos beben poco por instinto y esa es la razón por la que los problemas urinarios son tan frecuentes.",
   intro:
-    "Los gatos beben poco por instinto y esa es la razón por la que los problemas urinarios son tan frecuentes. Una fuente con flujo continuo cambia esa conducta: el agua en movimiento les resulta más apetecible y aumentan la ingesta diaria sin que tengas que hacer nada.",
+    "Una fuente con flujo continuo cambia esa conducta: el agua en movimiento les resulta más apetecible y aumentan la ingesta diaria sin que tengas que hacer nada.",
   beneficios: [
     {
+      caracteristica: "Flujo continuo",
       titulo: "Beben más sin que insistas",
       detalle:
         "El movimiento del agua es el estímulo que usan los veterinarios para subir la ingesta diaria en gatos que beben poco.",
     },
     {
+      caracteristica: "Filtro de carbón activo",
       titulo: "Agua limpia entre rellenados",
       detalle:
         "El filtro de carbón activo retiene pelo, restos de comida y sarro, así el estanque no se ensucia a los dos días.",
     },
     {
+      caracteristica: "Bomba bajo 40 dB",
       titulo: "Silenciosa de verdad",
       detalle:
         "La bomba sumergible trabaja bajo 40 dB. El ruido casi siempre aparece cuando el nivel baja del mínimo y toma aire.",
@@ -89,6 +94,16 @@ const contenido: ContenidoFicha = {
       pregunta: "¿Se puede lavar completa?",
       respuesta:
         "El estanque y la tapa se lavan a mano con agua tibia y jabón neutro. La bomba se desmonta para limpiar el rotor, que es donde se acumula el sarro. No es apta para lavavajillas.",
+    },
+    {
+      pregunta: "¿Qué necesito para conectarla?",
+      respuesta:
+        "Viene con cable USB, pero el adaptador de corriente no está incluido: necesitas un cargador USB y un enchufe cerca del bebedero, porque funciona con alimentación permanente.",
+    },
+    {
+      pregunta: "¿Sirve para perros?",
+      respuesta:
+        "Sí, para perros de hasta 15 kg. Los perros más grandes tienden a moverla al beber, así que para ellos conviene otro modelo.",
     },
   ],
 };

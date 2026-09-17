@@ -39,8 +39,12 @@ export const site = {
     longitud: number;
   },
 
-  /** Zonas de despacho reales. Se usan en el JSON-LD (areaServed). */
-  areaDespacho: ["Chile"],
+  /**
+   * Zonas de despacho reales. Se usan en el JSON-LD (areaServed).
+   * Desde 2026-09-16 solo se despacha dentro de la Región Metropolitana.
+   * `codigo` es la subdivisión ISO 3166-2 sin el prefijo del país (CL-RM).
+   */
+  areaDespacho: [{ nombre: "Región Metropolitana de Santiago", codigo: "RM" }],
 
   redes: {
     instagram: "https://www.instagram.com/membrishop",
@@ -63,27 +67,13 @@ export const site = {
   /**
    * Plazos por zona. Son promesas comerciales: confírmalas con el courier
    * antes de publicarlas, porque también viajan al llms.txt y a las FAQ.
+   * Para abrir una región nueva, agrégala aquí y en `areaDespacho`.
    */
   zonasDespacho: [
     {
       zona: "Región Metropolitana",
       plazo: "24 a 72 h hábiles",
-      nota: "Retiro del courier el mismo día si el pago se confirma antes de las 14:00.",
-    },
-    {
-      zona: "Valparaíso y O'Higgins",
-      plazo: "2 a 3 días hábiles",
-      nota: "Incluye Viña del Mar, Quilpué y Rancagua.",
-    },
-    {
-      zona: "Resto del país",
-      plazo: "3 a 5 días hábiles",
-      nota: "Desde Coquimbo hasta Los Lagos, por carretera.",
-    },
-    {
-      zona: "Zonas extremas e islas",
-      plazo: "5 a 8 días hábiles",
-      nota: "Arica, Aysén, Magallanes, Chiloé y Juan Fernández pueden tener recargo.",
+      nota: "Plazo estimado del courier, en días hábiles, desde que se confirma el pago.",
     },
   ],
 
@@ -100,7 +90,9 @@ export const site = {
 
   /** Promesas comerciales. Cámbialas solo si puedes cumplirlas. */
   promesas: {
-    despacho: "Despacho en 24–72 h hábiles a todo Chile",
+    despacho: "Despacho en 24–72 h hábiles en la Región Metropolitana",
+    cobertura: "Despacho solo en la Región Metropolitana",
+    garantia: "Garantía legal de 6 meses",
     stock: "Stock en Chile: sin esperas de 30 días",
     pago: "Pago seguro con MercadoPago, tarjeta de crédito o débito",
     retracto: "10 días para arrepentirte, según la Ley del Consumidor",

@@ -10,6 +10,8 @@ export type Resena = {
   ciudad?: string;
   /** 1 a 5. */
   estrellas: 1 | 2 | 3 | 4 | 5;
+  /** Slug del producto reseñado (igual al handle de Shopify). Si falta, la reseña es de la tienda. */
+  producto?: string;
 };
 
 export const resenas: readonly Resena[] = [];

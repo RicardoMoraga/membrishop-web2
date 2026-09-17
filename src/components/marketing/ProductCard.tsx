@@ -13,11 +13,13 @@ import { linkWhatsapp, site } from "@/lib/site";
 /**
  * Tarjeta de producto: imagen, categoría, nombre, precio real, plazo y CTA.
  *
- * Lo que NO lleva, y no por olvido: estrellas, reseñas, precio tachado,
- * porcentaje de descuento y contadores de escasez. Sin ventas registradas esas
- * señales serían inventadas; el precio anterior además es publicidad engañosa
- * bajo la Ley 19.496 y, en el JSON-LD, spam de datos estructurados. La consulta
- * a Shopify tampoco trae `compareAtPrice`.
+ * Lo que NO lleva, y no por olvido: estrellas, reseñas, porcentaje de
+ * descuento y contadores de escasez. Sin ventas registradas esas señales
+ * serían inventadas.
+ *
+ * Precio tachado: solo aparece si Shopify tiene un `compareAtPrice` mayor al
+ * precio. Quien carga el producto responde de que sea un precio anterior real
+ * (Ley 19.496). No va al JSON-LD.
  *
  * Precio y disponibilidad salen de Shopify. `precioDesde` del contenido solo
  * aparece si la integración está caída, y se rotula como referencial.
@@ -43,6 +45,8 @@ export async function ProductCard({
 
   const precio = producto?.precio ?? null;
   const precioReferencial = precio === null ? pilar.precioDesde : null;
+  // compareAtPrice real de Shopify (solo si es mayor que el precio). Nunca se calcula aquí.
+  const precioAnterior = precio !== null ? (producto?.precioAnterior ?? null) : null;
 
   const primeraImagen = producto?.medios.find((m) => m.tipo === "imagen");
   const href = `/${categoriaSlug}/${pilar.slug}`;
@@ -88,6 +92,12 @@ export async function ProductCard({
               <span className="text-[22px] font-extrabold leading-none tracking-[-0.02em] text-ink">
                 {precioCLP(precio)}
               </span>
+              {precioAnterior !== null && (
+                <s className="text-[13px] text-ink-tenue">
+                  <span className="sr-only">Precio anterior: </span>
+                  {precioCLP(precioAnterior)}
+                </s>
+              )}
               <span className="text-[11px] text-ink-tenue">IVA incluido</span>
             </>
           ) : precioReferencial !== null ? (

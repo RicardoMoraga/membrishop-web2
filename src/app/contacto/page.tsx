@@ -41,7 +41,7 @@ const FAQS: Faq[] = [
   {
     pregunta: "¿Puedo pasar a retirar un producto?",
     respuesta:
-      "No. MembriShop es una tienda 100 % online y no tiene local con atención de público. Todos los pedidos se despachan por courier.",
+      "No. MembriShop es una tienda 100 % online y no tiene local con atención de público. Todos los pedidos se despachan por courier dentro de la Región Metropolitana.",
   },
 ];
 

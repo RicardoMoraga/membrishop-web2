@@ -33,7 +33,11 @@ export function organizacionSchema() {
     image: urlAbsoluta("/images/og-membrishop.jpg"),
     email: site.contacto.email,
     sameAs: Object.values(site.redes),
-    areaServed: site.areaDespacho.map((nombre) => ({ "@type": "Country", name: nombre })),
+    areaServed: site.areaDespacho.map((area) => ({
+      "@type": "AdministrativeArea",
+      name: area.nombre,
+      containedInPlace: { "@type": "Country", name: "Chile" },
+    })),
     currenciesAccepted: site.moneda,
     paymentAccepted: site.mediosPago.join(", "),
     contactPoint: [
@@ -190,7 +194,11 @@ export function productoSchema(params: {
       seller: { "@id": ID_ORGANIZACION },
       shippingDetails: {
         "@type": "OfferShippingDetails",
-        shippingDestination: { "@type": "DefinedRegion", addressCountry: site.pais },
+        shippingDestination: site.areaDespacho.map((area) => ({
+          "@type": "DefinedRegion",
+          addressCountry: site.pais,
+          addressRegion: area.codigo,
+        })),
         deliveryTime: {
           "@type": "ShippingDeliveryTime",
           handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },

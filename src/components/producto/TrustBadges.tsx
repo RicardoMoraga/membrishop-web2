@@ -8,8 +8,17 @@ import { site } from "@/lib/site";
  *
  * Dos presentaciones del mismo contenido:
  *   "barra"  franja de sección, cuatro columnas — home y cierre de la ficha
- *   "lista"  compacta y vertical — dentro de la caja de compra
+ *   "lista"  compacta y vertical
+ *   "micro"  2×2 bajo el botón de compra: reduce el riesgo percibido justo
+ *            donde se decide (pago, retracto, garantía y cobertura)
  */
+const MICRO = [
+  { Icono: IconoTarjeta, texto: "Pago seguro con MercadoPago" },
+  { Icono: IconoDevolucion, texto: "10 días de retracto" },
+  { Icono: IconoEscudo, texto: site.promesas.garantia },
+  { Icono: IconoCamion, texto: site.promesas.cobertura },
+];
+
 const GARANTIAS = [
   { Icono: IconoEscudo, titulo: "Stock en Chile", detalle: site.promesas.stock },
   { Icono: IconoCamion, titulo: "Despacho rápido", detalle: site.promesas.despacho },
@@ -17,7 +26,20 @@ const GARANTIAS = [
   { Icono: IconoDevolucion, titulo: "Derecho a retracto", detalle: site.promesas.retracto },
 ];
 
-export function TrustBadges({ variante = "barra" }: { variante?: "barra" | "lista" }) {
+export function TrustBadges({ variante = "barra" }: { variante?: "barra" | "lista" | "micro" }) {
+  if (variante === "micro") {
+    return (
+      <ul aria-label="Compra protegida" className="grid grid-cols-2 gap-x-3 gap-y-2">
+        {MICRO.map(({ Icono, texto }) => (
+          <li key={texto} className="flex items-start gap-1.5 text-[12px] leading-snug text-ink-suave">
+            <Icono className="mt-px h-3.5 w-3.5 shrink-0 text-verde-600" />
+            <span>{texto}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   if (variante === "lista") {
     return (
       <ul className="grid gap-2.5">

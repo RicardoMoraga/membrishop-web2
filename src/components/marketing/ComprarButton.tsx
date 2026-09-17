@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { comprar, type MotivoFallo } from "@/app/actions/comprar";
 import { estiloPrimario } from "@/components/ui/CtaButton";
 import { IconoFlecha } from "@/components/ui/icons";
+import { registrarEvento } from "@/lib/analitica";
 
 /**
  * Botón visual idéntico a `CtaButton` (variante primario), pero dispara la
@@ -17,6 +18,8 @@ import { IconoFlecha } from "@/components/ui/icons";
 type Props = {
   className?: string;
   cantidad?: number;
+  /** Nombre del evento de analítica. Por defecto `comprar_<handle>`. */
+  evento?: string;
 } & ({ varianteId: string; handle?: string } | { handle: string; varianteId?: string });
 
 /** Mensaje por motivo: el comprador no debe ver "sin stock" ante un fallo. */
@@ -28,7 +31,7 @@ const MENSAJE: Record<MotivoFallo, string> = {
   "tienda-cerrada": "Compra por WhatsApp por ahora",
 };
 
-export function ComprarButton({ varianteId, handle, cantidad, className = "" }: Props) {
+export function ComprarButton({ varianteId, handle, cantidad, evento, className = "" }: Props) {
   const [pendiente, iniciarTransicion] = useTransition();
   const [fallo, setFallo] = useState<MotivoFallo | null>(null);
 
@@ -39,7 +42,7 @@ export function ComprarButton({ varianteId, handle, cantidad, className = "" }: 
       type="button"
       className={clases}
       disabled={pendiente}
-      data-evento={`comprar_${handle ?? varianteId}`}
+      data-evento={evento ?? `comprar_${handle ?? varianteId}`}
       onClick={() => {
         setFallo(null);
         iniciarTransicion(async () => {
@@ -48,6 +51,8 @@ export function ComprarButton({ varianteId, handle, cantidad, className = "" }: 
             : await comprar({ handle: handle as string, cantidad });
 
           if (resultado.ok) {
+            // El checkout vive en Shopify: este es el último punto medible aquí.
+            registrarEvento("begin_checkout", { evento: evento ?? `comprar_${handle ?? varianteId}` });
             window.location.href = resultado.checkoutUrl;
           } else {
             setFallo(resultado.motivo);

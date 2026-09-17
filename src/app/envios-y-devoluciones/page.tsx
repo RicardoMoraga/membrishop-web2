@@ -18,7 +18,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const TLDR = [
-  "Despacho en 24–72 h hábiles en la Región Metropolitana; hasta 8 días en zonas extremas.",
+  "Por ahora despachamos solo dentro de la Región Metropolitana, en 24–72 h hábiles.",
   `${site.promesas.retracto}: producto sin uso, en su empaque original.`,
   "El costo del envío de vuelta en un retracto lo cubre el comprador, salvo error nuestro.",
   "Escríbenos con tu número de pedido para iniciar cualquier cambio o devolución.",
@@ -70,7 +70,8 @@ export default function EnviosYDevolucionesPage() {
 
             <p className="mt-6 text-fluid-lead leading-relaxed text-ink-suave">
               Todo el catálogo de {site.nombre} tiene stock físico en Chile, así que los plazos
-              de despacho se cuentan en días hábiles, no en semanas de importación. Si el
+              de despacho se cuentan en días hábiles, no en semanas de importación. Por ahora
+              despachamos solo dentro de la Región Metropolitana. Si el
               producto no te sirve, tienes 10 días para devolverlo o cambiarlo.
             </p>
 
@@ -91,7 +92,7 @@ export default function EnviosYDevolucionesPage() {
 
       <Section ariaLabelledby="plazos-titulo">
         <h2 id="plazos-titulo" className="text-fluid-h3 text-ink">
-          Plazos de despacho por zona
+          Zona y plazo de despacho
         </h2>
         <div className="mt-6 overflow-x-auto rounded-marca-lg border border-crema">
           <table className="w-full min-w-[560px] border-collapse text-left text-[14px]">

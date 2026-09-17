@@ -145,9 +145,9 @@ export default function Page() {
       {/* ============ Plazos de despacho ============ */}
       <Section ariaLabelledby="titulo-despacho" className="pb-0 md:pb-0">
         <SectionHead
-          titulo="Plazos de despacho por zona"
+          titulo="Zona y plazo de despacho"
           id="titulo-despacho"
-          sub="El plazo empieza a correr cuando se confirma el pago."
+          sub="Por ahora despachamos solo dentro de la Región Metropolitana. El plazo empieza a correr cuando se confirma el pago."
           accion={
             <CtaButton href="/envios-y-devoluciones" variante="fantasma" tamano="sm">
               Envíos y devoluciones

@@ -142,6 +142,12 @@ export type VarianteShopify = {
   /** Solo con el scope `unauthenticated_read_product_inventory`. */
   cantidadDisponible: number | null;
   precio: number;
+  /**
+   * `compareAtPrice` de Shopify, solo si es mayor que el precio actual.
+   * Es responsabilidad de quien carga el producto que sea un precio anterior
+   * real (Ley 19.496): el sitio no lo inventa ni lo calcula.
+   */
+  precioAnterior: number | null;
   moneda: string;
   opciones: { nombre: string; valor: string }[];
   imagenUrl: string | null;
@@ -154,6 +160,7 @@ export type ProductoShopify = {
   disponible: boolean;
   sku: string | null;
   precio: number | null;
+  precioAnterior: number | null;
   moneda: string;
   opciones: { nombre: string; valores: string[] }[];
   variantes: VarianteShopify[];
@@ -208,6 +215,7 @@ function queryProducto(conInventario: boolean): string {
             availableForSale
             ${conInventario ? "quantityAvailable" : ""}
             price { amount currencyCode }
+            compareAtPrice { amount currencyCode }
             selectedOptions { name value }
             image { url }
           }
@@ -240,6 +248,7 @@ type ProductoCrudo = {
       availableForSale: boolean;
       quantityAvailable?: number | null;
       price: { amount: string; currencyCode: string };
+      compareAtPrice?: { amount: string; currencyCode: string } | null;
       selectedOptions: { name: string; value: string }[];
       image: { url: string } | null;
     }[];
@@ -251,17 +260,22 @@ function esErrorDeScopeDeInventario(detalle: string): boolean {
 }
 
 function normalizar(crudo: ProductoCrudo): ProductoShopify {
-  const variantes: VarianteShopify[] = crudo.variants.nodes.map((v) => ({
-    id: v.id,
-    titulo: v.title,
-    sku: v.sku && v.sku.trim() !== "" ? v.sku : null,
-    disponible: v.availableForSale,
-    cantidadDisponible: typeof v.quantityAvailable === "number" ? v.quantityAvailable : null,
-    precio: Number.parseFloat(v.price.amount),
-    moneda: v.price.currencyCode,
-    opciones: v.selectedOptions.map((o) => ({ nombre: o.name, valor: o.value })),
-    imagenUrl: v.image?.url ?? null,
-  }));
+  const variantes: VarianteShopify[] = crudo.variants.nodes.map((v) => {
+    const precio = Number.parseFloat(v.price.amount);
+    const anterior = v.compareAtPrice ? Number.parseFloat(v.compareAtPrice.amount) : Number.NaN;
+    return {
+      id: v.id,
+      titulo: v.title,
+      sku: v.sku && v.sku.trim() !== "" ? v.sku : null,
+      disponible: v.availableForSale,
+      cantidadDisponible: typeof v.quantityAvailable === "number" ? v.quantityAvailable : null,
+      precio,
+      precioAnterior: Number.isFinite(anterior) && anterior > precio ? anterior : null,
+      moneda: v.price.currencyCode,
+      opciones: v.selectedOptions.map((o) => ({ nombre: o.name, valor: o.value })),
+      imagenUrl: v.image?.url ?? null,
+    };
+  });
 
   const medios: MedioShopify[] = crudo.media.nodes.flatMap((m): MedioShopify[] => {
     if (m.image) {
@@ -304,6 +318,7 @@ function normalizar(crudo: ProductoCrudo): ProductoShopify {
     disponible: crudo.availableForSale && variantes.some((v) => v.disponible),
     sku: primeraDisponible?.sku ?? null,
     precio: primeraDisponible?.precio ?? null,
+    precioAnterior: primeraDisponible?.precioAnterior ?? null,
     moneda: primeraDisponible?.moneda ?? "CLP",
     opciones: opcionesReales.map((o) => ({ nombre: o.name, valores: o.values })),
     variantes,

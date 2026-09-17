@@ -1,7 +1,7 @@
 import { site } from "@/lib/site";
 
 /**
- * Plazos por zona. Es la duda número uno de cualquier compra online en Chile
+ * Plazos por zona (hoy solo la Región Metropolitana). Es la duda número uno de cualquier compra online en Chile
  * y la respuesta que más citan los motores de IA, porque ya viene tabulada.
  * El contenedor scrollea en horizontal para que la tabla nunca empuje el body.
  */
@@ -12,7 +12,7 @@ export function TablaDespacho() {
     <div className="mt-4 overflow-x-auto rounded-marca-lg border border-borde bg-white">
       <table className="w-full min-w-[36rem] border-collapse text-left text-[14px]">
         <caption className="sr-only">
-          Plazos estimados de despacho de MembriShop por zona de Chile
+          Zonas y plazos estimados de despacho de MembriShop
         </caption>
         <thead>
           <tr className="border-b border-borde bg-crema">
