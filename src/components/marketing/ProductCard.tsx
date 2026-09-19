@@ -122,7 +122,7 @@ export async function ProductCard({
   );
 
   const marco =
-    "group flex h-full flex-col overflow-hidden rounded-marca-lg border border-borde bg-white transition-colors hover:border-borde-2";
+    "group card-hover flex h-full flex-col overflow-hidden rounded-marca-lg border border-borde bg-white";
 
   if (pilar.fichaPublicada) {
     return (

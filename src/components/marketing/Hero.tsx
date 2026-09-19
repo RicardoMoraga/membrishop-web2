@@ -50,7 +50,7 @@ export function Hero({ eyebrow, h1, subtitulo, ctaPrincipal, hrefCtaPrincipal, c
               <li key={categoria.slug}>
                 <Link
                   href={`/${categoria.slug}`}
-                  className="group flex h-full flex-col justify-center rounded-marca-lg border border-borde bg-white p-4 transition-colors hover:border-borde-2 md:p-5"
+                  className="group card-hover flex h-full flex-col justify-center rounded-marca-lg border border-borde bg-white p-4 md:p-5"
                 >
                   <h2 className="text-[17px] leading-tight">{categoria.nombre}</h2>
                   <p className="mt-1 line-clamp-2 text-[12.5px] leading-snug text-ink-suave">

@@ -13,7 +13,7 @@
   --color-oro-100: #fdefcb;
   --color-oro-200: #fadf9c;
   --color-oro-300: #f3c323; /* amarillo membrillo — LOGO */
-  --color-oro-400: #f1921e; /* naranja del fruto — LOGO */
+  --color-oro-400: #ee8a0a; /* naranja vibrante — CTA principal mejorado */
   --color-oro-500: #f17c15; /* naranja de marca ("Shop") — LOGO */
   --color-oro-600: #c85f0c; /* hover */
   --color-oro-700: #a34c08; /* texto sobre crema: 5,7:1 */
@@ -120,9 +120,9 @@
     text-wrap: balance;
   }
 
-  /* Los anclajes no quedan debajo del header sticky (dos filas). */
+  /* Los anclajes no quedan debajo del header sticky (una fila). */
   :target {
-    scroll-margin-top: 7.5rem;
+    scroll-margin-top: 5.5rem;
   }
 
   :focus-visible {
@@ -212,5 +212,20 @@
     height: 20rem;
     background: radial-gradient(circle, var(--color-verde-200) 0%, transparent 70%);
     opacity: 0.45;
+  }
+}
+
+/**
+ * Realce de tarjeta al pasar el cursor: el borde toma el naranja de marca y
+ * una sombra corta despega la tarjeta del fondo. Es la única sombra del
+ * sistema y existe solo en :hover, así que el reposo sigue siendo plano.
+ */
+@utility card-hover {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  &:hover {
+    border-color: var(--color-oro-400);
+    box-shadow: 0 4px 12px rgb(238 138 10 / 0.12);
   }
 }

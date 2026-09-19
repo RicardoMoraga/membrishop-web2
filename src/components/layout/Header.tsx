@@ -46,13 +46,13 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-borde bg-white">
-        {/* Fila 1: marca + acción. Sin buscador ni carro: el sitio no tiene
-            búsqueda ni carro persistente (la compra va directo al checkout). */}
-        <div className="contenedor flex h-14 items-center gap-4 md:h-16">
+        {/* Fila única: marca + navegación + acción. Más compacto y mejor
+            aprovechamiento vertical en móvil. */}
+        <div className="contenedor flex h-16 items-center gap-6 md:h-[72px]">
           <Link
             href="/"
             aria-label="MembriShop — ir al inicio"
-            className="mr-auto flex shrink-0 flex-col justify-center"
+            className="flex shrink-0 flex-col justify-center"
           >
             <Logo prioridad className="h-[30px] md:h-[38px]" />
             <span className="mt-0.5 hidden text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-ink-tenue sm:block">
@@ -60,12 +60,39 @@ export function Header() {
             </span>
           </Link>
 
+          {/* Navegación inline en desktop */}
+          <nav aria-label="Principal" className="hidden flex-1 lg:block">
+            <ul className="flex items-center gap-x-6">
+              {ENLACES.map((enlace) => {
+                const activo = pathname.startsWith(enlace.href);
+                const esContacto = enlace.href === "/contacto";
+                return (
+                  <li key={enlace.href} className={esContacto ? "ml-auto" : undefined}>
+                    <Link
+                      href={enlace.href}
+                      aria-current={activo ? "page" : undefined}
+                      className={`flex h-11 items-center border-b-2 text-[13.5px] font-semibold transition-colors ${
+                        activo
+                          ? "border-verde-600 text-verde-600"
+                          : esContacto
+                            ? "border-transparent text-ink-tenue hover:text-ink"
+                            : "border-transparent text-ink hover:text-verde-600"
+                      }`}
+                    >
+                      {enlace.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
           <a
             href={linkWhatsapp("desde el header")}
             target="_blank"
             rel="noopener noreferrer"
             data-evento="cta_header_whatsapp"
-            className="hidden h-11 items-center gap-2 rounded-marca bg-verde-600 px-4 text-[13.5px] font-bold text-white transition-colors hover:bg-verde-700 sm:inline-flex"
+            className="ml-auto hidden h-11 items-center gap-2 rounded-marca bg-verde-600 px-4 text-[13.5px] font-bold text-white transition-colors hover:bg-verde-700 sm:inline-flex lg:ml-0"
           >
             <IconoWhatsapp className="h-4 w-4" />
             Escríbenos
@@ -83,33 +110,6 @@ export function Header() {
             <IconoMenu className="h-6 w-6" />
           </button>
         </div>
-
-        {/* Fila 2: categorías. Desplazable en horizontal si no cabe. */}
-        <nav aria-label="Principal" className="border-t border-borde">
-          <ul className="contenedor flex items-center gap-x-6 overflow-x-auto whitespace-nowrap [scrollbar-width:none]">
-            {ENLACES.map((enlace) => {
-              const activo = pathname.startsWith(enlace.href);
-              const esContacto = enlace.href === "/contacto";
-              return (
-                <li key={enlace.href} className={esContacto ? "ml-auto" : undefined}>
-                  <Link
-                    href={enlace.href}
-                    aria-current={activo ? "page" : undefined}
-                    className={`flex h-11 items-center border-b-2 text-[13.5px] font-semibold transition-colors ${
-                      activo
-                        ? "border-verde-600 text-verde-600"
-                        : esContacto
-                          ? "border-transparent text-ink-tenue hover:text-ink"
-                          : "border-transparent text-ink hover:text-verde-600"
-                    }`}
-                  >
-                    {enlace.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
       </header>
 
       {/* Panel lateral. Se monta siempre para que la transición funcione en

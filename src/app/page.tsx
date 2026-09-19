@@ -137,7 +137,7 @@ export default function Page() {
       <Resenas resenas={resenas} />
 
       {/* ============ Cómo comprar ============ */}
-      <Section ariaLabelledby="titulo-pasos" className="pb-0 md:pb-0">
+      <Section ariaLabelledby="titulo-pasos" fondo="crema" className="mt-7 md:mt-10">
         <SectionHead titulo="Cómo comprar en MembriShop" id="titulo-pasos" />
         <Pasos pasos={home.pasos} />
       </Section>
@@ -158,7 +158,7 @@ export default function Page() {
       </Section>
 
       {/* ============ FAQ ============ */}
-      <Section ariaLabelledby="titulo-faq" className="pb-0 md:pb-0">
+      <Section ariaLabelledby="titulo-faq" fondo="crema" className="mt-7 md:mt-10">
         <SectionHead titulo="Preguntas frecuentes" id="titulo-faq" />
         <div className="mt-4 max-w-3xl">
           <FaqList faqs={home.faqs.slice(0, 5)} />
