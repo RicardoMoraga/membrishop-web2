@@ -178,7 +178,8 @@ export function productoSchema(params: {
     "@type": "Product",
     name: params.nombre,
     description: params.descripcion,
-    image: [urlAbsoluta(`/images/${params.imagen}`)],
+    // URL absoluta (CDN de Shopify) o nombre de archivo en /public/images.
+    image: [/^https?:\/\//.test(params.imagen) ? params.imagen : urlAbsoluta(`/images/${params.imagen}`)],
     sku: params.sku ?? params.slug,
     brand: { "@type": "Brand", name: site.nombre },
     category: params.categoriaSlug,

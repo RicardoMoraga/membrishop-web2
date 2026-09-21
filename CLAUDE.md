@@ -22,6 +22,11 @@ El comercio real (carrito, pago, órdenes, stock) vive en Shopify; este repo no 
 - **Contrato del catálogo**: el `slug` de cada producto en `src/content/clusters.ts` debe ser
   idéntico a su `handle` en Shopify. El precio vigente sale de Shopify; `precioDesde` es solo
   respaldo editorial.
+- **Catálogo dinámico** (`src/lib/catalogo.ts`, desde 2026-09-21): las colecciones de Shopify
+  `mascotas`, `tecnologia` y `hogar-cocina` (publicadas en el canal Headless) deciden qué
+  productos se ven. Cada producto se abre en `/<nicho>/<handle>` sin deploy; su copy vive en el
+  metafield `membrishop.ficha` (JSON, esquema en `src/lib/ficha.ts`). Si Shopify no responde,
+  se usa `clusters.ts` como respaldo.
 
 ### Comandos que existen
 

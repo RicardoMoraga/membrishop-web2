@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { categorias } from "@/content/clusters";
+import { getCatalogo } from "@/lib/catalogo";
 import { urlAbsoluta } from "@/lib/site";
 
 /**
@@ -25,8 +25,12 @@ import { urlAbsoluta } from "@/lib/site";
  */
 const IMAGENES_DISPONIBLES: boolean = false;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+/** Las fichas salen del catálogo de Shopify: el sitemap se regenera cada hora o por webhook. */
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const ahora = new Date();
+  const { categorias } = await getCatalogo();
 
   const home: MetadataRoute.Sitemap = [
     {
@@ -77,9 +81,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: ahora,
         changeFrequency: "monthly" as const,
         priority: 0.8,
-        ...(IMAGENES_DISPONIBLES
-          ? { images: [urlAbsoluta(`/images/${pilar.imagen.archivo}`)] }
-          : {}),
+        // Imagen de Shopify (CDN) cuando existe; si no, el archivo local solo
+        // se declara cuando las fotos de /public/images estén subidas.
+        ...(pilar.imagenUrl
+          ? { images: [pilar.imagenUrl] }
+          : IMAGENES_DISPONIBLES
+            ? { images: [urlAbsoluta(`/images/${pilar.imagen.archivo}`)] }
+            : {}),
       })),
   );
 

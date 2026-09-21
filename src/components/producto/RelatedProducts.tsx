@@ -1,6 +1,6 @@
 import { ProductCard } from "@/components/marketing/ProductCard";
 import { SectionHead } from "@/components/ui/SectionHead";
-import { categorias } from "@/content/clusters";
+import { getCategoriaCatalogo } from "@/lib/catalogo";
 
 /**
  * Productos del mismo nicho, excluyendo el actual.
@@ -18,7 +18,7 @@ export async function RelatedProducts({
   excluirSlug: string;
   limite?: number;
 }) {
-  const categoria = categorias.find((c) => c.slug === categoriaSlug);
+  const categoria = await getCategoriaCatalogo(categoriaSlug);
   if (!categoria) return null;
 
   const relacionados = categoria.pilares.filter((p) => p.slug !== excluirSlug).slice(0, limite);

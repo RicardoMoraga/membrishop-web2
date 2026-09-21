@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import { CategoryCard } from "@/components/marketing/CategoryCard";
 import { CtaButton } from "@/components/ui/CtaButton";
 import { Section } from "@/components/ui/Section";
-import { categorias } from "@/content/clusters";
+import { getCatalogo } from "@/lib/catalogo";
 
 export const metadata: Metadata = {
   title: "Página no encontrada | MembriShop",
   robots: { index: false, follow: true },
 };
 
-export default function NotFound() {
+export default async function NotFound() {
+  const { categorias } = await getCatalogo();
   return (
     <Section ariaLabelledby="titulo-404">
       <div className="mx-auto max-w-2xl text-center">

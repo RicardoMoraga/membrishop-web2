@@ -1,4 +1,5 @@
-import { categorias } from "@/content/clusters";
+import type { Categoria } from "@/content/clusters";
+import { getCatalogo } from "@/lib/catalogo";
 import { home } from "@/content/home";
 import { site, urlAbsoluta } from "@/lib/site";
 
@@ -21,9 +22,10 @@ import { site, urlAbsoluta } from "@/lib/site";
  * extraíble: encabezados claros, FAQ en el HTML inicial y datos estructurados.
  */
 
-export const dynamic = "force-static";
+/** Catálogo dinámico desde Shopify: se regenera cada hora o al invalidar `productos`. */
+export const revalidate = 3600;
 
-function construirLlmsTxt(): string {
+function construirLlmsTxt(categorias: Categoria[]): string {
   const bloques: string[] = [];
 
   bloques.push(`# ${site.nombre}`);
@@ -77,7 +79,7 @@ function construirLlmsTxt(): string {
       conFicha
         .map(
           ({ categoria, pilar }) =>
-            `- [${pilar.nombre}](${urlAbsoluta(`/${categoria.slug}/${pilar.slug}`)}): ${pilar.gancho}. Resuelve: ${pilar.problema}`,
+            `- [${pilar.nombre}](${urlAbsoluta(`/${categoria.slug}/${pilar.slug}`)}): ${pilar.gancho}${pilar.problema ? `. Resuelve: ${pilar.problema}` : ""}`,
         )
         .join("\n"),
     );
@@ -155,8 +157,9 @@ function construirLlmsTxt(): string {
   return bloques.join("\n");
 }
 
-export function GET(): Response {
-  return new Response(construirLlmsTxt(), {
+export async function GET(): Promise<Response> {
+  const { categorias } = await getCatalogo();
+  return new Response(construirLlmsTxt(categorias), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",

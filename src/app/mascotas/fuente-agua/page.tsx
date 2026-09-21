@@ -16,6 +16,9 @@ const SLUG = "fuente-agua";
 const DESCRIPCION =
   "Fuente de agua de 2,4 litros con filtro de carbón activo y flujo continuo, para gatos y perros de hasta 15 kg. Stock en Chile y despacho en 24–72 h hábiles en la RM.";
 
+/** Catálogo, precio y stock salen de Shopify: ISR de 1 h + invalidación por webhook. */
+export const revalidate = 3600;
+
 export const metadata: Metadata = buildMetadata({
   // Meta title (54 caracteres) distinto del H1: bajo el corte de ~62 de Google.
   title: "Fuente de Agua para Gatos con Filtro | MembriShop",

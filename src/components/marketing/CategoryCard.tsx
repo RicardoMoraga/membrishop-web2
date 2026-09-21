@@ -39,7 +39,9 @@ export function CategoryCard({ categoria }: { categoria: Categoria }) {
           .join(" · ")}
       </p>
       <span className="mt-4 inline-flex items-center gap-1.5 border-t border-borde pt-4 text-sm font-semibold text-oro-700">
-        Ver {conFicha.length} {conFicha.length === 1 ? "producto" : "productos"}
+        {conFicha.length === 0
+          ? "Próximamente"
+          : `Ver ${conFicha.length} ${conFicha.length === 1 ? "producto" : "productos"}`}
         <IconoFlecha className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
       </span>
     </Link>

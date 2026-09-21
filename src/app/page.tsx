@@ -13,6 +13,7 @@ import { IconoCheck } from "@/components/ui/icons";
 import { Section } from "@/components/ui/Section";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { categorias } from "@/content/clusters";
+import { getCatalogo } from "@/lib/catalogo";
 import { home } from "@/content/home";
 import { resenas } from "@/content/resenas";
 import { faqSchema, storeSchema } from "@/lib/schema";
@@ -32,19 +33,15 @@ import { faqSchema, storeSchema } from "@/lib/schema";
    · La sección "Elige tu categoría": las categorías están en el hero.
    ========================================================================== */
 
+/** Catálogo, precio y stock salen de Shopify: ISR de 1 h + invalidación por webhook. */
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: home.metaTitle,
   description: home.metaDescription,
   alternates: { canonical: "/" },
 };
 
-/** Destacados: los pilares publicados, en grilla. Nada se recorta. */
-const destacados = categorias.flatMap((categoria) =>
-  categoria.pilares
-    .filter((pilar) => pilar.publicado)
-    .slice(0, 2)
-    .map((pilar) => ({ pilar, categoria })),
-);
 
 const FILTROS = [
   { valor: "todos", nombre: "Todos" },
@@ -63,7 +60,18 @@ const cssFiltro = categorias
   )
   .join("");
 
-export default function Page() {
+export default async function Page() {
+  // Productos desde las colecciones de Shopify (respaldo: clusters.ts).
+  const { categorias: catalogo } = await getCatalogo();
+
+  /** Destacados: los pilares publicados, en grilla. Nada se recorta. */
+  const destacados = catalogo.flatMap((categoria) =>
+    categoria.pilares
+      .filter((pilar) => pilar.publicado)
+      .slice(0, 2)
+      .map((pilar) => ({ pilar, categoria })),
+  );
+
   return (
     <>
       <Hero
@@ -72,7 +80,7 @@ export default function Page() {
         subtitulo={home.tldr[0]}
         ctaPrincipal={home.ctaPrincipal}
         hrefCtaPrincipal="#productos"
-        categorias={categorias}
+        categorias={catalogo}
       />
 
       <TrustBadges />

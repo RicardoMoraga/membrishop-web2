@@ -1,4 +1,5 @@
-import { categorias } from "@/content/clusters";
+import type { Categoria } from "@/content/clusters";
+import { getCatalogo } from "@/lib/catalogo";
 import { home } from "@/content/home";
 import { site, urlAbsoluta } from "@/lib/site";
 
@@ -12,9 +13,10 @@ import { site, urlAbsoluta } from "@/lib/site";
  * Se genera desde `clusters.ts` y `home.ts`: nunca se desincroniza del sitio.
  */
 
-export const dynamic = "force-static";
+/** Catálogo dinámico desde Shopify: se regenera cada hora o al invalidar `productos`. */
+export const revalidate = 3600;
 
-function construirLlmsFull(): string {
+function construirLlmsFull(categorias: Categoria[]): string {
   const b: string[] = [];
 
   b.push(`# ${site.nombre} — contenido completo`);
@@ -75,7 +77,7 @@ function construirLlmsFull(): string {
           const url = p.fichaPublicada
             ? ` — ${urlAbsoluta(`/${categoria.slug}/${p.slug}`)}`
             : "";
-          return `- **${p.nombre}** (${estado}): ${p.gancho}. Resuelve: ${p.problema}${url}`;
+          return `- **${p.nombre}** (${estado}): ${p.gancho}${p.problema ? `. Resuelve: ${p.problema}` : ""}${url}`;
         })
         .join("\n"),
     );
@@ -121,8 +123,9 @@ function construirLlmsFull(): string {
   return b.join("\n");
 }
 
-export function GET(): Response {
-  return new Response(construirLlmsFull(), {
+export async function GET(): Promise<Response> {
+  const { categorias } = await getCatalogo();
+  return new Response(construirLlmsFull(categorias), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control": "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",

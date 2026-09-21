@@ -52,7 +52,7 @@ export function etiquetaProducto(handle: string): string {
 
 export const ETIQUETA_CATALOGO = "productos";
 
-type RespuestaFetch<T> =
+export type RespuestaFetch<T> =
   | { estado: "ok"; data: T }
   | { estado: "sin-configurar" }
   | { estado: "error-api"; detalle: string };
@@ -61,7 +61,7 @@ function registrarFallo(operacion: string, detalle: string): void {
   console.error(`[shopify] ${operacion} — ${detalle}`);
 }
 
-async function storefrontFetch<T>(
+export async function storefrontFetch<T>(
   operacion: string,
   query: string,
   variables: Record<string, unknown>,
@@ -167,6 +167,13 @@ export type ProductoShopify = {
   medios: MedioShopify[];
   /** `true` si el producto tiene opciones reales (no la variante por defecto). */
   tieneVariantes: boolean;
+  /** Descripción en texto plano (sin HTML). */
+  descripcion: string;
+  seo: { titulo: string | null; descripcion: string | null };
+  /** Valor crudo del metafield `membrishop.ficha` (JSON). Lo valida `lib/ficha.ts`. */
+  fichaJson: string | null;
+  /** Handles de las colecciones a las que pertenece: define su categoría en la web. */
+  colecciones: string[];
 };
 
 export type ResultadoProducto = {
@@ -197,7 +204,11 @@ function queryProducto(conInventario: boolean): string {
         id
         handle
         title
+        description
         availableForSale
+        seo { title description }
+        ficha: metafield(namespace: "membrishop", key: "ficha") { value }
+        collections(first: 10) { nodes { handle } }
         options { name values }
         media(first: 20) {
           nodes {
@@ -229,7 +240,11 @@ type ProductoCrudo = {
   id: string;
   handle: string;
   title: string;
+  description: string;
   availableForSale: boolean;
+  seo: { title: string | null; description: string | null };
+  ficha: { value: string } | null;
+  collections: { nodes: { handle: string }[] };
   options: { name: string; values: string[] }[];
   media: {
     nodes: {
@@ -324,6 +339,10 @@ function normalizar(crudo: ProductoCrudo): ProductoShopify {
     variantes,
     medios,
     tieneVariantes: opcionesReales.length > 0,
+    descripcion: crudo.description ?? "",
+    seo: { titulo: crudo.seo?.title ?? null, descripcion: crudo.seo?.description ?? null },
+    fichaJson: crudo.ficha?.value ?? null,
+    colecciones: crudo.collections?.nodes.map((c) => c.handle) ?? [],
   };
 }
 

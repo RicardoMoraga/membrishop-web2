@@ -13,10 +13,10 @@ import { CtaButton } from "@/components/ui/CtaButton";
 import { Section } from "@/components/ui/Section";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { IconoCheck } from "@/components/ui/icons";
-import { getPilar, type Faq } from "@/content/clusters";
 import { resenas } from "@/content/resenas";
 import { breadcrumbSchema, faqSchema, productoSchema } from "@/lib/schema";
-import { getProductoPorHandle } from "@/lib/shopify";
+import { getPilarCatalogo, getProducto } from "@/lib/catalogo";
+import type { ContenidoFicha } from "@/lib/ficha";
 import { linkWhatsapp, site } from "@/lib/site";
 
 /**
@@ -32,37 +32,16 @@ import { linkWhatsapp, site } from "@/lib/site";
  *   clusters  copy, beneficios, especificaciones, FAQ, para quién no es
  */
 
-export type ContenidoFicha = {
-  categoriaSlug: string;
-  slug: string;
-  /** H1 centrado en el producto, distinto del meta title. */
-  h1: string;
-  /** Una línea bajo el H1: el problema que resuelve. */
-  resumen: string;
-  /** Máximo 3 puntos. Va justo tras el H1 por la regla SEO del proyecto. */
-  tldr: string[];
-  /**
-   * Opcional: el problema real que el producto resuelve. Con él, "Qué
-   * resuelve" se muestra como Problema → Solución (la solución es `intro`).
-   * No inventar problemas que el producto no resuelva.
-   */
-  problema?: string;
-  /** Primer párrafo: resuelve el intent de búsqueda. */
-  intro: string;
-  /** `caracteristica` (opcional) es el dato técnico del que sale el beneficio. */
-  beneficios: { caracteristica?: string; titulo: string; detalle: string }[];
-  incluye: string[];
-  paraQuien: string[];
-  noSirve: string;
-  faqs: Faq[];
-};
+export type { ContenidoFicha };
 
 export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) {
-  const datos = getPilar(contenido.categoriaSlug, contenido.slug);
+  // Catálogo dinámico: la ficha existe si el producto está en la colección
+  // del nicho (o, con Shopify caído, en el respaldo de clusters.ts).
+  const datos = await getPilarCatalogo(contenido.categoriaSlug, contenido.slug);
   if (!datos) notFound();
   const { categoria, pilar } = datos;
 
-  const shopify = await getProductoPorHandle(pilar.slug);
+  const shopify = await getProducto(pilar.slug);
   const producto = shopify.producto;
   const comprable = shopify.estado === "ok-disponible";
 
@@ -116,12 +95,14 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
                     </li>
                   ))}
                 </ul>
-                <a
-                  href="#para-quien"
-                  className="mt-3 inline-flex text-[13px] font-semibold text-verde-600 underline underline-offset-2 hover:text-verde-700"
-                >
-                  ¿Es para ti? Revisa para quién es y cuándo no sirve
-                </a>
+                {contenido.paraQuien.length > 0 && (
+                  <a
+                    href="#para-quien"
+                    className="mt-3 inline-flex text-[13px] font-semibold text-verde-600 underline underline-offset-2 hover:text-verde-700"
+                  >
+                    ¿Es para ti? Revisa para quién es y cuándo no sirve
+                  </a>
+                )}
 
                 <div className="mt-5 border-t border-borde pt-5">
                   <CajaCompra
@@ -166,6 +147,7 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
           </p>
         )}
 
+        {contenido.beneficios.length > 0 && (
         <ul className="mt-8 grid gap-5 md:grid-cols-3">
           {contenido.beneficios.map((b) => (
             <li key={b.titulo} className="border-t-2 border-oro-300 pt-4">
@@ -179,7 +161,9 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
             </li>
           ))}
         </ul>
+        )}
 
+        {(contenido.paraQuien.length > 0 || contenido.noSirve) && (
         <div id="para-quien" className="mt-10 grid gap-6 md:grid-cols-2">
           <div className="rounded-marca border border-verde-200 bg-verde-50 p-5">
             <h3 className="font-display text-base font-bold text-verde-600">Para quién es</h3>
@@ -197,12 +181,19 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
             <p className="mt-3 text-[14.5px] leading-relaxed text-ink-suave">{contenido.noSirve}</p>
           </div>
         </div>
+        )}
       </Section>
 
       {/* ============ Qué incluye y especificaciones ============ */}
       <Section fondo="crema" ariaLabelledby="detalle">
-        <SectionHead eyebrow="Detalle" titulo="Qué incluye y ficha técnica" id="detalle" />
+        <SectionHead
+          eyebrow="Detalle"
+          titulo={contenido.incluye.length > 0 ? "Qué incluye y ficha técnica" : "Ficha técnica"}
+          id="detalle"
+        />
         <div className="mt-7 grid gap-8 md:grid-cols-2">
+          {/* Sin contenido de caja verificado, la sección no se muestra: no se inventa. */}
+          {contenido.incluye.length > 0 && (
           <div>
             <h3 className="font-display text-base font-bold text-ink">Qué incluye la caja</h3>
             <ul className="mt-3 grid gap-2">
@@ -214,6 +205,7 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
               ))}
             </ul>
           </div>
+          )}
 
           <div>
             <h3 className="font-display text-base font-bold text-ink">Especificaciones</h3>
@@ -249,12 +241,14 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
       />
 
       {/* ============ FAQ ============ */}
+      {contenido.faqs.length > 0 && (
       <Section ariaLabelledby="faq-producto">
         <SectionHead eyebrow="Dudas" titulo={`Preguntas sobre ${pilar.nombre.toLowerCase()}`} id="faq-producto" />
         <div className="mt-7 max-w-3xl">
           <FaqList faqs={contenido.faqs} />
         </div>
       </Section>
+      )}
 
       {/* ============ Relacionados ============ */}
       <Section fondo="crema" ariaLabelledby="relacionados">
@@ -287,7 +281,7 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
       </Section>
 
       <JsonLd data={breadcrumbSchema(migas)} />
-      <JsonLd data={faqSchema(contenido.faqs)} />
+      {contenido.faqs.length > 0 && <JsonLd data={faqSchema(contenido.faqs)} />}
       <JsonLd
         data={productoSchema({
           nombre: pilar.nombre,
@@ -295,7 +289,7 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
           slug: pilar.slug,
           categoriaSlug: categoria.slug,
           precio: producto?.precio ?? pilar.precioDesde ?? 0,
-          imagen: pilar.imagen.archivo,
+          imagen: producto?.medios.find((m) => m.tipo === "imagen")?.url ?? pilar.imagenUrl ?? pilar.imagen.archivo,
           sku: producto?.sku ?? undefined,
           disponible: comprable,
         })}

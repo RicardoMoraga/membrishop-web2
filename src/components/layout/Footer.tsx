@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { LeadForm } from "@/components/marketing/LeadForm";
 import { IconoFacebook, IconoInstagram, IconoTiktok } from "@/components/ui/icons";
-import { categorias } from "@/content/clusters";
+import { getCatalogo } from "@/lib/catalogo";
 import { site } from "@/lib/site";
 
 const REDES = [
@@ -25,7 +25,8 @@ function Pildora({ children }: { children: string }) {
  * Contiene además el mapa completo del topic cluster: es el enlace de retorno
  * que cierra el circuito hub → pilar → producto en todas las páginas.
  */
-export function Footer() {
+export async function Footer() {
+  const { categorias } = await getCatalogo();
   const anio = new Date().getFullYear();
 
   return (
@@ -71,6 +72,9 @@ export function Footer() {
                 </Link>
               </p>
               <ul className="mt-4 space-y-2.5">
+                {categoria.pilares.length === 0 && (
+                  <li className="text-sm text-crema/70">Próximamente</li>
+                )}
                 {categoria.pilares.map((pilar) => (
                   <li key={pilar.slug}>
                     {pilar.fichaPublicada ? (

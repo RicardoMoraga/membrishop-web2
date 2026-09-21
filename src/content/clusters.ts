@@ -42,6 +42,14 @@ export type Pilar = {
   descripcionLarga: string[];
   especificaciones: Especificacion[];
   faqs: Faq[];
+  /**
+   * De dónde sale el pilar. "clusters" = escrito en este archivo (respaldo y
+   * contenido editorial histórico). "shopify" = producto real de una colección
+   * de Shopify, resuelto en tiempo de ejecución por `lib/catalogo.ts`.
+   */
+  origen?: "clusters" | "shopify";
+  /** URL absoluta de la imagen principal en Shopify, si existe. */
+  imagenUrl?: string | null;
 };
 
 export type Categoria = {

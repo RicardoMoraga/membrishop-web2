@@ -60,7 +60,7 @@ export function Hero({ eyebrow, h1, subtitulo, ctaPrincipal, hrefCtaPrincipal, c
                       .join(" · ")}
                   </p>
                   <span className="mt-2 inline-flex items-center gap-1 text-[13px] font-bold text-verde-600">
-                    Ver {n} {n === 1 ? "producto" : "productos"}
+                    {n === 0 ? "Próximamente" : `Ver ${n} ${n === 1 ? "producto" : "productos"}`}
                     <IconoFlecha className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
                   </span>
                 </Link>
