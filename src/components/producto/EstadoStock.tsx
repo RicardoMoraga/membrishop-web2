@@ -7,11 +7,12 @@ import type { EstadoIntegracion, ProductoShopify } from "@/lib/shopify";
  * mismo**. Si la integración falla, se dice que no se pudo confirmar la
  * disponibilidad — no se afirma que no hay stock, porque no se sabe.
  *
- * Escasez: solo se muestra cuando Shopify entrega `cantidadDisponible`, lo que
- * exige el scope `unauthenticated_read_product_inventory`. Sin ese dato no se
- * habla de unidades. Nunca un "últimas unidades" fijo.
+ * Unidades: con `cantidadDisponible` (scope `unauthenticated_read_product_inventory`)
+ * y hasta UMBRAL_MOSTRAR_UNIDADES se muestra el número real ("Quedan N unidades").
+ * Sobre el umbral, o sin el dato, solo "Disponible". Nunca un "pocas/últimas
+ * unidades" que no corresponda al inventario real (Ley 19.496, art. 28).
  */
-const UMBRAL_POCAS_UNIDADES = 3;
+const UMBRAL_MOSTRAR_UNIDADES = 10;
 
 export function EstadoStock({
   estado,
@@ -30,12 +31,15 @@ export function EstadoStock({
       producto?.variantes.find((v) => v.id === varianteId) ??
       producto?.variantes.find((v) => v.disponible);
     const quedan = variante?.cantidadDisponible ?? null;
-    const pocas = quedan !== null && quedan > 0 && quedan <= UMBRAL_POCAS_UNIDADES;
+    const mostrarUnidades =
+      quedan !== null && quedan > 0 && quedan <= UMBRAL_MOSTRAR_UNIDADES;
 
     return (
-      <p className={`${base} ${pocas ? "text-oro-700" : "text-verde-600"}`}>
-        <span className={`${punto} ${pocas ? "bg-oro-500" : "bg-verde-500"}`} aria-hidden="true" />
-        {pocas ? `Quedan ${quedan} ${quedan === 1 ? "unidad" : "unidades"}` : "Con stock en Chile"}
+      <p className={`${base} text-verde-600`}>
+        <span className={`${punto} bg-verde-500`} aria-hidden="true" />
+        {mostrarUnidades
+          ? `Quedan ${quedan} ${quedan === 1 ? "unidad" : "unidades"}`
+          : "Disponible"}
       </p>
     );
   }

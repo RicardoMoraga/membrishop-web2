@@ -104,7 +104,7 @@ export function Header() {
             onClick={() => setAbierto(true)}
             aria-expanded={abierto}
             aria-controls="panel-navegacion"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-marca text-ink transition-colors hover:bg-crema lg:hidden"
+            className="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-marca text-ink transition-colors hover:bg-crema sm:ml-0 lg:hidden"
           >
             <span className="sr-only">Abrir menú</span>
             <IconoMenu className="h-6 w-6" />

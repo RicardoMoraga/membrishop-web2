@@ -81,7 +81,7 @@ export function Footer() {
                         {pilar.nombre}
                       </Link>
                     ) : (
-                      <span className="text-sm text-crema/45">
+                      <span className="text-sm text-crema/70">
                         {pilar.nombre}
                         {pilar.publicado ? " · consultar" : " · pronto"}
                       </span>
