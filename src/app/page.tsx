@@ -17,6 +17,7 @@ import { getCatalogo } from "@/lib/catalogo";
 import { home } from "@/content/home";
 import { resenas } from "@/content/resenas";
 import { faqSchema, storeSchema } from "@/lib/schema";
+import { buildMetadata } from "@/lib/seo";
 
 /* ============================================================================
    Home — rediseño "retail".
@@ -36,11 +37,13 @@ import { faqSchema, storeSchema } from "@/lib/schema";
 /** Catálogo, precio y stock salen de Shopify: ISR de 1 h + invalidación por webhook. */
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+// buildMetadata agrega Open Graph y Twitter: sin ellos, compartir la Home en
+// WhatsApp o redes no mostraba imagen ni descripción.
+export const metadata: Metadata = buildMetadata({
   title: home.metaTitle,
   description: home.metaDescription,
-  alternates: { canonical: "/" },
-};
+  path: "/",
+});
 
 
 const FILTROS = [

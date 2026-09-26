@@ -83,7 +83,7 @@ export const categorias: Categoria[] = [
     emoji: "🐾",
     metaTitle: "Productos para Mascotas con Stock en Chile | MembriShop",
     metaDescription:
-      "Pet tech con stock nacional: collar GPS, fuente de agua y cepillo autolimpiante. Despacho 24–72 h en la RM y pago con MercadoPago.",
+      "Pet tech con stock nacional para perros y gatos: hidratación, cuidado y paseo. Despacho 24–72 h en la RM y pago con MercadoPago.",
     h1: "Pet tech que resuelve problemas reales de perros y gatos",
     intent:
       "Si buscas productos para mascotas en Chile sin esperar 30 días de envío, esta es la categoría: pet tech con stock nacional, despacho en 24 a 72 horas hábiles en la Región Metropolitana y boleta. Catálogo curado y rotativo — cuando algo se agota, cambia por otro producto igual de útil.",
@@ -97,7 +97,7 @@ export const categorias: Categoria[] = [
     keywordPrincipal: "productos para mascotas Chile",
     imagenHero: {
       archivo: "productos-mascotas-pet-tech-chile.webp",
-      alt: "Collar GPS, fuente de agua y cepillo autolimpiante para mascotas",
+      alt: "Productos pet tech para perros y gatos con stock en Chile",
       title: "Catálogo pet tech MembriShop con stock en Chile",
     },
     pilares: [
@@ -241,7 +241,7 @@ export const categorias: Categoria[] = [
     emoji: "💻",
     metaTitle: "Tecnología y Gadgets con Despacho en Santiago | MembriShop",
     metaDescription:
-      "Gadgets tecnológicos con stock en Chile: cámara de seguridad, cargador magnético y audífonos inalámbricos. Despacho 24–72 h hábiles en la RM.",
+      "Gadgets tecnológicos con stock en Chile: seguridad del hogar, carga y audio. Despacho 24–72 h hábiles en la RM y pago con MercadoPago.",
     h1: "Gadgets que sí usas todos los días",
     intent:
       "Si buscas gadgets de tecnología en Chile y te cansaste de comprar cosas que llegan en un mes y fallan a los tres, esta categoría es una selección corta y verificada: seguridad del hogar, carga y audio, con stock nacional y garantía respondida acá.",
@@ -255,7 +255,7 @@ export const categorias: Categoria[] = [
     keywordPrincipal: "gadgets tecnología Chile",
     imagenHero: {
       archivo: "gadgets-tecnologia-camara-carga-audio-chile.webp",
-      alt: "Cámara de seguridad, cargador magnético y audífonos inalámbricos con stock en Chile",
+      alt: "Gadgets de seguridad, carga y audio con stock en Chile",
       title: "Categoría de tecnología MembriShop",
     },
     pilares: [
@@ -396,7 +396,7 @@ export const categorias: Categoria[] = [
     keywordPrincipal: "utensilios cocina hogar Chile",
     imagenHero: {
       archivo: "utensilios-cocina-organizacion-hogar-chile.webp",
-      alt: "Organizador modular, picador manual y escurridor plegable con stock en Chile",
+      alt: "Utensilios de cocina y organización del hogar con stock en Chile",
       title: "Categoría de hogar y cocina MembriShop",
     },
     pilares: [

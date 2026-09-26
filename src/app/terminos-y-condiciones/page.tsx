@@ -65,8 +65,9 @@ export default function TerminosPage() {
           <div>
             <h2 className="text-fluid-h3 text-ink">1. Identificación del vendedor</h2>
             <p className="mt-3">
-              {site.nombreLegal} opera la tienda online {site.nombre}, con atención 100 % digital
-              (sin local de atención al público). Contacto:{" "}
+              {site.nombreLegal} (RUT {site.rut}), con domicilio en {site.domicilioLegal}, opera la
+              tienda online {site.nombre}, con atención 100 % digital (sin local de atención al
+              público). Contacto:{" "}
               <a href={`mailto:${site.contacto.email}`} className="text-verde-600 underline underline-offset-2">
                 {site.contacto.email}
               </a>{" "}

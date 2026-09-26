@@ -104,7 +104,11 @@ function errorInesperado(contexto: string, error: unknown): EstadoFormulario {
  * el suscriptor queda guardado como "pendiente" y simplemente no recibe el
  * correo todavía — falta conectar el proveedor, no un bug.
  */
-async function enviarCorreoConfirmacion(email: string, token: string): Promise<void> {
+async function enviarCorreoConfirmacion(
+  email: string,
+  token: string,
+  tokenBaja: string,
+): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.warn(
@@ -115,6 +119,7 @@ async function enviarCorreoConfirmacion(email: string, token: string): Promise<v
 
   const from = process.env.RESEND_FROM_EMAIL ?? `${site.nombre} <avisos@membrishop.cl>`;
   const linkConfirmacion = urlAbsoluta(`/api/confirmar-suscripcion?token=${token}`);
+  const linkBaja = urlAbsoluta(`/api/baja?token=${tokenBaja}`);
 
   try {
     const res = await fetch("https://api.resend.com/emails", {
@@ -127,7 +132,12 @@ async function enviarCorreoConfirmacion(email: string, token: string): Promise<v
         from,
         to: email,
         subject: `Confirma tu suscripción a ${site.nombre}`,
-        html: `<p>Un paso más: confirma que quieres recibir avisos de ${site.nombre}.</p><p><a href="${linkConfirmacion}">Confirmar suscripción</a></p><p>Si no la pediste tú, ignora este correo.</p>`,
+        html: `<p>Un paso más: confirma que quieres recibir avisos de ${site.nombre}.</p><p><a href="${linkConfirmacion}">Confirmar suscripción</a></p><p>Si no la pediste tú, ignora este correo.</p><p style="font-size:12px;color:#777">${site.nombreLegal} · ${site.contacto.email}<br><a href="${linkBaja}">No quiero recibir más correos</a></p>`,
+        // Baja en un clic desde el cliente de correo (Gmail, Outlook): RFC 8058.
+        headers: {
+          "List-Unsubscribe": `<${linkBaja}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        },
       }),
     });
     if (!res.ok) {
@@ -201,6 +211,7 @@ export async function suscribir(
         id: subscribers.id,
         estado: subscribers.estado,
         actualizadoEn: subscribers.actualizadoEn,
+        unsubscribeToken: subscribers.unsubscribeToken,
       })
       .from(subscribers)
       .where(sql`lower(${subscribers.email}) = ${datos.email}`)
@@ -222,7 +233,7 @@ export async function suscribir(
           })
           .where(eq(subscribers.id, existente.id));
 
-        await enviarCorreoConfirmacion(datos.email, token);
+        await enviarCorreoConfirmacion(datos.email, token, existente.unsubscribeToken);
         return {
           estado: "ok",
           mensaje: emailConfirmacionConfigurada
@@ -242,7 +253,7 @@ export async function suscribir(
           })
           .where(eq(subscribers.id, existente.id));
 
-        await enviarCorreoConfirmacion(datos.email, token);
+        await enviarCorreoConfirmacion(datos.email, token, existente.unsubscribeToken);
       }
 
       return mensajeNuevoSuscriptor();
@@ -250,7 +261,7 @@ export async function suscribir(
 
     const token = randomUUID();
 
-    await db.insert(subscribers).values({
+    const [nuevo] = await db.insert(subscribers).values({
       email: datos.email,
       nombre: datos.nombre || null,
       origen: datos.origen ?? null,
@@ -260,9 +271,9 @@ export async function suscribir(
       ipHash,
       estado: "pendiente",
       confirmacionToken: token,
-    });
+    }).returning({ unsubscribeToken: subscribers.unsubscribeToken });
 
-    await enviarCorreoConfirmacion(datos.email, token);
+    await enviarCorreoConfirmacion(datos.email, token, nuevo.unsubscribeToken);
 
     return mensajeNuevoSuscriptor();
   } catch (error) {

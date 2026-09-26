@@ -6,7 +6,10 @@
 
 export const site = {
   nombre: "MembriShop",
-  nombreLegal: "MembriShop SpA",
+  /** Razón social real del operador (Reglamento de Comercio Electrónico, DS 6/2021). */
+  nombreLegal: "CODADEN Group SpA",
+  rut: "78.499.989-0",
+  domicilioLegal: "Av. Los Pajaritos 3195, Maipú, Región Metropolitana",
   /** Sin barra final. Necesario para canonicals y sitemap absolutos. */
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://membrishop.cl").replace(/\/$/, ""),
   descripcionCorta:

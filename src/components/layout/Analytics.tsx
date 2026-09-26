@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { ConsentimientoCookies } from "@/components/layout/ConsentimientoCookies";
 import { site } from "@/lib/site";
 
 /**
@@ -20,6 +21,17 @@ export function Analytics() {
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          // Consent Mode v2: todo denegado hasta que el visitante acepte en el aviso.
+          var elegida = null;
+          try { elegida = localStorage.getItem('ms-consentimiento-analitica'); } catch (e) {}
+          gtag('consent', 'default', {
+            analytics_storage: elegida === 'aceptada' ? 'granted' : 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            wait_for_update: 500
+          });
           gtag('js', new Date());
           gtag('config', '${id}', { send_page_view: true });
         `}
@@ -45,6 +57,7 @@ export function Analytics() {
           }, true);
         `}
       </Script>
+      <ConsentimientoCookies />
     </>
   );
 }

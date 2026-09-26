@@ -17,7 +17,7 @@ export const metadata: Metadata = buildMetadata({
 
 const TLDR = [
   "Solo pedimos los datos necesarios para procesar tu pedido y contactarte: nombre, dirección, correo, teléfono.",
-  "No vendemos tus datos a terceros. Los compartimos solo con quienes procesan el pago y el despacho.",
+  "No vendemos tus datos. Los tratan solo los proveedores que operan la tienda, el pago y el despacho.",
   "Puedes pedir que corrijamos o eliminemos tus datos escribiendo a contacto@membrishop.cl.",
   "El formulario web guarda una versión anonimizada (hash) de tu IP, solo para evitar spam.",
 ];
@@ -92,16 +92,43 @@ export default function PrivacidadPage() {
           <div>
             <h2 className="text-fluid-h3 text-ink">4. Con quién compartimos tus datos</h2>
             <p className="mt-3">
-              Solo con los proveedores necesarios para completar tu compra: la pasarela de pago
-              (procesa el cobro directamente, no nos entrega el número completo de tu tarjeta) y
-              la empresa de courier que despacha tu pedido (recibe nombre, dirección y teléfono,
-              lo necesario para entregarte). No vendemos ni arrendamos tus datos a terceros con
-              fines publicitarios.
+              No vendemos ni arrendamos tus datos. Los tratan, por encargo nuestro y solo para lo
+              indicado, estos proveedores:
+            </p>
+            <ul className="mt-3 list-disc space-y-2 pl-5">
+              <li>Shopify: tienda, carrito, checkout y registro de pedidos.</li>
+              <li>Mercado Pago: procesa el pago. No recibimos el número completo de tu tarjeta.</li>
+              <li>Dropi y la empresa de courier: preparan y entregan el pedido (nombre, dirección y teléfono).</li>
+              <li>Vercel: aloja este sitio web.</li>
+              <li>Neon: base de datos donde guardamos los formularios de contacto y newsletter.</li>
+              <li>Resend: envía los correos de confirmación del newsletter.</li>
+              <li>Google Analytics: estadísticas de visitas, solo si las aceptas (ver Cookies).</li>
+            </ul>
+            <p className="mt-3">
+              Algunos de estos proveedores almacenan datos fuera de Chile (por ejemplo, en Estados
+              Unidos o Brasil), con sus propias medidas de seguridad.
             </p>
           </div>
-
+          <div id="cookies">
+            <h2 className="text-fluid-h3 text-ink">5. Cookies</h2>
+            <p className="mt-3">
+              Este sitio no usa cookies de publicidad. Usa Google Analytics para medir visitas de
+              forma agregada; sus cookies (_ga) solo se activan si aceptas la analítica en el aviso
+              que aparece al entrar. Puedes cambiar tu elección cuando quieras desde
+              &quot;Preferencias de cookies&quot;, al pie de cada página. El checkout de Shopify usa
+              sus propias cookies técnicas, necesarias para completar la compra.
+            </p>
+          </div>
           <div>
-            <h2 className="text-fluid-h3 text-ink">5. Tus derechos</h2>
+            <h2 className="text-fluid-h3 text-ink">6. Cuánto tiempo guardamos tus datos</h2>
+            <ul className="mt-3 list-disc space-y-2 pl-5">
+              <li>Pedidos: el tiempo que exigen las obligaciones tributarias y la garantía legal.</li>
+              <li>Mensajes del formulario de contacto: hasta 24 meses desde que nos escribes.</li>
+              <li>Newsletter: hasta que te des de baja, con el enlace que va en cada correo.</li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-fluid-h3 text-ink">7. Tus derechos</h2>
             <p className="mt-3">
               Puedes solicitarnos en cualquier momento acceder a tus datos, corregirlos o pedir su
               eliminación, escribiendo a{" "}
@@ -115,10 +142,11 @@ export default function PrivacidadPage() {
           </div>
 
           <div>
-            <h2 className="text-fluid-h3 text-ink">6. Cambios a esta política</h2>
+            <h2 className="text-fluid-h3 text-ink">8. Cambios a esta política</h2>
             <p className="mt-3">
               Si actualizamos esta política, la nueva versión reemplaza a esta en la misma
-              dirección web, con la fecha de la última actualización.
+              dirección web, con la fecha de la última actualización. Última actualización: 26 de
+              septiembre de 2026.
             </p>
           </div>
         </div>

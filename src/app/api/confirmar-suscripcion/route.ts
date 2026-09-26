@@ -50,7 +50,11 @@ function pagina(titulo: string, texto: string): Response {
 export async function GET(request: Request): Promise<Response> {
   const token = new URL(request.url).searchParams.get("token");
 
-  if (!token || !baseConfigurada()) {
+  // El token es un UUID: cualquier otro formato se rechaza antes de consultar
+  // (Postgres lanzaría 22P02 y se mostraría un error genérico en vez de "enlace inválido").
+  const tokenValido = Boolean(token && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(token));
+
+  if (!token || !tokenValido || !baseConfigurada()) {
     return pagina(
       "Enlace inválido",
       "Este enlace de confirmación no es válido o ya expiró. Si sigues interesado, suscríbete de nuevo desde la web.",

@@ -65,8 +65,18 @@ const QUERY_CATALOGO = /* GraphQL */ `
   }
 `;
 
+/**
+ * Respaldo ante caída de Shopify: solo pilares con ficha real publicada.
+ * Los marcadores con precio referencial NO se muestran nunca (no son productos
+ * a la venta: mostrarlos sería publicar precio y disponibilidad inventados).
+ */
 function respaldo(categoria: Categoria): Categoria {
-  return { ...categoria, pilares: categoria.pilares.map((p) => ({ ...p, origen: "clusters" as const })) };
+  return {
+    ...categoria,
+    pilares: categoria.pilares
+      .filter((p) => p.fichaPublicada)
+      .map((p) => ({ ...p, origen: "clusters" as const })),
+  };
 }
 
 function pilarDesdeShopify(n: ProductoLista, previo: Pilar | undefined): Pilar {

@@ -24,16 +24,10 @@ import { site } from "@/lib/site";
 const PERMITIR_IA: boolean = true;
 const BOTS_IA = ["GPTBot", "OAI-SearchBot", "ClaudeBot", "PerplexityBot", "Google-Extended"];
 
-export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: [
+const DISALLOW: string[] = [
           // --- Infraestructura ---
           "/api/",
-          "/_next/",
+          // "/_next/" NO se bloquea: Google necesita CSS/JS de /_next/static para renderizar.
           // --- Rutas transaccionales y de cuenta ---
           "/carrito",
           "/checkout",
@@ -51,11 +45,17 @@ export default function robots(): MetadataRoute.Robots {
           "/*?color=",
           "/*?talla=",
           "/*?q=",
-        ],
-      },
+];
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [
+      { userAgent: "*", allow: "/", disallow: DISALLOW },
+      // Un grupo propio reemplaza al de "*": se repiten las exclusiones para que
+      // los bots de IA tampoco rastreen /api/, paginación ni filtros.
       ...BOTS_IA.map((bot) =>
         PERMITIR_IA
-          ? { userAgent: bot, allow: "/" }
+          ? { userAgent: bot, allow: "/", disallow: DISALLOW }
           : { userAgent: bot, disallow: "/" },
       ),
     ],

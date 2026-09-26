@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // No anunciar el framework en cada respuesta (X-Powered-By).
+  poweredByHeader: false,
 
   // Formatos modernos: menos peso = mejor LCP = mejor Core Web Vitals.
   images: {

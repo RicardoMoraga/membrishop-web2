@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { LeadForm } from "@/components/marketing/LeadForm";
+import { BotonPreferenciasCookies } from "@/components/layout/ConsentimientoCookies";
 import { IconoFacebook, IconoInstagram, IconoTiktok } from "@/components/ui/icons";
 import { getCatalogo } from "@/lib/catalogo";
 import { site } from "@/lib/site";
@@ -124,7 +125,7 @@ export async function Footer() {
 
         <div className="mt-5 flex flex-col gap-3 border-t border-white/12 pt-5 text-[12.5px] text-crema/70 md:flex-row md:items-center md:justify-between">
           <p>
-            © {anio} {site.nombre}. Hecho en Chile.
+            © {anio} {site.nombre}. Hecho en Chile. Operado por {site.nombreLegal}, RUT {site.rut}, {site.domicilioLegal}.
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <Link href="/contacto" className="hover:text-white hover:underline">
@@ -139,6 +140,9 @@ export async function Footer() {
             <Link href="/politica-de-privacidad" className="hover:text-white hover:underline">
               Política de privacidad
             </Link>
+            {site.analytics.ga4 ? (
+              <BotonPreferenciasCookies className="hover:text-white hover:underline" />
+            ) : null}
             <a
               href={`mailto:${site.contacto.email}`}
               className="text-[13.5px] font-bold text-white hover:underline"
