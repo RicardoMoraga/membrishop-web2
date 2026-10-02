@@ -56,7 +56,7 @@ export default function PrivacidadPage() {
       <Section>
         <div className="mx-auto max-w-3xl space-y-10 text-[15px] leading-relaxed text-ink-suave">
           {legal.map((sec) => (
-            <div key={sec.titulo}>
+            <div key={sec.titulo} id={sec.titulo.includes("Cookies") ? "cookies" : undefined}>
               <h2 className="text-fluid-h3 text-ink">{sec.titulo}</h2>
               {sec.bloques.map((b, i) =>
                 b.t === "ul" ? (
