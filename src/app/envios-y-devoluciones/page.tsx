@@ -18,10 +18,10 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const TLDR = [
-  "Por ahora despachamos solo dentro de la Región Metropolitana, en 24–72 h hábiles.",
-  `${site.promesas.retracto}: producto sin uso, en su empaque original.`,
-  "El costo del envío de vuelta en un retracto lo cubre el comprador, salvo error nuestro.",
-  "Escríbenos con tu número de pedido para iniciar cualquier cambio o devolución.",
+  "Por ahora despachamos solo dentro de la Región Metropolitana: 24–72 h hábiles, y hasta 5 días hábiles en sectores alejados o de difícil acceso.",
+  `${site.promesas.retracto}: el producto debe volver en las mismas condiciones en que lo recibiste.`,
+  "Si ejerces el retracto una vez despachado el pedido, el costo del envío de vuelta lo pagas tú; si falla o llega mal, lo pagamos nosotros.",
+  "Para cualquier cambio, devolución o garantía, escríbenos primero por WhatsApp: ahí te damos las instrucciones de envío.",
 ];
 
 const FAQS: Faq[] = [
@@ -33,17 +33,17 @@ const FAQS: Faq[] = [
   {
     pregunta: "¿Qué hago si mi producto llega dañado?",
     respuesta:
-      "Escríbenos por WhatsApp o al correo con fotos del producto y el empaque dentro de las 48 horas de recibido. Coordinamos el cambio sin costo para ti.",
+      "Escríbenos apenas lo recibas, por WhatsApp o al correo, con fotos del producto y del empaque, para coordinar cambio, reparación o devolución del dinero según corresponda. Tu garantía legal de 6 meses no depende de ese aviso. Si llegó dañado, incompleto o distinto al pedido, el costo del envío lo cubrimos nosotros.",
   },
   {
     pregunta: "¿Puedo cambiar un producto por otro del catálogo?",
     respuesta:
-      "Sí, dentro de los 10 días desde la recepción, si el producto no ha sido usado y conserva su empaque original. Escríbenos con tu número de pedido.",
+      "Es un beneficio voluntario de MembriShop, sujeto a stock: puedes solicitarlo dentro de los 10 días desde la recepción, con el producto en las mismas condiciones en que lo recibiste y con su empaque original. No reemplaza tu derecho a retracto ni tu garantía legal. Si hay diferencia de precio, se ajusta al momento del cambio. Escríbenos con tu número de pedido.",
   },
   {
     pregunta: "¿Quién paga el envío de una devolución?",
     respuesta:
-      "Si te arrepientes de la compra (retracto), el costo del envío de vuelta corre por tu cuenta. Si el problema es nuestro — producto dañado, incompleto o distinto al pedido —, lo cubrimos nosotros.",
+      "Si ejerces el retracto antes de que el pedido sea despachado, no tiene ningún costo y te reembolsamos el total. Si lo ejerces una vez despachado el pedido, el costo del envío de vuelta lo pagas tú. Si el problema es nuestro — producto dañado, incompleto, distinto al pedido o con falla cubierta por la garantía legal —, lo cubrimos nosotros.",
   },
 ];
 
@@ -115,8 +115,9 @@ export default function EnviosYDevolucionesPage() {
           </table>
         </div>
         <p className="mt-4 text-[13px] text-ink-tenue">
-          Plazos estimados por el courier a partir del despacho, no de la fecha de compra. Se
-          cuentan en días hábiles.
+          Plazos estimados por el courier, en días hábiles, desde la confirmación del pago. Pueden
+          extenderse por caso fortuito o fuerza mayor (clima, cortes de ruta, alta demanda del
+          courier); en ese caso te avisamos.
         </p>
       </Section>
 
@@ -129,16 +130,22 @@ export default function EnviosYDevolucionesPage() {
             <p className="mt-3">
               Según la Ley N°19.496 del Consumidor, tienes 10 días corridos desde que recibes el
               producto para arrepentirte de la compra, sin necesidad de justificar el motivo. El
-              producto debe estar sin uso, con su empaque y accesorios originales.
+              producto debe devolverse en las mismas condiciones en que lo recibiste: sin deterioro
+              imputable a ti y con sus accesorios y, cuando corresponda, su empaque original.
+              Abrirlo y probarlo para decidir si te sirve no te quita el derecho. Si ejerces el
+              retracto una vez despachado el pedido, el costo del envío de vuelta es de tu cargo;
+              si lo ejerces antes del despacho, no tiene costo. Algunos productos pueden estar
+              legalmente excluidos del retracto (por ejemplo, los de higiene abiertos); en ese
+              caso lo informamos antes de que compres.
             </p>
           </div>
 
           <div>
             <h2 className="text-fluid-h3 text-ink">Cómo hacer un cambio o devolución</h2>
             <ol className="mt-3 list-decimal space-y-2 pl-5">
-              <li>Escríbenos por WhatsApp o a {site.contacto.email} con tu número de pedido.</li>
-              <li>Te confirmamos si aplica cambio, devolución con reembolso, o reparación en garantía.</li>
-              <li>Coordinamos el retiro o el envío del producto de vuelta.</li>
+              <li>Escríbenos por WhatsApp (o a {site.contacto.email}) con tu número de pedido, antes de enviar nada.</li>
+              <li>Te confirmamos si aplica cambio, devolución con reembolso o reparación en garantía.</li>
+              <li>Si el producto debe volver a nosotros, por WhatsApp te damos las instrucciones de envío y la dirección de destino.</li>
               <li>Una vez que revisamos el producto, procesamos el reembolso o el envío del reemplazo.</li>
             </ol>
           </div>

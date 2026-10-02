@@ -6,6 +6,7 @@ import { TldrBlock } from "@/components/seo/TldrBlock";
 import { Section } from "@/components/ui/Section";
 import { breadcrumbSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
+import legal from "@/content/legal/terminos.json";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
@@ -17,9 +18,10 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const TLDR = [
-  `Vendemos solo online, con boleta electrónica y precios en ${site.moneda} con IVA incluido.`,
+  `Vendemos solo online, con precios en ${site.moneda} con IVA incluido; te enviamos la boleta electrónica por correo o WhatsApp después del pago.`,
   `${site.promesas.retracto}, según la Ley N°19.496 del Consumidor.`,
-  "Por ahora despachamos solo dentro de la Región Metropolitana; los plazos son estimados (ver Envíos y Devoluciones).",
+  "Por ahora despachamos solo dentro de la Región Metropolitana: 24–72 h hábiles, hasta 5 días en sectores alejados.",
+  "Si ejerces el retracto una vez despachado el pedido, el envío de vuelta es de tu cargo.",
   "Estos términos rigen toda compra hecha en membrishop.cl, sin excepción.",
 ];
 
@@ -62,94 +64,24 @@ export default function TerminosPage() {
 
       <Section>
         <div className="mx-auto max-w-3xl space-y-10 text-[15px] leading-relaxed text-ink-suave">
-          <div>
-            <h2 className="text-fluid-h3 text-ink">1. Identificación del vendedor</h2>
-            <p className="mt-3">
-              {site.nombreLegal} (RUT {site.rut}), con domicilio en {site.domicilioLegal}, opera la
-              tienda online {site.nombre}, con atención 100 % digital (sin local de atención al
-              público). Contacto:{" "}
-              <a href={`mailto:${site.contacto.email}`} className="text-verde-600 underline underline-offset-2">
-                {site.contacto.email}
-              </a>{" "}
-              — horario de atención: {site.contacto.horario}.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-fluid-h3 text-ink">2. Precios y medios de pago</h2>
-            <p className="mt-3">
-              Todos los precios publicados están en {site.moneda} e incluyen IVA. Aceptamos los
-              siguientes medios de pago: {site.mediosPago.join(", ")}. El precio y la
-              disponibilidad de un producto son los vigentes al momento de confirmar el pago; un
-              precio mostrado antes de esa confirmación no constituye una oferta en firme.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-fluid-h3 text-ink">3. Confirmación del pedido</h2>
-            <p className="mt-3">
-              Una compra se considera confirmada cuando el medio de pago aprueba la transacción y
-              recibes el correo de confirmación con el número de pedido. Emitimos boleta
-              electrónica por cada compra realizada.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-fluid-h3 text-ink">4. Despacho</h2>
-            <p className="mt-3">
-              Por ahora despachamos solo dentro de la Región Metropolitana. Los plazos están detallados en nuestra{" "}
-              <a
-                href="/envios-y-devoluciones"
-                className="text-verde-600 underline underline-offset-2"
-              >
-                Política de Envíos y Devoluciones
-              </a>
-              . Son plazos estimados de courier, no una fecha comprometida en horas exactas.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-fluid-h3 text-ink">5. Derecho a retracto</h2>
-            <p className="mt-3">
-              {site.promesas.retracto}. El detalle del procedimiento —cómo solicitarlo, quién
-              cubre el costo del envío de vuelta y en qué estado debe llegar el producto— está en
-              la{" "}
-              <a
-                href="/envios-y-devoluciones"
-                className="text-verde-600 underline underline-offset-2"
-              >
-                Política de Envíos y Devoluciones
-              </a>
-              .
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-fluid-h3 text-ink">6. Garantía legal</h2>
-            <p className="mt-3">
-              Todos los productos cuentan con garantía legal de 6 meses según la Ley N°19.496 del
-              Consumidor, gestionada directamente con {site.nombre} — sin necesidad de tramitar
-              nada con un proveedor extranjero.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-fluid-h3 text-ink">7. Disponibilidad de stock</h2>
-            <p className="mt-3">
-              El catálogo de {site.nombre} es rotativo: un producto puede agotarse y ser
-              reemplazado por otro similar. Si un producto se agota después de que confirmaste el
-              pago, te contactaremos para ofrecerte un reemplazo equivalente o el reembolso total
-              del monto pagado.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-fluid-h3 text-ink">8. Modificaciones</h2>
-            <p className="mt-3">
-              Podemos actualizar estos términos para reflejar cambios operativos o normativos. La
-              versión vigente es siempre la publicada en esta página al momento de tu compra.
-            </p>
-          </div>
+          {legal.map((sec) => (
+            <div key={sec.titulo}>
+              <h2 className="text-fluid-h3 text-ink">{sec.titulo}</h2>
+              {sec.bloques.map((b, i) =>
+                b.t === "ul" ? (
+                  <ul key={i} className="mt-3 list-disc space-y-2 pl-5">
+                    {(b.x as string[]).map((it) => (
+                      <li key={it}>{it}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p key={i} className="mt-3">
+                    {b.x as string}
+                  </p>
+                ),
+              )}
+            </div>
+          ))}
         </div>
       </Section>
 

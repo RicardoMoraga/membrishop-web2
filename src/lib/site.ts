@@ -9,7 +9,7 @@ export const site = {
   /** Razón social real del operador (Reglamento de Comercio Electrónico, DS 6/2021). */
   nombreLegal: "CODADEN Group SpA",
   rut: "78.499.989-0",
-  domicilioLegal: "Av. Los Pajaritos 3195, Maipú, Región Metropolitana",
+  domicilioLegal: "Avenida Los Pajaritos 3195, Maipú, Región Metropolitana",
   /** Sin barra final. Necesario para canonicals y sitemap absolutos. */
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://membrishop.cl").replace(/\/$/, ""),
   descripcionCorta:
@@ -74,9 +74,14 @@ export const site = {
    */
   zonasDespacho: [
     {
-      zona: "Región Metropolitana",
+      zona: "Región Metropolitana (zonas urbanas y de fácil acceso)",
       plazo: "24 a 72 h hábiles",
       nota: "Plazo estimado del courier, en días hábiles, desde que se confirma el pago.",
+    },
+    {
+      zona: "Región Metropolitana (sectores alejados o con dificultades geográficas o de acceso)",
+      plazo: "Hasta 5 días hábiles",
+      nota: "Plazo estimado; puede extenderse por caso fortuito o fuerza mayor, siempre con aviso.",
     },
   ],
 
@@ -93,12 +98,12 @@ export const site = {
 
   /** Promesas comerciales. Cámbialas solo si puedes cumplirlas. */
   promesas: {
-    despacho: "Despacho en 24–72 h hábiles en la Región Metropolitana",
+    despacho: "Despacho en la Región Metropolitana: 24–72 h hábiles (hasta 5 en zonas alejadas)",
     cobertura: "Despacho solo en la Región Metropolitana",
     garantia: "Garantía legal de 6 meses",
     stock: "Stock en Chile: sin esperas de 30 días",
     pago: "Pago seguro con MercadoPago, tarjeta de crédito o débito",
-    retracto: "10 días para arrepentirte, según la Ley del Consumidor",
+    retracto: "10 días corridos para arrepentirte, según la Ley del Consumidor",
   },
 } as const;
 

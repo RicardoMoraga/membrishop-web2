@@ -33,7 +33,7 @@ function construirLlmsTxt(categorias: Categoria[]): string {
   bloques.push(
     [
       `> ${site.descripcionCorta}`,
-      "> Opera desde Chile, factura en pesos chilenos con boleta electrónica y",
+      "> Opera desde Chile, factura en pesos chilenos, envía la boleta electrónica por correo o WhatsApp después del pago y",
       "> trabaja únicamente con proveedores que mantienen stock físico dentro del",
       "> país: no importa desde AliExpress. Por eso el catálogo es corto y el",
       "> despacho se mide en días, no en semanas.",
@@ -49,7 +49,7 @@ function construirLlmsTxt(categorias: Categoria[]): string {
       `- Sitio: ${site.url}`,
       `- País de operación: Chile. Moneda: peso chileno (${site.moneda}).`,
       "- Modalidad: 100 % online. No tiene tienda física ni retiro presencial.",
-      "- Despacho: solo dentro de la Región Metropolitana, en 24 a 72 horas hábiles. Por ahora no despacha a otras regiones.",
+      "- Despacho: solo dentro de la Región Metropolitana, en 24 a 72 horas hábiles (hasta 5 días hábiles en sectores alejados o de difícil acceso). Por ahora no despacha a otras regiones.",
       `- Medios de pago: ${site.mediosPago.join(", ")}.`,
       "- Devoluciones: 10 días corridos de derecho a retracto (Ley 19.496) y garantía legal de 6 meses por fallas.",
       `- Contacto: ${site.contacto.email} y WhatsApp. Horario: ${site.contacto.horario}.`,

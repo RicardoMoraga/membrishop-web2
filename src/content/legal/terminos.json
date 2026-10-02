@@ -1,0 +1,167 @@
+[
+ {
+  "titulo": "1. Identificación del vendedor",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "CODADEN Group SpA, RUT 78.499.989-0, con domicilio en Avenida Los Pajaritos 3195, Maipú, Región Metropolitana, opera la tienda online MembriShop (membrishop.cl), con atención 100 % digital y sin local de atención al público. Contacto: contacto@membrishop.cl o WhatsApp +56 9 7487 2226, de lunes a viernes de 09:00 a 19:00 (hora de Chile continental)."
+   }
+  ]
+ },
+ {
+  "titulo": "2. Aceptación y capacidad",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Estos Términos y Condiciones rigen toda compra realizada en membrishop.cl. Al confirmar un pedido declaras haberlos leído y aceptarlos. Para comprar debes ser mayor de 18 años y tener capacidad legal para contratar; los menores de edad solo pueden comprar con autorización y bajo responsabilidad de su representante legal."
+   }
+  ]
+ },
+ {
+  "titulo": "3. Información de los productos",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Nos esforzamos por que las fotos, descripciones y especificaciones sean fieles. Algunos colores o detalles pueden variar levemente según tu pantalla o el lote del proveedor. Si detectamos un error evidente de precio, stock o descripción en tu pedido, te contactaremos antes del despacho para confirmar la compra, ofrecerte una alternativa o reembolsarte el total pagado, sin costo para ti."
+   }
+  ]
+ },
+ {
+  "titulo": "4. Precios y medios de pago",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Todos los precios están en pesos chilenos (CLP) e incluyen IVA. El costo del despacho se calcula en el checkout y se muestra antes de pagar. El pago se realiza exclusivamente a través de Mercado Pago, con tarjeta de crédito o débito. MembriShop no ofrece pago contra entrega ni transferencia bancaria directa. El precio aplicable es el vigente al momento de confirmarse el pago."
+   }
+  ]
+ },
+ {
+  "titulo": "5. Confirmación del pedido y boleta",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "La compra se considera confirmada cuando Mercado Pago aprueba el pago y recibes el correo de confirmación con tu número de pedido. Emitimos boleta electrónica por cada compra y te la enviamos por correo o WhatsApp después de confirmado el pago. Si no la recibes, escríbenos y te la reenviamos."
+   }
+  ]
+ },
+ {
+  "titulo": "6. Despacho",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Por ahora despachamos solo dentro de la Región Metropolitana, mediante couriers externos. Los plazos son estimados y se cuentan en días hábiles desde que se confirma el pago:"
+   },
+   {
+    "t": "ul",
+    "x": [
+     "24 a 72 horas hábiles en zonas urbanas y de fácil acceso.",
+     "Hasta 5 días hábiles en sectores alejados o con dificultades geográficas o de acceso."
+    ]
+   },
+   {
+    "t": "p",
+    "x": "Los plazos pueden extenderse por caso fortuito o fuerza mayor (por ejemplo, condiciones climáticas, cortes de rutas o alta demanda del courier); en ese caso te avisaremos. Eres responsable de ingresar una dirección y un teléfono de contacto correctos y completos, y de que alguien reciba el pedido. Si el courier no logra entregar por datos errados o ausencia, podremos coordinar un nuevo intento, cuyo costo adicional podrá ser de tu cargo, previo aviso. Al recibir el pedido, revisa que el embalaje esté en buen estado y avísanos de inmediato si hay daños."
+   }
+  ]
+ },
+ {
+  "titulo": "7. Derecho de retracto",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Si compraste a distancia, puedes retractarte dentro de los 10 días corridos siguientes a la recepción del producto, sin necesidad de indicar la causa, conforme al artículo 3 bis de la Ley N.º 19.496. Para ejercerlo, escríbenos a contacto@membrishop.cl o por WhatsApp indicando tu número de pedido. Para cualquier devolución, cambio o garantía en que el producto deba volver a nosotros, escríbenos primero por WhatsApp o correo: ahí te daremos las instrucciones de envío y la dirección de destino. Así evitamos errores y aceleramos tu reembolso o cambio."
+   },
+   {
+    "t": "ul",
+    "x": [
+     "El producto debe devolverse en las mismas condiciones en que lo recibiste, sin deterioro imputable a ti y con sus accesorios y, cuando corresponda, su empaque original. Abrirlo y probarlo para decidir si te sirve no te quita el derecho.",
+     "Si ejerces el retracto antes de que el pedido sea despachado, no tiene costo y te reembolsamos el total.",
+     "Si lo ejerces una vez despachado el pedido, el costo del envío de vuelta es de tu cargo.",
+     "Algunos productos pueden estar legalmente excluidos del retracto (por ejemplo, bienes de higiene abiertos o que se deterioran con rapidez); en ese caso te lo informaremos antes de comprar.",
+     "Reembolsaremos las sumas recibidas dentro del plazo legal, por el mismo medio de pago usado en la compra, una vez recibido y revisado el producto."
+    ]
+   }
+  ]
+ },
+ {
+  "titulo": "8. Garantía legal",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Los productos nuevos tienen garantía legal de 6 meses desde su recepción, conforme a la Ley N.º 19.496. Si el producto presenta una falla de fabricación, falta de piezas o no es apto para su uso, puedes elegir entre su reparación gratuita, su cambio o la devolución del dinero. Nos haremos cargo del costo del envío en los casos cubiertos por la garantía. La garantía no cubre daños atribuibles al consumidor, como golpes, caídas, uso contrario a las instrucciones, humedad, instalaciones incorrectas o reparaciones por terceros. Escríbenos apenas detectes la falla, con tu número de pedido y fotos o video; el aviso oportuno facilita la solución, pero tu garantía legal no depende de él. Si el producto debe volver a nosotros, te daremos las instrucciones por WhatsApp o correo."
+   }
+  ]
+ },
+ {
+  "titulo": "9. Cambios voluntarios",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Además de tus derechos legales, MembriShop puede ofrecer cambios voluntarios de producto, sujetos a stock, solicitados dentro de los 10 días desde la recepción y con el producto en las mismas condiciones en que lo recibiste y con su empaque original. Es un beneficio comercial adicional que no reemplaza ni limita el retracto ni la garantía legal, y puede implicar diferencia de precio."
+   }
+  ]
+ },
+ {
+  "titulo": "10. Disponibilidad de stock",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "El catálogo es rotativo: un producto puede agotarse. Si un producto se agota después de confirmado el pago, te contactaremos para ofrecerte un reemplazo equivalente o el reembolso total de lo pagado."
+   }
+  ]
+ },
+ {
+  "titulo": "11. Uso del sitio y propiedad intelectual",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Los textos, imágenes, logotipos, marcas y diseño de membrishop.cl pertenecen a CODADEN Group SpA o a sus licenciantes y no pueden copiarse, reproducirse ni usarse comercialmente sin autorización escrita. Te comprometes a usar el sitio de forma lícita, sin intentar vulnerar su seguridad, suplantar a otras personas ni entregar información falsa."
+   }
+  ]
+ },
+ {
+  "titulo": "12. Responsabilidad",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Sin perjuicio de los derechos irrenunciables que la Ley N.º 19.496 reconoce a los consumidores, MembriShop no responde por: interrupciones o fallas de internet, de la pasarela de pago o de otros servicios de terceros ajenos a su control; retrasos causados por caso fortuito o fuerza mayor; ni por datos incorrectos entregados por el comprador. En la medida que la ley lo permita, la responsabilidad de MembriShop se limita al valor de los productos adquiridos en el pedido afectado. Nada de lo aquí dispuesto limita derechos que la ley no permite renunciar."
+   }
+  ]
+ },
+ {
+  "titulo": "13. Reclamos y SERNAC",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Si tienes un reclamo, escríbenos primero a contacto@membrishop.cl o por WhatsApp para buscar una solución. Esto no limita tu derecho a acudir al Servicio Nacional del Consumidor (SERNAC, www.sernac.cl) ni a los tribunales competentes."
+   }
+  ]
+ },
+ {
+  "titulo": "14. Datos personales",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Tratamos tus datos personales conforme a nuestra Política de Privacidad, disponible en membrishop.cl/politica-de-privacidad."
+   }
+  ]
+ },
+ {
+  "titulo": "15. Ley aplicable y jurisdicción",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Estos términos se rigen por las leyes de la República de Chile. Cualquier controversia será conocida por los Juzgados de Policía Local u otros tribunales competentes según la Ley N.º 19.496, pudiendo el consumidor accionar ante el tribunal de su domicilio o del domicilio de CODADEN Group SpA, a su elección."
+   }
+  ]
+ },
+ {
+  "titulo": "16. Modificaciones",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Podemos actualizar estos términos por cambios operativos o normativos. La versión aplicable a tu compra es la vigente al momento de confirmarse el pago. Vigencia de esta versión: 1 de octubre de 2026."
+   }
+  ]
+ }
+]

@@ -75,7 +75,7 @@ export const home = {
     {
       titulo: "Pagas seguro",
       detalle:
-        "MercadoPago, con tarjeta de crédito o débito. Recibes boleta electrónica en el correo.",
+        "MercadoPago, con tarjeta de crédito o débito. Te enviamos tu boleta electrónica por correo o WhatsApp después de confirmar el pago.",
     },
     {
       titulo: "Recibes y sigues el envío",
@@ -93,7 +93,7 @@ export const home = {
     {
       pregunta: "¿A qué zonas despachan y cuánto demora?",
       respuesta:
-        "Por ahora despachamos solo dentro de la Región Metropolitana, en 24 a 72 horas hábiles. Todavía no despachamos a otras regiones. El plazo empieza a correr cuando se confirma el pago, y recibes el número de seguimiento por correo.",
+        "Por ahora despachamos solo dentro de la Región Metropolitana, en 24 a 72 horas hábiles (hasta 5 días hábiles en sectores alejados o de difícil acceso). Todavía no despachamos a otras regiones. El plazo empieza a correr cuando se confirma el pago, y recibes el número de seguimiento por correo.",
     },
     {
       pregunta: "¿Qué medios de pago aceptan?",
@@ -103,7 +103,7 @@ export const home = {
     {
       pregunta: "¿Puedo devolver un producto si no me sirve?",
       respuesta:
-        "Sí. Tienes 10 días corridos desde la recepción para ejercer el derecho a retracto de la Ley del Consumidor, con el producto sin uso y en su embalaje original. Además, todo producto cuenta con la garantía legal de 6 meses por fallas.",
+        "Sí. Tienes 10 días corridos desde la recepción para ejercer el derecho a retracto de la Ley del Consumidor, con el producto en las mismas condiciones en que lo recibiste, sin deterioro imputable a ti. Además, todo producto cuenta con la garantía legal de 6 meses por fallas.",
     },
     {
       pregunta: "¿Por qué el catálogo tiene tan pocos productos?",

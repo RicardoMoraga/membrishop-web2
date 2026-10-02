@@ -1,0 +1,123 @@
+[
+ {
+  "titulo": "1. Responsable del tratamiento",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "CODADEN Group SpA, RUT 78.499.989-0, domicilio Avenida Los Pajaritos 3195, Maipú, Región Metropolitana, operador de MembriShop, es responsable del tratamiento de los datos personales que nos entregas al comprar o contactarnos. Contacto para cualquier consulta sobre tus datos: contacto@membrishop.cl."
+   }
+  ]
+ },
+ {
+  "titulo": "2. Marco legal",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Tratamos tus datos conforme a la Ley N.º 19.628 sobre protección de la vida privada y, desde su entrada en vigencia (1 de diciembre de 2026), a la Ley N.º 21.719 sobre protección y tratamiento de datos personales. Esta política se actualizará si la normativa cambia."
+   }
+  ]
+ },
+ {
+  "titulo": "3. Qué datos recopilamos",
+  "bloques": [
+   {
+    "t": "ul",
+    "x": [
+     "Datos de contacto y entrega: nombre, correo, teléfono y dirección de despacho.",
+     "Datos de la compra: productos, monto, número de pedido y medio de pago utilizado. No guardamos el número de tu tarjeta: lo procesa directamente Mercado Pago.",
+     "Datos del formulario de contacto: nombre, correo o teléfono y tu mensaje. Guardamos además un hash (versión irreversible) de tu dirección IP, solo para limitar el envío repetido de spam; nunca la IP en texto plano.",
+     "Datos de navegación agregados, solo si aceptas la analítica (ver Cookies)."
+    ]
+   }
+  ]
+ },
+ {
+  "titulo": "4. Para qué los usamos y base de licitud",
+  "bloques": [
+   {
+    "t": "ul",
+    "x": [
+     "Procesar, despachar y dar soporte a tu pedido, incluidas la garantía y el retracto (ejecución del contrato de compra).",
+     "Emitir y enviarte tu boleta electrónica y cumplir obligaciones tributarias y de protección al consumidor (obligación legal).",
+     "Responder tus consultas por WhatsApp, correo o formulario (tu solicitud).",
+     "Enviarte avisos de stock por newsletter, solo si te suscribes voluntariamente; puedes darte de baja en cualquier momento (tu consentimiento).",
+     "Medir visitas de forma agregada con Google Analytics, solo si lo aceptas (tu consentimiento)."
+    ]
+   }
+  ]
+ },
+ {
+  "titulo": "5. Con quién compartimos tus datos",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "No vendemos ni arrendamos tus datos. Los tratan, por encargo nuestro y solo para lo indicado, estos proveedores:"
+   },
+   {
+    "t": "ul",
+    "x": [
+     "Shopify: tienda, carrito, checkout y registro de pedidos.",
+     "Mercado Pago: procesamiento del pago.",
+     "Dropi y la empresa de courier: preparación y entrega del pedido (nombre, dirección y teléfono).",
+     "Vercel: alojamiento del sitio web.",
+     "Neon: base de datos de formularios de contacto y newsletter.",
+     "Resend: envío de correos de confirmación del newsletter.",
+     "Google Analytics: estadísticas de visitas, solo si lo aceptas."
+    ]
+   },
+   {
+    "t": "p",
+    "x": "También podemos comunicar datos a autoridades cuando una ley lo exija. Algunos proveedores almacenan datos fuera de Chile (por ejemplo, en Estados Unidos o Brasil) bajo sus propias medidas de seguridad contractuales y técnicas."
+   }
+  ]
+ },
+ {
+  "titulo": "6. Cookies",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Este sitio no usa cookies de publicidad. Usa Google Analytics para medir visitas de forma agregada; sus cookies (_ga) solo se activan si aceptas la analítica en el aviso que aparece al entrar. Puedes cambiar tu elección en cualquier momento desde Preferencias de cookies, al pie de cada página. El checkout de Shopify usa cookies técnicas necesarias para completar la compra."
+   }
+  ]
+ },
+ {
+  "titulo": "7. Cuánto tiempo guardamos tus datos",
+  "bloques": [
+   {
+    "t": "ul",
+    "x": [
+     "Pedidos y boletas: el tiempo que exigen las obligaciones tributarias y la garantía legal.",
+     "Mensajes del formulario de contacto: hasta 24 meses desde que nos escribes.",
+     "Newsletter: hasta que te des de baja con el enlace incluido en cada correo."
+    ]
+   }
+  ]
+ },
+ {
+  "titulo": "8. Tus derechos",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Puedes solicitar acceso a tus datos, su rectificación, supresión u oposición a su tratamiento, y, cuando corresponda según la ley, su portabilidad o bloqueo, escribiendo a contacto@membrishop.cl con tu nombre y el correo usado en tu compra. Responderemos dentro de los plazos legales. Si tienes un pedido en curso, conservaremos los datos necesarios para la garantía legal y las obligaciones tributarias antes de eliminarlos. Si consideras que no atendimos tu solicitud, puedes recurrir a la autoridad de protección de datos o a los tribunales competentes."
+   }
+  ]
+ },
+ {
+  "titulo": "9. Seguridad",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Aplicamos medidas técnicas y organizativas razonables para proteger tus datos (conexiones cifradas, acceso restringido y proveedores con estándares de seguridad reconocidos). Ningún sistema es infalible; si ocurriera una vulneración que te afecte, te informaremos conforme a la ley."
+   }
+  ]
+ },
+ {
+  "titulo": "10. Cambios a esta política",
+  "bloques": [
+   {
+    "t": "p",
+    "x": "Si actualizamos esta política, la nueva versión reemplazará a esta en la misma dirección web, con su fecha de actualización. Última actualización: 1 de octubre de 2026."
+   }
+  ]
+ }
+]
