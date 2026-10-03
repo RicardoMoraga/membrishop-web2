@@ -3,8 +3,8 @@ import { ConsentimientoCookies } from "@/components/layout/ConsentimientoCookies
 import { site } from "@/lib/site";
 
 /**
- * Google Analytics 4.
- * No se renderiza si NEXT_PUBLIC_GA_ID está vacío, así que en desarrollo
+ * Google Analytics 4 en "modo básico" de Consent Mode: sin consentimiento no se
+ * carga gtag.js. No se renderiza si NEXT_PUBLIC_GA_ID está vacío, así que en desarrollo
  * no ensucias los datos con tus propias visitas.
  */
 export function Analytics() {
@@ -13,27 +13,59 @@ export function Analytics() {
 
   return (
     <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${id}`}
-        strategy="afterInteractive"
-      />
+      {/* Modo básico (decisión 2026-10-03): gtag.js NO se descarga ni se contacta
+          a Google hasta que el visitante pulsa "Aceptar analítica". Antes de eso,
+          window.gtag es una función vacía, así que ningún evento se encola ni se
+          envía. window.msActivarAnalitica() la llama el aviso de cookies al aceptar
+          (o este mismo script si la aceptación quedó guardada de una visita previa). */}
       <Script id="ga4-init" strategy="afterInteractive">
         {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          // Consent Mode v2: todo denegado hasta que el visitante acepte en el aviso.
-          var elegida = null;
-          try { elegida = localStorage.getItem('ms-consentimiento-analitica'); } catch (e) {}
-          gtag('consent', 'default', {
-            analytics_storage: elegida === 'aceptada' ? 'granted' : 'denied',
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied',
-            wait_for_update: 500
-          });
-          gtag('js', new Date());
-          gtag('config', '${id}', { send_page_view: true });
+          (function () {
+            var ID = '${id}';
+            var cargado = false;
+            window.gtag = function () {};
+            window['ga-disable-' + ID] = true;
+
+            window.msActivarAnalitica = function () {
+              if (cargado) { window['ga-disable-' + ID] = false; window.gtag('consent', 'update', { analytics_storage: 'granted' }); return; }
+              cargado = true;
+              window['ga-disable-' + ID] = false;
+              window.dataLayer = window.dataLayer || [];
+              window.gtag = function () { window.dataLayer.push(arguments); };
+              window.gtag('consent', 'default', {
+                analytics_storage: 'granted',
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied'
+              });
+              window.gtag('js', new Date());
+              window.gtag('config', ID, { send_page_view: true });
+              var s = document.createElement('script');
+              s.async = true;
+              s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+              document.head.appendChild(s);
+            };
+
+            window.msDesactivarAnalitica = function () {
+              window['ga-disable-' + ID] = true;
+              if (cargado) window.gtag('consent', 'update', { analytics_storage: 'denied' });
+              // Borra las cookies _ga* del dominio y del dominio padre.
+              var partes = location.hostname.split('.');
+              var dominios = ['', location.hostname, '.' + partes.slice(-2).join('.')];
+              document.cookie.split(';').forEach(function (c) {
+                var n = c.split('=')[0].trim();
+                if (n === '_ga' || n.indexOf('_ga_') === 0) {
+                  dominios.forEach(function (d) {
+                    document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + (d ? '; domain=' + d : '');
+                  });
+                }
+              });
+            };
+
+            var elegida = null;
+            try { elegida = localStorage.getItem('ms-consentimiento-analitica'); } catch (e) {}
+            if (elegida === 'aceptada') window.msActivarAnalitica();
+          })();
         `}
       </Script>
       {/* Un solo listener delegado para toda la página: los botones ya llevan

@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 /**
  * Aviso de cookies con Google Consent Mode v2.
  *
- * GA4 arranca con `analytics_storage: denied` (ver Analytics.tsx): sin
- * aceptación no se escriben cookies _ga, y Google solo recibe pings sin
- * identificadores. La elección se guarda en localStorage del visitante y se
+ * Modo básico (ver Analytics.tsx): sin aceptación gtag.js ni siquiera se
+ * descarga, así que Google no recibe nada, ni pings sin identificadores. La elección se guarda en localStorage del visitante y se
  * puede cambiar desde el enlace "Preferencias de cookies" del footer.
  *
  * Es un requisito de información y consentimiento para la analítica
@@ -25,6 +24,8 @@ type Eleccion = "aceptada" | "rechazada";
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
+    msActivarAnalitica?: () => void;
+    msDesactivarAnalitica?: () => void;
   }
 }
 
@@ -43,9 +44,9 @@ function aplicar(eleccion: Eleccion) {
   } catch {
     // Sin almacenamiento (modo privado): la elección vale solo para esta visita.
   }
-  window.gtag?.("consent", "update", {
-    analytics_storage: eleccion === "aceptada" ? "granted" : "denied",
-  });
+  // Modo básico: aceptar recién carga gtag.js; rechazar lo apaga y borra _ga*.
+  if (eleccion === "aceptada") window.msActivarAnalitica?.();
+  else window.msDesactivarAnalitica?.();
 }
 
 export function ConsentimientoCookies() {
