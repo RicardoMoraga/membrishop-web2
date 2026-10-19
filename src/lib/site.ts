@@ -74,14 +74,9 @@ export const site = {
    */
   zonasDespacho: [
     {
-      zona: "Región Metropolitana (zonas urbanas y de fácil acceso)",
-      plazo: "24 a 72 h hábiles",
+      zona: "Región Metropolitana",
+      plazo: "1 a 5 días hábiles",
       nota: "Plazo estimado del courier, en días hábiles, desde que se confirma el pago.",
-    },
-    {
-      zona: "Región Metropolitana (sectores alejados o con dificultades geográficas o de acceso)",
-      plazo: "Hasta 5 días hábiles",
-      nota: "Plazo estimado; puede extenderse por caso fortuito o fuerza mayor, siempre con aviso.",
     },
   ],
 
@@ -98,7 +93,7 @@ export const site = {
 
   /** Promesas comerciales. Cámbialas solo si puedes cumplirlas. */
   promesas: {
-    despacho: "Despacho en la Región Metropolitana: 24–72 h hábiles (hasta 5 en zonas alejadas)",
+    despacho: "Despacho en la Región Metropolitana: 1 a 5 días hábiles",
     cobertura: "Despacho solo en la Región Metropolitana",
     garantia: "Garantía legal de 6 meses",
     stock: "Stock en Chile: sin esperas de 30 días",
