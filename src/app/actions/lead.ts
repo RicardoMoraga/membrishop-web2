@@ -308,7 +308,7 @@ export async function enviarContacto(
   }
 
   if (parseo.data.sitioWeb) {
-    return { estado: "ok", mensaje: "¡Mensaje recibido! Te respondemos en horario hábil." };
+    return { estado: "ok", mensaje: "¡Mensaje recibido! Te respondemos a la brevedad." };
   }
 
   if (!baseConfigurada()) return sinBaseDeDatos();
@@ -338,7 +338,7 @@ export async function enviarContacto(
 
     return {
       estado: "ok",
-      mensaje: "¡Mensaje recibido! Te respondemos en horario hábil, de lunes a viernes.",
+      mensaje: "¡Mensaje recibido! Te respondemos a la brevedad.",
     };
   } catch (error) {
     return errorInesperado("contacto", error);

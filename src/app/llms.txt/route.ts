@@ -52,7 +52,7 @@ function construirLlmsTxt(categorias: Categoria[]): string {
       "- Despacho: solo dentro de la Región Metropolitana, en 1 a 5 días hábiles. Por ahora no despacha a otras regiones.",
       `- Medios de pago: ${site.mediosPago.join(", ")}.`,
       "- Devoluciones: 10 días corridos de derecho a retracto (Ley 19.496) y garantía legal de 6 meses por fallas.",
-      `- Contacto: ${site.contacto.email} y WhatsApp. Horario: ${site.contacto.horario}.`,
+      `- Contacto: ${site.contacto.email} y WhatsApp. Atención: ${site.contacto.horario}.`,
     ].join("\n"),
   );
   bloques.push("");

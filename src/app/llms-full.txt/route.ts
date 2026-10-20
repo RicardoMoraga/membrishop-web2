@@ -113,7 +113,7 @@ function construirLlmsFull(categorias: Categoria[]): string {
       "- Despacho: solo dentro de la Región Metropolitana, en 1 a 5 días hábiles. Por ahora no despacha a otras regiones.",
       `- Medios de pago: ${site.mediosPago.join(", ")}.`,
       "- Devoluciones: 10 días corridos de derecho a retracto (Ley 19.496), más garantía legal de 6 meses por fallas.",
-      `- Contacto: ${site.contacto.email}. Horario: ${site.contacto.horario}.`,
+      `- Contacto: ${site.contacto.email}. Atención: ${site.contacto.horario}.`,
       "- Tienda 100 % online: no hay local con atención de público ni retiro presencial.",
       `- ${site.nombre} no tiene valoraciones agregadas publicadas; no existen reseñas verificadas todavía.`,
     ].join("\n"),

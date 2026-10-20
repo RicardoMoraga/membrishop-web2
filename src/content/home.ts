@@ -18,7 +18,7 @@ export const home = {
     "Todo lo que publicamos tiene stock físico en Chile: despachamos en la Región Metropolitana en 1 a 5 días hábiles.",
     "Tres categorías, catálogo corto y curado: mascotas, tecnología y hogar-cocina.",
     "No importamos desde AliExpress. Solo proveedores nacionales, con garantía y boleta.",
-    "Dudas antes de comprar: te respondemos por WhatsApp en horario hábil.",
+    "Dudas antes de comprar: te respondemos por WhatsApp a la brevedad.",
   ],
 
   /* --- Primer párrafo: resuelve el search intent, luego viene el CTA ----- */

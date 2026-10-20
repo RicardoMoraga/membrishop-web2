@@ -25,7 +25,7 @@ export const site = {
     whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "56974872226",
     mensajeWhatsapp:
       "Hola MembriShop 👋 Vengo desde la web y quiero consultar por un producto.",
-    horario: "Lunes a viernes, 09:00–19:00 (hora de Chile continental)",
+    horario: "por WhatsApp y correo; respondemos a la brevedad",
   },
 
   /**

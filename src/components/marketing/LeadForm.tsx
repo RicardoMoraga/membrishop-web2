@@ -271,7 +271,7 @@ export function LeadForm({ variante, origen, className = "", tono = "claro" }: P
               rows={5}
               minLength={10}
               maxLength={4000}
-              placeholder="Cuéntanos qué necesitas y te respondemos en horario hábil."
+              placeholder="Cuéntanos qué necesitas y te respondemos a la brevedad."
               aria-invalid={Boolean(err.mensaje)}
               aria-describedby={err.mensaje ? `${idBase}-mensaje-error` : undefined}
               className={`${claseInput("mensaje")} resize-y`}
