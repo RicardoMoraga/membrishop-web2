@@ -215,7 +215,7 @@ export function CategoriaTemplate({ categoria }: { categoria: Categoria }) {
       {/* ===================== CIERRE ===================================== */}
       <CtaFinal
         titulo={`¿Dudas antes de comprar en ${categoria.nombre.toLowerCase()}?`}
-        texto="Escríbenos por WhatsApp y te respondemos en horario hábil. Si el producto no te sirve, te lo decimos antes de que pagues."
+        texto="Escríbenos por WhatsApp y te respondemos a la brevedad. Si el producto no te sirve, te lo decimos antes de que pagues."
         path={`/${categoria.slug}`}
         tituloCompartir={categoria.metaTitle}
       />

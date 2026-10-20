@@ -20,7 +20,7 @@ export const metadata: Metadata = buildMetadata({
 const TLDR = [
   `Vendemos solo online, con precios en ${site.moneda} con IVA incluido; te enviamos la boleta electrónica por correo o WhatsApp después del pago.`,
   `${site.promesas.retracto}, según la Ley N°19.496 del Consumidor.`,
-  "Por ahora despachamos solo dentro de la Región Metropolitana: 24–72 h hábiles, hasta 5 días en sectores alejados.",
+  "Por ahora despachamos solo dentro de la Región Metropolitana: 1 a 5 días hábiles.",
   "Si ejerces el retracto una vez despachado el pedido, el envío de vuelta es de tu cargo.",
   "Estos términos rigen toda compra hecha en membrishop.cl, sin excepción.",
 ];

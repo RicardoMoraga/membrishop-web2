@@ -18,7 +18,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const TLDR = [
-  "Por ahora despachamos solo dentro de la Región Metropolitana: 24–72 h hábiles, y hasta 5 días hábiles en sectores alejados o de difícil acceso.",
+  "Por ahora despachamos solo dentro de la Región Metropolitana: 1 a 5 días hábiles.",
   `${site.promesas.retracto}: el producto debe volver en las mismas condiciones en que lo recibiste.`,
   "Si ejerces el retracto una vez despachado el pedido, el costo del envío de vuelta lo pagas tú; si falla o llega mal, lo pagamos nosotros.",
   "Para cualquier cambio, devolución o garantía, escríbenos primero por WhatsApp: ahí te damos las instrucciones de envío.",

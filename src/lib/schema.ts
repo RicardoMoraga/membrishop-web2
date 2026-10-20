@@ -81,14 +81,6 @@ export function storeSchema() {
       addressCountry: site.pais,
     },
     geo: { "@type": "GeoCoordinates", latitude: dir.latitud, longitude: dir.longitud },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "09:00",
-        closes: "19:00",
-      },
-    ],
     parentOrganization: { "@id": ID_ORGANIZACION },
   };
 }

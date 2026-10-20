@@ -16,13 +16,13 @@ export const metadata: Metadata = buildMetadata({
   // 52 caracteres, distinto del H1.
   title: "Contacto MembriShop | Escríbenos y te respondemos",
   description:
-    "Escribe a MembriShop por formulario o WhatsApp: consultas de productos, estado de pedidos, cambios y devoluciones. Respondemos en horario hábil desde Chile.",
+    "Escribe a MembriShop por formulario o WhatsApp: consultas de productos, estado de pedidos, cambios y devoluciones. Respondemos a la brevedad desde Chile.",
   path: "/contacto",
 });
 
 const TLDR = [
   "Por WhatsApp respondemos más rápido; el formulario queda registrado y no se pierde.",
-  "Horario de respuesta: lunes a viernes, 09:00 a 19:00 (hora de Chile continental).",
+  "Atención por WhatsApp y correo: respondemos a la brevedad.",
   "Para cambios y devoluciones, incluye el número de pedido en el mensaje.",
   "No tenemos local: todo el contacto es online.",
 ];
@@ -72,7 +72,7 @@ export default function ContactoPage() {
               {/* Primer párrafo: resuelve el intent */}
               <p className="mt-6 text-fluid-lead leading-relaxed text-ink-suave">
                 Si necesitas consultar por un producto, saber dónde va tu pedido o coordinar un
-                cambio, escríbenos y te responde alguien del equipo en horario hábil. WhatsApp es
+                cambio, escríbenos y te responde alguien del equipo a la brevedad. WhatsApp es
                 el canal más rápido; el formulario sirve cuando prefieres dejarlo por escrito y
                 que quede registrado.
               </p>
@@ -103,7 +103,7 @@ export default function ContactoPage() {
                   </dd>
                 </div>
                 <div className="flex gap-2">
-                  <dt className="font-semibold text-ink">Horario:</dt>
+                  <dt className="font-semibold text-ink">Atención:</dt>
                   <dd className="text-ink-suave">{site.contacto.horario}</dd>
                 </div>
               </dl>
