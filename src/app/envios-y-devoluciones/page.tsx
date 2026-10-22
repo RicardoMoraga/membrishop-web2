@@ -18,7 +18,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const TLDR = [
-  "Por ahora despachamos solo dentro de la Región Metropolitana: 1 a 5 días hábiles.",
+  "Por ahora despachamos solo dentro de la Región Metropolitana: 1 a 3 días corridos (hasta 5 días hábiles en sectores alejados o de difícil acceso).",
   `${site.promesas.retracto}: el producto debe volver en las mismas condiciones en que lo recibiste.`,
   "Si ejerces el retracto una vez despachado el pedido, el costo del envío de vuelta lo pagas tú; si falla o llega mal, lo pagamos nosotros.",
   "Para cualquier cambio, devolución o garantía, escríbenos primero por WhatsApp: ahí te damos las instrucciones de envío.",
@@ -70,7 +70,7 @@ export default function EnviosYDevolucionesPage() {
 
             <p className="mt-6 text-fluid-lead leading-relaxed text-ink-suave">
               Todo el catálogo de {site.nombre} tiene stock físico en Chile, así que los plazos
-              de despacho se cuentan en días hábiles, no en semanas de importación. Por ahora
+              de despacho se cuentan en días corridos, no en semanas de importación. Por ahora
               despachamos solo dentro de la Región Metropolitana. Si el
               producto no te sirve, tienes 10 días para devolverlo o cambiarlo.
             </p>
@@ -115,7 +115,7 @@ export default function EnviosYDevolucionesPage() {
           </table>
         </div>
         <p className="mt-4 text-[13px] text-ink-tenue">
-          Plazos estimados por el courier, en días hábiles, desde la confirmación del pago. Pueden
+          Plazos estimados por el courier, en días corridos, desde la confirmación del pago. Pueden
           extenderse por caso fortuito o fuerza mayor (clima, cortes de ruta, alta demanda del
           courier); en ese caso te avisamos.
         </p>

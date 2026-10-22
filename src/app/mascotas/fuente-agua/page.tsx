@@ -14,7 +14,7 @@ const CATEGORIA = "mascotas";
 const SLUG = "fuente-agua";
 
 const DESCRIPCION =
-  "Fuente de agua de 2,4 litros con filtro de carbón activo y flujo continuo, para gatos y perros de hasta 15 kg. Stock en Chile y despacho en 1 a 5 días hábiles en la RM.";
+  "Fuente de agua de 2,4 litros con filtro de carbón activo y flujo continuo, para gatos y perros de hasta 15 kg. Stock en Chile y despacho en 1 a 3 días corridos en la RM.";
 
 /** Catálogo, precio y stock salen de Shopify: ISR de 1 h + invalidación por webhook. */
 export const revalidate = 3600;

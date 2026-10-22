@@ -110,7 +110,7 @@ function construirLlmsFull(categorias: Categoria[]): string {
   b.push(
     [
       "- Stock físico en Chile: no hay importación ni esperas de 30 días.",
-      "- Despacho: solo dentro de la Región Metropolitana, en 1 a 5 días hábiles. Por ahora no despacha a otras regiones.",
+      "- Despacho: solo dentro de la Región Metropolitana, en 1 a 3 días corridos. Por ahora no despacha a otras regiones.",
       `- Medios de pago: ${site.mediosPago.join(", ")}.`,
       "- Devoluciones: 10 días corridos de derecho a retracto (Ley 19.496), más garantía legal de 6 meses por fallas.",
       `- Contacto: ${site.contacto.email}. Atención: ${site.contacto.horario}.`,
