@@ -76,7 +76,7 @@ export const site = {
     {
       zona: "Región Metropolitana",
       plazo: "1 a 3 días corridos",
-      nota: "Plazo estimado del courier, en días corridos, desde que se confirma el pago.",
+      nota: "Plazo estimado, en días corridos, desde que se confirma el pago. En sectores alejados o con dificultades de acceso, hasta 5 días hábiles.",
     },
   ],
 
