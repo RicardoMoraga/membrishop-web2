@@ -49,12 +49,12 @@
   "bloques": [
    {
     "t": "p",
-    "x": "Por ahora despachamos solo dentro de la Región Metropolitana, mediante couriers externos. Los plazos son estimados y se cuentan en días hábiles desde que se confirma el pago:"
+    "x": "Por ahora despachamos solo dentro de la Región Metropolitana, mediante couriers externos. Los plazos son estimados y se cuentan en días corridos desde que se confirma el pago:"
    },
    {
     "t": "ul",
     "x": [
-     "1 a 5 días hábiles en toda la Región Metropolitana."
+     "1 a 3 días corridos en toda la Región Metropolitana."
     ]
    },
    {

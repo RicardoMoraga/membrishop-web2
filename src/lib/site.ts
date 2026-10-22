@@ -75,8 +75,8 @@ export const site = {
   zonasDespacho: [
     {
       zona: "Región Metropolitana",
-      plazo: "1 a 5 días hábiles",
-      nota: "Plazo estimado del courier, en días hábiles, desde que se confirma el pago.",
+      plazo: "1 a 3 días corridos",
+      nota: "Plazo estimado del courier, en días corridos, desde que se confirma el pago.",
     },
   ],
 
@@ -93,7 +93,7 @@ export const site = {
 
   /** Promesas comerciales. Cámbialas solo si puedes cumplirlas. */
   promesas: {
-    despacho: "Despacho en la Región Metropolitana: 1 a 5 días hábiles",
+    despacho: "Despacho en la Región Metropolitana: 1 a 3 días corridos",
     cobertura: "Despacho solo en la Región Metropolitana",
     garantia: "Garantía legal de 6 meses",
     stock: "Stock en Chile: sin esperas de 30 días",
