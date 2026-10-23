@@ -91,8 +91,20 @@ export const site = {
   mediosPago: ["MercadoPago", "Tarjeta de crédito", "Tarjeta de débito"],
   couriers: ["Chilexpress", "Starken", "Blue Express", "Correos de Chile"],
 
+  /**
+   * Despacho gratis por monto (vigente desde 2026-10-22). DEBE coincidir con la tarifa
+   * del perfil de envío de Shopify: "Despacho gratis" con condición de precio total
+   * >= umbral y "Despacho estándar" con costo fijo bajo el umbral. Si cambias un valor
+   * aquí, cámbialo también en Shopify (Configuración > Envíos y entregas).
+   */
+  envio: {
+    umbralGratis: 24990,
+    costoBajoUmbral: 3490,
+  },
+
   /** Promesas comerciales. Cámbialas solo si puedes cumplirlas. */
   promesas: {
+    envioGratis: "Despacho gratis en compras desde $24.990",
     despacho: "Despacho en la Región Metropolitana: 1 a 3 días corridos",
     cobertura: "Despacho solo en la Región Metropolitana",
     garantia: "Garantía legal de 6 meses",

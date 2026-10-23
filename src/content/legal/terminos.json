@@ -31,7 +31,7 @@
   "bloques": [
    {
     "t": "p",
-    "x": "Todos los precios están en pesos chilenos (CLP) e incluyen IVA. El costo del despacho se calcula en el checkout y se muestra antes de pagar. El pago se realiza exclusivamente a través de Mercado Pago, con tarjeta de crédito o débito. MembriShop no ofrece pago contra entrega ni transferencia bancaria directa. El precio aplicable es el vigente al momento de confirmarse el pago."
+    "x": "Todos los precios están en pesos chilenos (CLP) e incluyen IVA. El despacho es gratis en compras desde $24.990 (monto total del pedido, IVA incluido); en compras menores el despacho cuesta $3.490. El costo del despacho se calcula en el checkout y se muestra antes de pagar. El pago se realiza exclusivamente a través de Mercado Pago, con tarjeta de crédito o débito. MembriShop no ofrece pago contra entrega ni transferencia bancaria directa. El precio aplicable es el vigente al momento de confirmarse el pago."
    }
   ]
  },

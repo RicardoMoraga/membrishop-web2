@@ -18,6 +18,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const TLDR = [
+  "Despacho gratis en compras desde $24.990; en compras menores el despacho cuesta $3.490.",
   "Por ahora despachamos solo dentro de la Región Metropolitana: 1 a 3 días corridos (hasta 5 días hábiles en sectores alejados o de difícil acceso).",
   `${site.promesas.retracto}: el producto debe volver en las mismas condiciones en que lo recibiste.`,
   "Si ejerces el retracto una vez despachado el pedido, el costo del envío de vuelta lo pagas tú; si falla o llega mal, lo pagamos nosotros.",
@@ -28,7 +29,7 @@ const FAQS: Faq[] = [
   {
     pregunta: "¿Cuánto cuesta el despacho?",
     respuesta:
-      "El costo de envío se calcula en el checkout según tu dirección y se muestra antes de pagar. No cobramos costos ocultos después de la compra.",
+      "El despacho es gratis en compras desde $24.990. En compras menores el despacho cuesta $3.490. El costo se calcula en el checkout y se muestra antes de pagar. No cobramos costos ocultos después de la compra.",
   },
   {
     pregunta: "¿Qué hago si mi producto llega dañado?",

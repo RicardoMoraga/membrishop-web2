@@ -8,6 +8,7 @@ import { EstadoStock } from "@/components/producto/EstadoStock";
 import { StickyBuyBar } from "@/components/producto/StickyBuyBar";
 import { IconoWhatsapp } from "@/components/ui/icons";
 import { precioCLP } from "@/lib/formato";
+import { site } from "@/lib/site";
 import { tiendaAbierta, type EstadoIntegracion, type ProductoShopify } from "@/lib/shopify";
 
 /**
@@ -181,6 +182,14 @@ export function CajaCompra({
               </button>
             </div>
           </div>
+
+          {precio !== null && (
+            <p className="text-[13px] font-semibold leading-snug text-verde-600" aria-live="polite">
+              {precio * cantidad >= site.envio.umbralGratis
+                ? "Tu compra tiene despacho gratis."
+                : `Despacho gratis desde ${precioCLP(site.envio.umbralGratis)}. Te faltan ${precioCLP(site.envio.umbralGratis - precio * cantidad)}; bajo ese monto el despacho cuesta ${precioCLP(site.envio.costoBajoUmbral)}.`}
+            </p>
+          )}
 
           <ComprarButton
             varianteId={varianteId ?? undefined}
