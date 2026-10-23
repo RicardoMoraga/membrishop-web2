@@ -210,18 +210,14 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
           <div>
             <h3 className="font-display text-base font-bold text-ink">Especificaciones</h3>
             <dl className="mt-3 divide-y divide-borde rounded-marca border border-borde bg-white">
-              {pilar.especificaciones.map((e) => (
+              {pilar.especificaciones
+                .filter((e) => e.etiqueta.trim().toLowerCase() !== "sku")
+                .map((e) => (
                 <div key={e.etiqueta} className="flex flex-wrap gap-x-4 gap-y-1 px-4 py-2.5">
                   <dt className="min-w-[7rem] text-[13.5px] font-semibold text-ink">{e.etiqueta}</dt>
                   <dd className="text-[13.5px] text-ink-suave">{e.valor}</dd>
                 </div>
               ))}
-              {producto?.sku && (
-                <div className="flex flex-wrap gap-x-4 gap-y-1 px-4 py-2.5">
-                  <dt className="min-w-[7rem] text-[13.5px] font-semibold text-ink">SKU</dt>
-                  <dd className="text-[13.5px] tabular-nums text-ink-suave">{producto.sku}</dd>
-                </div>
-              )}
             </dl>
             <p className="mt-3 text-[13px] leading-snug text-ink-tenue">
               Despacho y devoluciones: {site.promesas.despacho}.{" "}
@@ -290,7 +286,6 @@ export async function PdpTemplate({ contenido }: { contenido: ContenidoFicha }) 
           categoriaSlug: categoria.slug,
           precio: producto?.precio ?? pilar.precioDesde ?? 0,
           imagen: producto?.medios.find((m) => m.tipo === "imagen")?.url ?? pilar.imagenUrl ?? pilar.imagen.archivo,
-          sku: producto?.sku ?? undefined,
           disponible: comprable,
         })}
       />
