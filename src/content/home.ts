@@ -39,7 +39,7 @@ export const home = {
   ctaSecundario: "Preguntar por WhatsApp",
 
   /** Micro-garantías bajo los botones del hero. Cortas: van en una línea. */
-  chips: ["Despacho en la Región Metropolitana", "Pago con MercadoPago", "10 días de retracto"],
+  chips: ["Despacho gratis desde $24.990", "Despacho en la Región Metropolitana", "Pago con MercadoPago", "10 días de retracto"],
 
   /** Cierre de la página, sobre el degradado de dulce de membrillo. */
   cierre: {

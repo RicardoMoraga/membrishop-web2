@@ -187,6 +187,11 @@ export function productoSchema(params: {
       seller: { "@id": ID_ORGANIZACION },
       shippingDetails: {
         "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          currency: site.moneda,
+          value: Number(params.precio) >= site.envio.umbralGratis ? 0 : site.envio.costoBajoUmbral,
+        },
         shippingDestination: site.areaDespacho.map((area) => ({
           "@type": "DefinedRegion",
           addressCountry: site.pais,

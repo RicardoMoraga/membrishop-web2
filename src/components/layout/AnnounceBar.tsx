@@ -19,7 +19,8 @@ export function AnnounceBar() {
       <p className="contenedor py-2.5 text-center text-[12.5px] font-semibold uppercase leading-snug tracking-[0.02em]">
         {/* En mobile solo la promesa de despacho: la frase completa ocupaba tres líneas. */}
         <span className="hidden sm:inline">Stock en Chile, sin esperas de 30 días · </span>
-        <strong className="font-bold">{site.promesas.despacho}</strong>
+        <strong className="font-bold">{site.promesas.envioGratis}</strong>
+        <span className="hidden sm:inline"> · {site.promesas.despacho}</span>
       </p>
     </div>
   );
